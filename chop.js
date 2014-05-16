@@ -11,6 +11,15 @@
   var chopEl = {
     el: undefined,
     _views: [],
+    val: function (value) {
+      if (value) {
+        this.el.value = value;
+        return this;
+      } else {
+        return this.el.value;
+      }
+    },
+
     html: function (html) {
       if (html) {
         this.el.innerHTML = html;
@@ -44,24 +53,25 @@
     view: function (v, autoRender) {
       if (v) {
         if (Array.isArray(v)) {
-          var isArray = true;
+          var isAppending = v.length > 1;
           for (var index = 0; index !== v.length; ++index) {
-            this._addView(v[index], autoRender, isArray);
+            this._addView(v[index], autoRender, isAppending);
           }
         } else {
           this._addView(v, autoRender);
         }
+        chop._registerEvents();
       }
     },
 
-    _addView: function (v, autoRender, isArray) {
+    _addView: function (v, autoRender, isAppending) {
       if (!v.render) {
         v.render = function () {
           return false;
         };
       }
       if (autoRender === undefined || autoRender) {
-        if (isArray) {
+        if (isAppending) {
           this.el.innerHTML += v.render();
         } else {
           this.el.innerHTML = v.render();
@@ -119,6 +129,23 @@
         }
       }
       return html;
+    },
+
+    _registerEvents: function () {
+      var elements, callbackName;
+      var index;
+      // event: click
+      elements = document.querySelectorAll('[ch-click]');
+      for (index = 0; index !== elements.length; ++index) {
+        callbackName = elements[index].getAttribute('ch-click');
+        elements[index].addEventListener('click', window[callbackName]);
+      }
+      // event: keypress
+      elements = document.querySelectorAll('[ch-keypress]');
+      for (index = 0; index !== elements.length; ++index) {
+        callbackName = elements[index].getAttribute('ch-keypress');
+        elements[index].addEventListener('keypress', window[callbackName]);
+      }
     }
   };
 
