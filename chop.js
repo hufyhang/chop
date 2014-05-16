@@ -146,6 +146,46 @@
         callbackName = elements[index].getAttribute('ch-keypress');
         elements[index].addEventListener('keypress', window[callbackName]);
       }
+    },
+
+    http: function (param) {
+      if (!param.url) {
+        return false;
+      }
+
+      var url = param.url;
+      var method = param.method || 'GET';
+      method = method.toUpperCase();
+      var data = param.data || {};
+      var tempData = '';
+      for (var item in data) {
+        if (data.hasOwnProperty(item)) {
+          tempData += item + '=' + data[item] + '&';
+        }
+      }
+      data = tempData.slice(0, -1);
+
+      var callback = param.done || function () {return false;};
+      var async = param.async || true;
+
+      var ajax = new XMLHttpRequest();
+      ajax.open(method, url, async);
+      ajax.onreadystatechange = function () {
+        if (ajax.readyState !== 4) {
+          return;
+        }
+        callback({data: ajax.responseText, status: ajax.status});
+      };
+
+      var hasDataToSend = method && method.toUpperCase() !== 'GET' && data.length !== 0;
+      if (hasDataToSend) {
+        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        ajax.setRequestHeader("Content-length", data.length);
+        ajax.setRequestHeader("Connection", "close");
+        ajax.send(data);
+      } else {
+        ajax.send();
+      }
     }
   };
 

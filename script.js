@@ -2,7 +2,14 @@
 
 var doClick = function () {
   'use strict';
-  alert('hehe');
+  console.log('Now');
+  $ch.http({
+    url: 'http://localhost:8000',
+    method: 'get',
+    done: function (data) {
+      console.log(data.data);
+    }
+  });
 };
 
 var doKeypress = function (evt) {
@@ -40,6 +47,4 @@ $ch.find('.banner').append('123')
   .css('font-size', '2em')
   .css('font-family', 'Arial,sans-serif');
 
-// $ch._registerEvents();
 
-// $ch.find('.banner').view([banner]);
