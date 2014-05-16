@@ -15,7 +15,8 @@ var doClick = function () {
 var doKeypress = function (evt) {
   'use strict';
   if (evt.which === 13) {
-    console.log('Bingo!!! ' + $ch.find('input[type="text"]').val());
+    var style = $ch.find('input[type="text"]').val();
+    $ch.find('.title').css('font-size', style);
   }
 };
 
