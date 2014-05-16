@@ -11,6 +11,11 @@
   var chopEl = {
     el: undefined,
     _views: [],
+    focus: function () {
+      this.el.focus();
+      return this;
+    },
+
     val: function (value) {
       if (value) {
         this.el.value = value;
@@ -121,13 +126,13 @@
 
     template: function (html, data) {
       var founds = html.match(/{{.+?}}/g);
-      for (var index = 0; index !== founds.length; ++index) {
-        var key = founds[index].replace(/{/g, '');
+      founds.forEach(function (found) {
+        var key = found.replace(/{/g, '');
         key = key.replace(/}/g, '');
         if (data[key]) {
-          html = html.replace(founds[index], data[key]);
+          html = html.replace(found, data[key]);
         }
-      }
+      });
       return html;
     },
 

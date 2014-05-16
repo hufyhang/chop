@@ -2,50 +2,45 @@
 
 var doClick = function () {
   'use strict';
-  console.log('Now');
-  $ch.http({
-    url: 'http://localhost:8000',
-    method: 'get',
-    done: function (data) {
-      console.log(data.data);
+  var from = $ch.find('#from-input').val();
+  var to = $ch.find('#to-input').val();
+  var data = {name: to, sender: from};
+
+  var msg = $ch.view({
+    render: function () {
+      var template = $ch.find('#test-template').html();
+      return $ch.template(template, data);
     }
   });
+
+  $ch.find('.message').view(msg);
 };
 
 var doKeypress = function (evt) {
   'use strict';
-  if (evt.which === 13) {
-    var style = $ch.find('input[type="text"]').val();
-    $ch.find('.title').css('font-size', style);
-  }
+  doClick();
 };
 
 var banner = $ch.view({
   render: function () {
     'use strict';
-    return 'Hello world!!!';
+    return 'Enter your information below:';
   }
 });
 
 
-var title = $ch.view({
-  render: function () {
-    'use strict';
-    var template = $ch.find('#test-template').html();
-    var data = {name: 'Feifei', sender: 'Lanlan'};
-
-    return $ch.template(template, data);
-  }
-});
 
 $ch.find('.banner').view([banner]);
-$ch.find('.title').view(title);
+$ch.find('#from-input').focus();
 
 
-$ch.find('.banner').append('123')
-  .append('<br/>Not bad!!!')
-  .css('color', 'red')
+$ch.find('.banner').css('color', 'red')
   .css('font-size', '2em')
+  .css('margin-bottom', '10px')
   .css('font-family', 'Arial,sans-serif');
 
+$ch.findAll('input').forEach(function (input) {
+  'use strict';
+  input.css('font-size', '1.5em');
+});
 
