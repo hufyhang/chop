@@ -74,7 +74,7 @@
 
   var chop = {
     els: [],
-    el: function (query) {
+    find: function (query) {
       if (query) {
         var elt = Object.create(chopEl);
         elt.el = document.querySelector(query);
