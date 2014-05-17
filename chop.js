@@ -185,6 +185,9 @@
           }
         });
       }
+      // espace \{, \}
+      html = html.replace(/\\{/g, '{');
+      html = html.replace(/\\}/g, '}');
       return html;
     },
 
