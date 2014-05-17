@@ -1,4 +1,4 @@
-chop
+chop.js
 ====
 
-Super Light-Weight JavaScript Framework
+A Super Light-Weight JavaScript Framework
