@@ -27,7 +27,7 @@ var sayHi = function () {
 };
 
 var tail = $ch.view({
-  html: '<hr/><br/>&copy; 2012-2014 Feifei Hang <input type="button" value="CLICK" ch-click="sayHi"/>'
+  html: '<hr/><br/>&copy; 2012-2014 Chop.js <input type="button" value="CLICK" ch-click="sayHi"/>'
 });
 
 var banner = $ch.view({
@@ -50,5 +50,16 @@ $ch.find('.banner').css('color', 'red')
 $ch.findAll('input').forEach(function (input) {
   'use strict';
   input.css('font-size', '1.5em');
+});
+
+$ch.use('greetings', function () {
+  'use strict';
+  console.log('DONE');
+});
+
+$ch.use(['greetings', 'information'], function () {
+  'use strict';
+  console.log('INFO: ' + $ch.modules.information.msg);
+  console.log('MSG: ' + $ch.modules.greetings.msg);
 });
 

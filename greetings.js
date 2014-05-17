@@ -1,0 +1,8 @@
+/* global $ch */
+$ch.add('greetings', function () {
+  'use strict';
+  console.log('Adding');
+  return {
+    msg: 'Greetings, Chop.js!!!'
+  };
+});

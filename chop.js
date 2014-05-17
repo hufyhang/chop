@@ -131,6 +131,7 @@
 
   var chop = {
     els: [],
+    modules: {},
     find: function (query) {
       if (query) {
         var elt = Object.create(chopEl);
@@ -274,7 +275,10 @@
       data = tempData.slice(0, -1);
 
       var callback = param.done || function () {return false;};
-      var async = param.async || true;
+      if (param.async === undefined) {
+        param.async = true;
+      }
+      var async = param.async;
 
       var ajax = new XMLHttpRequest();
       ajax.open(method, url, async);
@@ -282,7 +286,9 @@
         if (ajax.readyState !== 4) {
           return;
         }
-        callback({data: ajax.responseText, status: ajax.status});
+        if (async) {
+          callback({data: ajax.responseText, status: ajax.status});
+        }
       };
 
       var hasDataToSend = method &&
@@ -295,6 +301,60 @@
       } else {
         ajax.send();
       }
+
+      if (!async) {
+        return ajax.responseText;
+      }
+    },
+
+    add: function (name, callback) {
+      this.modules[name] = callback();
+    },
+
+    _useModule: function (srcs, callback) {
+      var tempSrcs = srcs;
+      var script = tempSrcs.shift();
+      var scriptEl;
+      var that = this;
+
+      var hasScriptInHead = document.querySelector('script[ch-module="' +
+                                                   script + '"]');
+      if (!hasScriptInHead) {
+        // synchronously download script
+        var text = this.http({
+          url: script + '.js',
+          method: 'get',
+          async: false
+        });
+
+        scriptEl = document.createElement('script');
+        scriptEl.setAttribute('ch-module', script);
+        scriptEl.text = text;
+        document.querySelector('head').appendChild(scriptEl);
+        that._executeModule(tempSrcs, callback);
+      } else {
+        this._executeModule(tempSrcs, callback);
+      }
+    },
+
+    _executeModule: function (srcs, callback) {
+      if (srcs.length) {
+        this._useModule(srcs, callback);
+      } else {
+        callback();
+      }
+    },
+
+    use: function (srcs, callback) {
+      if (!srcs || !callback) {
+        return false;
+      }
+
+      if (!Array.isArray(srcs)) {
+        srcs = [srcs];
+      }
+
+      this._useModule(srcs, callback);
     }
   };
 
