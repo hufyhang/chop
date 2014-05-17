@@ -241,9 +241,16 @@
       var elements = baseElement.querySelectorAll('[ch-view]');
       for (var index = 0; index !== elements.length; ++index) {
         callbackName = elements[index].getAttribute('ch-view');
-        var result = window[callbackName].render();
-        if (result) {
-          elements[index].innerHTML = result;
+        callbackName = callbackName.replace(/\ /g, '');
+        elements[index].innerHTML = '';
+        var vs = callbackName.split(',');
+        var v;
+        for (var i = 0; i !== vs.length; ++i) {
+          v = vs[i];
+          var result = window[v].render();
+          if (result) {
+            elements[index].innerHTML += result;
+          }
         }
       }
       chop._registerEvents(baseElement);
