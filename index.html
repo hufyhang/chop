@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <title></title>
-    <script type="text/template" id="test-template">
+    <script type="text/template", id="banner-template">
+      <div>
+        <h1>Enter your information below:</h1>
+      </div>
+    </script>
+
+    <script type="text/template" id="msg-template">
       <div>
         <p>
           To: {{name}}
@@ -16,12 +22,11 @@
     </script>
 </head>
 <body>
-  <div class="banner"></div>
+  <div class="banner" ch-view="banner"></div>
   <input type="text" id="from-input" ch-keypress="doKeypress" placeholder="From"/>
   <input type="text" id="to-input" ch-keypress="doKeypress" placeholder="To"/>
   <input value="OK" type="button" class="button" ch-click="doClick" name="" />
   <div class="message"></div>
-  <script src="chop.js"></script>
-  <script src="script.js"></script>
+  <script src="chop.js" ch-main="script.js"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@ var doClick = function () {
 
   var msg = $ch.view({
     render: function () {
-      var template = $ch.find('#test-template').html();
+      var template = $ch.find('#msg-template').html();
       return $ch.template(template, data);
     }
   });
@@ -24,13 +24,12 @@ var doKeypress = function (evt) {
 var banner = $ch.view({
   render: function () {
     'use strict';
-    return 'Enter your information below:';
+    var template = $ch.find('#banner-template').html();
+    return $ch.template(template);
   }
 });
 
-
-
-$ch.find('.banner').view([banner]);
+// $ch.find('.banner').view([banner]);
 $ch.find('#from-input').focus();
 
 

@@ -125,14 +125,24 @@
     },
 
     template: function (html, data) {
+      if (!html && !data) {
+        return false;
+      }
+
+      if (!data) {
+         return html;
+      }
+
       var founds = html.match(/{{.+?}}/g);
-      founds.forEach(function (found) {
-        var key = found.replace(/{/g, '');
-        key = key.replace(/}/g, '');
-        if (data[key]) {
-          html = html.replace(found, data[key]);
-        }
-      });
+      if (founds) {
+        founds.forEach(function (found) {
+          var key = found.replace(/{/g, '');
+          key = key.replace(/}/g, '');
+          if (data[key]) {
+            html = html.replace(found, data[key]);
+          }
+        });
+      }
       return html;
     },
 
@@ -151,6 +161,32 @@
         callbackName = elements[index].getAttribute('ch-keypress');
         elements[index].addEventListener('keypress', window[callbackName]);
       }
+    },
+
+    _loadMain: function () {
+      var element = document.querySelector('script[ch-main]');
+      if (!element) {
+        return false;
+      }
+      var script = element.getAttribute('ch-main');
+      if (script) {
+        var scriptEl = document.createElement('script');
+        scriptEl.src = script;
+        document.querySelector('head').appendChild(scriptEl);
+        scriptEl.onload = function () {
+          chop._loadView();
+        };
+      }
+    },
+
+    _loadView: function () {
+      var callbackName;
+      var elements = document.querySelectorAll('[ch-view]');
+      for (var index = 0; index !== elements.length; ++index) {
+        callbackName = elements[index].getAttribute('ch-view');
+        elements[index].innerHTML = window[callbackName].render();
+      }
+      chop._registerEvents();
     },
 
     http: function (param) {
@@ -182,7 +218,8 @@
         callback({data: ajax.responseText, status: ajax.status});
       };
 
-      var hasDataToSend = method && method.toUpperCase() !== 'GET' && data.length !== 0;
+      var hasDataToSend = method &&
+          method.toUpperCase() !== 'GET' && data.length !== 0;
       if (hasDataToSend) {
         ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         ajax.setRequestHeader("Content-length", data.length);
@@ -195,4 +232,7 @@
   };
 
   root.$ch = chop;
+  root.onload = function () {
+    chop._loadMain();
+  };
 }(window));
