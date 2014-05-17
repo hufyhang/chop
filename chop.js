@@ -55,6 +55,33 @@
       return this;
     },
 
+    click: function (callback) {
+      if (!callback) {
+        this.el.click();
+      } else {
+        this.el.addEventListener('click', callback);
+        return this;
+      }
+    },
+
+    keypress: function (callback) {
+      if (!callback) {
+        return false;
+      } else {
+        this.el.addEventListener('keypress', callback);
+        return this;
+      }
+    },
+
+    change: function (callback) {
+      if (!callback) {
+        return false;
+      } else {
+        this.el.addEventListener('change', callback);
+        return this;
+      }
+    },
+
     _cssReplacer: function (match, p1) {
       p1 = p1.replace(/-/g, '');
       return p1.toUpperCase();
@@ -178,6 +205,12 @@
       for (index = 0; index !== elements.length; ++index) {
         callbackName = elements[index].getAttribute('ch-keypress');
         elements[index].addEventListener('keypress', window[callbackName]);
+      }
+      // event: change
+      elements = baseElement.querySelectorAll('[ch-change]');
+      for (index = 0; index !== elements.length; ++index) {
+        callbackName = elements[index].getAttribute('ch-change');
+        elements[index].addEventListener('change', window[callbackName]);
       }
     },
 
