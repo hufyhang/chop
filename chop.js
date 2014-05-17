@@ -3,8 +3,22 @@
   var root = window;
 
   var chopView = {
+    el: undefined,
+    html: '',
     render: function () {
-      return false;
+      var html;
+      if (typeof this.html === 'function') {
+        html = this.html();
+      } else {
+        html = this.html;
+      }
+
+      if (this.el) {
+        this.el.html(html);
+        chop._loadView(this.el.el);
+      } else {
+        return html;
+      }
     }
   };
 
@@ -57,6 +71,7 @@
 
     view: function (v, autoRender) {
       if (v) {
+        this.el.innerHTML = '';
         if (Array.isArray(v)) {
           var isAppending = v.length > 1;
           for (var index = 0; index !== v.length; ++index) {
@@ -65,21 +80,21 @@
         } else {
           this._addView(v, autoRender);
         }
-        chop._registerEvents();
+        chop._registerEvents(this.el);
       }
     },
 
     _addView: function (v, autoRender, isAppending) {
-      if (!v.render) {
-        v.render = function () {
-          return false;
-        };
-      }
+      v.el = this;
+      var result;
       if (autoRender === undefined || autoRender) {
-        if (isAppending) {
-          this.el.innerHTML += v.render();
-        } else {
-          this.el.innerHTML = v.render();
+        result = v.render();
+        if (result) {
+          if (isAppending) {
+            this.el.innerHTML += v.render();
+          } else {
+            this.el.innerHTML = v.render();
+          }
         }
       }
       this._views.push(v);
@@ -118,8 +133,8 @@
       }
 
       var obj = Object.create(chopView);
-      if (data.render) {
-        obj.render = data.render;
+      if (data.html) {
+        obj.html = data.html;
       }
       return obj;
     },
@@ -130,7 +145,7 @@
       }
 
       if (!data) {
-         return html;
+        return html;
       }
 
       var founds = html.match(/{{.+?}}/g);
@@ -146,17 +161,20 @@
       return html;
     },
 
-    _registerEvents: function () {
+    _registerEvents: function (baseElement) {
       var elements, callbackName;
       var index;
+      if (!baseElement) {
+        baseElement = document;
+      }
       // event: click
-      elements = document.querySelectorAll('[ch-click]');
+      elements = baseElement.querySelectorAll('[ch-click]');
       for (index = 0; index !== elements.length; ++index) {
         callbackName = elements[index].getAttribute('ch-click');
         elements[index].addEventListener('click', window[callbackName]);
       }
       // event: keypress
-      elements = document.querySelectorAll('[ch-keypress]');
+      elements = baseElement.querySelectorAll('[ch-keypress]');
       for (index = 0; index !== elements.length; ++index) {
         callbackName = elements[index].getAttribute('ch-keypress');
         elements[index].addEventListener('keypress', window[callbackName]);
@@ -179,14 +197,20 @@
       }
     },
 
-    _loadView: function () {
+    _loadView: function (baseElement) {
       var callbackName;
-      var elements = document.querySelectorAll('[ch-view]');
+      if (!baseElement) {
+        baseElement = document;
+      }
+      var elements = baseElement.querySelectorAll('[ch-view]');
       for (var index = 0; index !== elements.length; ++index) {
         callbackName = elements[index].getAttribute('ch-view');
-        elements[index].innerHTML = window[callbackName].render();
+        var result = window[callbackName].render();
+        if (result) {
+          elements[index].innerHTML = result;
+        }
       }
-      chop._registerEvents();
+      chop._registerEvents(baseElement);
     },
 
     http: function (param) {

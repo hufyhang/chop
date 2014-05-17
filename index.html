@@ -18,14 +18,17 @@
         <p>
           From: {{sender}}
         </p>
+        <div class="footer" ch-view="tail"></div>
       </div>
     </script>
 </head>
 <body>
   <div class="banner" ch-view="banner"></div>
-  <input type="text" id="from-input" ch-keypress="doKeypress" placeholder="From"/>
-  <input type="text" id="to-input" ch-keypress="doKeypress" placeholder="To"/>
-  <input value="OK" type="button" class="button" ch-click="doClick" name="" />
+  <form>
+    <input type="text" id="from-input" ch-keypress="doKeypress" placeholder="From"/>
+    <input type="text" id="to-input" ch-keypress="doKeypress" placeholder="To"/>
+    <input value="OK" type="button" class="button" ch-click="doClick" name="ok-btn" />
+  </form>
   <div class="message"></div>
   <script src="chop.js" ch-main="script.js"></script>
 </body>

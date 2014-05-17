@@ -7,7 +7,7 @@ var doClick = function () {
   var data = {name: to, sender: from};
 
   var msg = $ch.view({
-    render: function () {
+    html: function () {
       var template = $ch.find('#msg-template').html();
       return $ch.template(template, data);
     }
@@ -21,8 +21,17 @@ var doKeypress = function (evt) {
   doClick();
 };
 
+var sayHi = function () {
+  'use strict';
+  alert('Hi');
+};
+
+var tail = $ch.view({
+  html: '<hr/><br/>&copy; 2012-2014 Feifei Hang <input type="button" value="CLICK" ch-click="sayHi"/>'
+});
+
 var banner = $ch.view({
-  render: function () {
+  html: function () {
     'use strict';
     var template = $ch.find('#banner-template').html();
     return $ch.template(template);
