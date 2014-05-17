@@ -28,6 +28,9 @@ $ch.findAll('input').forEach(function (input) {
   input.css('font-size', '1.5em');
 });
 
+$ch.use('greetings');
+console.log('CHECK: ' + $ch.modules.greetings.msg);
+
 $ch.use('greetings', function () {
   'use strict';
   console.log('DONE');

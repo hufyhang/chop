@@ -341,12 +341,14 @@
       if (srcs.length) {
         this._useModule(srcs, callback);
       } else {
-        callback();
+        if (callback) {
+          callback();
+        }
       }
     },
 
     use: function (srcs, callback) {
-      if (!srcs || !callback) {
+      if (!srcs) {
         return false;
       }
 
