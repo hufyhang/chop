@@ -55,6 +55,17 @@
       return this;
     },
 
+    attr: function (key, value) {
+      if (arguments.length === 0) {
+        return this.el.attributes;
+      } else {
+        if (arguments.length === 2) {
+          this.el.setAttribute(key, value);
+        }
+        return this;
+      }
+    },
+
     click: function (callback) {
       if (!callback) {
         this.el.click();
@@ -192,30 +203,27 @@
       return html;
     },
 
+    _addEvent: function (baseElement, attr, event) {
+      var elements = baseElement.querySelectorAll('[' + attr + ']');
+      for (var index = 0; index !== elements.length; ++index) {
+        var callbackName = elements[index].getAttribute(attr);
+        elements[index].addEventListener(event, window[callbackName]);
+      }
+    },
     _registerEvents: function (baseElement) {
-      var elements, callbackName;
-      var index;
       if (!baseElement) {
         baseElement = document;
       }
       // event: click
-      elements = baseElement.querySelectorAll('[ch-click]');
-      for (index = 0; index !== elements.length; ++index) {
-        callbackName = elements[index].getAttribute('ch-click');
-        elements[index].addEventListener('click', window[callbackName]);
-      }
+      this._addEvent(baseElement, 'ch-click', 'click');
       // event: keypress
-      elements = baseElement.querySelectorAll('[ch-keypress]');
-      for (index = 0; index !== elements.length; ++index) {
-        callbackName = elements[index].getAttribute('ch-keypress');
-        elements[index].addEventListener('keypress', window[callbackName]);
-      }
+      this._addEvent(baseElement, 'ch-keypress', 'keypress');
+      // event: keydown
+      this._addEvent(baseElement, 'ch-keydown', 'keydown');
+      // event: keyup
+      this._addEvent(baseElement, 'ch-keyup', 'keyup');
       // event: change
-      elements = baseElement.querySelectorAll('[ch-change]');
-      for (index = 0; index !== elements.length; ++index) {
-        callbackName = elements[index].getAttribute('ch-change');
-        elements[index].addEventListener('change', window[callbackName]);
-      }
+      this._addEvent(baseElement, 'ch-change', 'change');
     },
 
     _loadMain: function () {
