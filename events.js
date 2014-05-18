@@ -1,5 +1,5 @@
 /* global $ch */
-$ch.add('events', function () {
+$ch.define('events', function () {
   'use strict';
   var doClick = function () {
     var from = $ch.find('#from-input').val();

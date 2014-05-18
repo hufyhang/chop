@@ -1,5 +1,5 @@
 /* global $ch */
-$ch.add('greetings', function () {
+$ch.define('greetings', function () {
   'use strict';
   console.log('Adding');
   return {

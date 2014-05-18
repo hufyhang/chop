@@ -2,6 +2,7 @@
   'use strict';
   var root = window;
 
+  // chop.js view//{{{
   var chopView = {
     el: undefined,
     html: '',
@@ -21,7 +22,9 @@
       }
     }
   };
+//}}}
 
+  // chop.js html element//{{{
   var chopEl = {
     el: undefined,
     _views: [],
@@ -139,10 +142,78 @@
     }
 
   };
+//}}}
 
+  // router//{{{
+  var Router = {
+    routes: {},
+    mode: 'hash',
+    root: '/',
+    getFragment: function() {
+      var match = window.location.href.match(/#(.*)$/);
+      var fragment = match ? match[1] : '';
+      return this.clearSlashes(fragment);
+    },
+    clearSlashes: function(path) {
+      return path.toString().replace(/\/$/, '').replace(/^\//, '');
+    },
+    add: function(params) {
+      if (!params) {
+        return false;
+      }
+
+      var re, handler;
+      for (var item in params) {
+        if (params.hasOwnProperty(item)) {
+          re = item;
+          handler = params[item];
+
+          this.routes[re] = handler;
+        }
+      }
+      return true;
+    },
+    remove: function(re) {
+      if (re) {
+        if (!Array.isArray(re)) {
+          re = [re];
+        }
+
+        re.forEach(function (item) {
+          delete this.routes[item];
+        });
+      }
+      return this;
+    },
+    flush: function() {
+      this.routes = {};
+      this.mode = 'hash';
+      this.root = '/';
+      return this;
+    },
+    navigate: function(path) {
+      path = path ? path : '';
+      var firstNotSlash = path.match(/^\/.*/);
+      if (!firstNotSlash) {
+        path = '/' + path;
+      }
+      window.location.href.match(/#(.*)$/);
+      window.location.href = window.location.href.replace(/#(.*)$/, '') + '#' + path;
+      var re = this.getFragment(path);
+      var routeEvent = this.routes[re];
+      if (routeEvent) {
+        routeEvent();
+      }
+      return this;
+    }
+  };
+//}}}
+
+  // chop//{{{
   var chop = {
     els: [],
     modules: {},
+    router: Router,
     find: function (query) {
       if (query) {
         var elt = Object.create(chopEl);
@@ -315,7 +386,7 @@
       }
     },
 
-    add: function (name, callback) {
+    define: function (name, callback) {
       this.modules[name] = callback();
     },
 
@@ -355,7 +426,7 @@
       }
     },
 
-    use: function (srcs, callback) {
+    require: function (srcs, callback) {
       if (!srcs) {
         return false;
       }
@@ -367,6 +438,7 @@
       this._useModule(srcs, callback);
     }
   };
+//}}}
 
   root.$ch = chop;
   root.onload = function () {

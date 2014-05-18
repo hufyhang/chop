@@ -1,6 +1,6 @@
 /* global $ch */
 var doClick, doKeypress, sayHi;
-$ch.use('events', function () {
+$ch.require('events', function () {
   'use strict';
   var events = $ch.modules.events;
   doClick = events.doClick;
@@ -9,7 +9,7 @@ $ch.use('events', function () {
 });
 
 var banner, tail;
-$ch.use('views', function () {
+$ch.require('views', function () {
   'use strict';
   var views = $ch.modules.views;
   banner = views.banner;
@@ -28,17 +28,35 @@ $ch.findAll('input').forEach(function (input) {
   input.css('font-size', '1.5em');
 });
 
-$ch.use('greetings');
+$ch.require('greetings');
 console.log('CHECK: ' + $ch.modules.greetings.msg);
 
-$ch.use('greetings', function () {
+$ch.require('greetings', function () {
   'use strict';
   console.log('DONE');
 });
 
-$ch.use(['greetings', 'information'], function () {
+$ch.require(['greetings', 'information'], function () {
   'use strict';
   console.log('INFO: ' + $ch.modules.information.msg);
   console.log('MSG: ' + $ch.modules.greetings.msg);
 });
 
+var gotoAdvert = function () {
+  'use strict';
+  $ch.router.navigate('advert');
+
+};
+
+$ch.router.add({
+  'home': function () {
+    'use strict';
+    console.log('Routed: home');
+  },
+  'advert': function () {
+    'use strict';
+    sayHi();
+  }
+});
+
+$ch.router.navigate('home');

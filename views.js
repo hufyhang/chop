@@ -1,8 +1,13 @@
 /* global $ch */
-$ch.add('views', function () {
+$ch.define('views', function () {
   'use strict';
+  var html = '';
+  html += '<hr/><br/>&copy; 2012-2014 Chop.js';
+  html += '<br/><input type="button" value="CLICK" ch-click="sayHi"/>';
+  html += '<br/><input type="button" value="ADVERT" ch-click="gotoAdvert"/>';
+
   var tail = $ch.view({
-    html: '<hr/><br/>&copy; 2012-2014 Chop.js <input type="button" value="CLICK" ch-click="sayHi"/>'
+    html: html
   });
 
   var banner = $ch.view({
