@@ -286,6 +286,20 @@
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
         var callback = elements[index].getAttribute(attr);
+
+        var founds = callback.match(/{{.+?}}/g);
+        if (founds) {
+          for (var i = 0; i !== founds.length; ++i) {
+            var found = founds[i];
+            var key = found.replace(/{/g, '');
+            key = key.replace(/}/g, '');
+            callback = callback.replace(found, '$ch.sources.' + key + '.data');
+          }
+        }
+        // espace \{, \}
+        callback = callback.replace(/\\{/g, '{');
+        callback = callback.replace(/\\}/g, '}');
+
         var func = new Function (callback);
         elements[index].addEventListener(event, func);
       }
@@ -455,6 +469,14 @@
       } else {
         return this.modules;
       }
+    },
+
+    source: function (key) {
+      if (key === undefined || this.sources[key] === undefined) {
+        return this.sources;
+      }
+
+      return this.sources[key].data;
     },
 
     _bindSources: function (baseElement) {
