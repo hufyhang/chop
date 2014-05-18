@@ -286,6 +286,20 @@
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
         var callback = elements[index].getAttribute(attr);
+
+        var founds = callback.match(/{{.+?}}/g);
+        if (founds) {
+          for (var i = 0; i !== founds.length; ++i) {
+            var found = founds[i];
+            var key = found.replace(/{/g, '');
+            key = key.replace(/}/g, '');
+            callback = callback.replace(found, '$ch.sources.' + key + '.data');
+          }
+        }
+        // espace \{, \}
+        callback = callback.replace(/\\{/g, '{');
+        callback = callback.replace(/\\}/g, '}');
+
         var func = new Function (callback);
         elements[index].addEventListener(event, func);
       }
@@ -457,20 +471,31 @@
       }
     },
 
+    source: function (key) {
+      if (key === undefined || this.sources[key] === undefined) {
+        return this.sources;
+      }
+
+      return this.sources[key].data;
+    },
+
     _bindSources: function (baseElement) {
       if (baseElement === undefined) {
         baseElement = document;
       }
-      var elements = baseElement.querySelectorAll('input[ch-source]');
+      var elements = baseElement.querySelectorAll('[ch-source]');
       for (var index = 0; index !== elements.length; ++index) {
         var element = elements[index];
         var name = element.getAttribute('ch-source');
-        this.sources[name] = {};
         var source = this.sources[name];
-        source.els = [];
         var val = '';
-        if (element.value !== undefined) {
-          val = element.value;
+        if (source === undefined) {
+          this.sources[name] = {};
+          source = this.sources[name];
+          source.els = [];
+          if (element.value !== undefined) {
+            val = element.value;
+          }
         }
         source.els.push(element);
         source.data = val;
@@ -478,7 +503,16 @@
         element.addEventListener('keyup', function () {
           source.data = this.value;
           source.els.forEach(function (item) {
-            item.value = source.data;
+            var valueContainer;
+            if (item.tagName.toUpperCase() === 'INPUT') {
+              valueContainer = 'value';
+            } else {
+              valueContainer = 'innerHTML';
+            }
+
+            if (item[valueContainer] !== source.data) {
+              item[valueContainer] = source.data;
+            }
           });
         });
       }
