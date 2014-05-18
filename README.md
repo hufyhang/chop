@@ -10,6 +10,19 @@ Usage
 
 - The `ch-main` attribute indicates the entry point/script of the web page.
 
+APIs - HTML attributes
+===========
+
+ch-view
+-------
+
+Sets chop.js view.
+
+ch-keypress, ch-keydown, ch-click, ch-change
+--------------------------------------------
+
+Adds event listener.
+
 APIs - $ch
 ==========
 
