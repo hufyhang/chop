@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Todo Chop.js</title>
+
+    <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/superhero/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="text/template" id="todo-template">
+      <div>
+        <div class="alert alert-info">
+          <span>#{{number}}</span>
+          {{content}}
+        </div>
+      </div>
+    </script>
+</head>
+<body>
+
+    <div class="main-container">
+      <h3>Todo Chop.js</h3>
+
+      <div class="input-div">
+        <input id="todo-input" type="text" class="form-control" ch-source="msg" ch-keypress="if (event.which === 13) {addTodo();}" placeholder="things to do" />
+        <div id="todo-btn" class="btn btn-primary" ch-click="addTodo();">Add</div>
+      </div>
+      <br/>Preview: <div ch-source="msg"></div>
+      <br/>
+      <input type="text" class="form-control" ch-source="msg" />
+
+      <div class="awesome-container" ch-view="listView">
+      </div>
+
+    </div>
+
+  <script src="js/chop.js" ch-main="js/main.js"></script>
+</body>
+</html>

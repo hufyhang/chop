@@ -1,0 +1,19 @@
+.main-container {
+  position: fixed;
+  top: 0;
+  left: 10%;
+  right: 10%;
+}
+
+.input-div {
+  display: inline-table;
+  width: 100%;
+}
+
+#todo-input, #todo-btn {
+  display: table-cell;
+}
+
+.alert {
+  margin-top: 10px !important;
+}

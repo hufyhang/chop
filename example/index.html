@@ -25,9 +25,9 @@
 <body>
   <div class="banner" ch-view="banner"></div>
   <form>
-    <input type="text" id="from-input" ch-keypress="doKeypress" placeholder="From"/>
-    <input type="text" id="to-input" ch-keypress="doKeypress" placeholder="To"/>
-    <input value="OK" type="button" class="button" ch-click="doClick" name="ok-btn" />
+    <input type="text" id="from-input" ch-keypress="doKeypress()" placeholder="From"/>
+    <input type="text" id="to-input" ch-keypress="doKeypress()" placeholder="To"/>
+    <input value="OK" type="button" class="button" ch-click="doClick()" name="ok-btn" />
   </form>
   <div class="message"></div>
   <script src="js/chop.js" ch-main="js/script.js"></script>

@@ -33,9 +33,9 @@
       return this;
     },
 
-    val: function (value) {
-      if (value) {
-        this.el.value = value;
+    val: function (val) {
+      if (val !== undefined) {
+        this.el.value = val;
         return this;
       } else {
         return this.el.value;
@@ -122,6 +122,7 @@
           this._addView(v, autoRender);
         }
         chop._registerEvents(this.el);
+        chop._bindSources(this.el);
       }
     },
 
@@ -214,6 +215,7 @@
     _path: '',
     els: [],
     modules: {},
+    sources: {},
     router: Router,
     find: function (query) {
       if (query) {
@@ -283,8 +285,9 @@
     _addEvent: function (baseElement, attr, event) {
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
-        var callbackName = elements[index].getAttribute(attr);
-        elements[index].addEventListener(event, window[callbackName]);
+        var callback = elements[index].getAttribute(attr);
+        var func = new Function (callback);
+        elements[index].addEventListener(event, func);
       }
     },
     _registerEvents: function (baseElement) {
@@ -341,6 +344,7 @@
         }
       }
       chop._registerEvents(baseElement);
+      chop._bindSources(baseElement);
     },
 
     http: function (param) {
@@ -443,6 +447,41 @@
       }
 
       this._useModule(srcs, callback);
+    },
+
+    module: function (mod) {
+      if (mod !== undefined) {
+        return this.modules[mod];
+      } else {
+        return this.modules;
+      }
+    },
+
+    _bindSources: function (baseElement) {
+      if (baseElement === undefined) {
+        baseElement = document;
+      }
+      var elements = baseElement.querySelectorAll('input[ch-source]');
+      for (var index = 0; index !== elements.length; ++index) {
+        var element = elements[index];
+        var name = element.getAttribute('ch-source');
+        this.sources[name] = {};
+        var source = this.sources[name];
+        source.els = [];
+        var val = '';
+        if (element.value !== undefined) {
+          val = element.value;
+        }
+        source.els.push(element);
+        source.data = val;
+
+        element.addEventListener('keyup', function () {
+          source.data = this.value;
+          source.els.forEach(function (item) {
+            item.value = source.data;
+          });
+        });
+      }
     }
   };
 //}}}
