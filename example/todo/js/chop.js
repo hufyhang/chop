@@ -471,12 +471,34 @@
       }
     },
 
-    source: function (key) {
-      if (key === undefined || this.sources[key] === undefined) {
+    source: function (key, data) {
+      if (arguments.length === 0) {
         return this.sources;
       }
 
-      return this.sources[key].data;
+      if (arguments.length === 1) {
+        var src = this.sources[key];
+        return src === undefined
+          ? undefined
+          : src.data;
+      }
+
+      var goodToSet = arguments.length === 2 &&
+                this.sources[key] !== undefined;
+      if (goodToSet) {
+        var source = this.sources[key];
+        source.data = data;
+        for (var index = 0, l = source.els.length; index !== l; ++index) {
+          var element = source.els[index];
+          if (element.tagName.toUpperCase() === 'INPUT') {
+            element.value = data;
+          } else {
+            element.innerHTML = data;
+          }
+        }
+      } else {
+        return false;
+      }
     },
 
     _bindSources: function (baseElement) {

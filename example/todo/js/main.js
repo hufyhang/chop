@@ -4,9 +4,9 @@ var todos = [];
 
 var addTodo = function () {
   'use strict';
-  var content = $ch.find('#todo-input').val();
+  var content = $ch.source('msg');
   todos.push(content);
-  $ch.find('#todo-input').val('');
+  $ch.source('msg', '');
 
   $ch.find('.awesome-container').view(listView);
 };
