@@ -88,7 +88,7 @@ $ch.define(`name`, `function`)
 
 Defines a chop.js module.
 
-- `name`: the name of the module. Has to be same with filename, but without extension name (i.e. `.js`)
+- `name`: the name of the module. __Has to be same with filename, but without extension name (i.e. `.js`)__
 - `function`: the function of the module. The return value will be stored in `$ch.module.module_name`.
 
 $ch.module(`module`)
