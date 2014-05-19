@@ -20,8 +20,8 @@ $ch.define('events', function () {
     doClick();
   };
 
-  var sayHi = function () {
-    alert('Hi');
+  var sayHi = function (name) {
+    alert('Hi...' + name);
   };
 
   return {

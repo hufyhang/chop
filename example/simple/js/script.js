@@ -44,7 +44,7 @@ $ch.require(['greetings', 'information'], function () {
 
 var gotoAdvert = function () {
   'use strict';
-  $ch.router.navigate('advert');
+  $ch.router.navigate('advert/something/hi/something');
 
 };
 
@@ -53,9 +53,10 @@ $ch.router.add({
     'use strict';
     console.log('Routed: home');
   },
-  'advert': function () {
+  'advert/:name/hi/:name': function (params) {
     'use strict';
-    sayHi();
+    console.log(params);
+    sayHi(params.name);
   }
 });
 
