@@ -53,7 +53,7 @@ $ch.view(`param`)
 
 Creates and returns a chop.js view object. If no `param` provided, returns `false`.
 
-To manually render a view, call `render()`.
+~~To manually render a view, call `render()`.~~
 
 `param` should at least contains an `html` property, which can be either
 a value or a function with return value. The `html` represents the HTML of
