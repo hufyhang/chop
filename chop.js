@@ -110,33 +110,32 @@
       }
     },
 
-    view: function (v, autoRender) {
+    view: function (v) {
       if (v) {
-        this.el.innerHTML = '';
+        var baseElement = this.el;
+        baseElement.innerHTML = '';
         var isAppending = false;
         if (Array.isArray(v)) {
           isAppending = true;
           for (var index = 0; index !== v.length; ++index) {
             var item = v[index];
-            this._addView(item, autoRender, isAppending);
+            this._addView(baseElement, item, isAppending);
           }
         } else {
-          this._addView(v, autoRender);
+          this._addView(baseElement, v);
         }
-        chop._registerEvents(this.el);
-        chop._bindSources(this.el);
+        chop._loadView(baseElement);
       }
     },
 
-    _addView: function (v, autoRender, isAppending) {
+    _addView: function (baseElement, v, isAppending) {
       var result = v.render();
-      if (autoRender === undefined || autoRender) {
-        if (result) {
-          if (isAppending) {
-            this.el.innerHTML += result;
-          } else {
-            this.el.innerHTML = result;
-          }
+      // v.el = baseElement;
+      if (result) {
+        if (isAppending) {
+          baseElement.innerHTML += result;
+        } else {
+          baseElement.innerHTML = result;
         }
       }
       this._views.push(v);
@@ -305,7 +304,7 @@
       }
     },
     _registerEvents: function (baseElement) {
-      if (!baseElement) {
+      if (baseElement === undefined) {
         baseElement = document;
       }
       // event: click
@@ -339,7 +338,7 @@
 
     _loadView: function (baseElement) {
       var callbackName;
-      if (!baseElement) {
+      if (baseElement === undefined) {
         baseElement = document;
       }
       var elements = baseElement.querySelectorAll('[ch-view]');

@@ -14,7 +14,7 @@
         html = this.html;
       }
 
-      if (this.el) {
+      if (this.el !== undefined) {
         this.el.html(html);
         chop._loadView(this.el.el);
       } else {
@@ -110,33 +110,32 @@
       }
     },
 
-    view: function (v, autoRender) {
+    view: function (v) {
       if (v) {
-        this.el.innerHTML = '';
+        var baseElement = this.el;
+        baseElement.innerHTML = '';
+        var isAppending = false;
         if (Array.isArray(v)) {
-          var isAppending = v.length > 1;
+          isAppending = true;
           for (var index = 0; index !== v.length; ++index) {
-            this._addView(v[index], autoRender, isAppending);
+            var item = v[index];
+            this._addView(baseElement, item, isAppending);
           }
         } else {
-          this._addView(v, autoRender);
+          this._addView(baseElement, v);
         }
-        chop._registerEvents(this.el);
-        chop._bindSources(this.el);
+        chop._loadView(baseElement);
       }
     },
 
-    _addView: function (v, autoRender, isAppending) {
-      v.el = this;
-      var result;
-      if (autoRender === undefined || autoRender) {
-        result = v.render();
-        if (result) {
-          if (isAppending) {
-            this.el.innerHTML += v.render();
-          } else {
-            this.el.innerHTML = v.render();
-          }
+    _addView: function (baseElement, v, isAppending) {
+      var result = v.render();
+      // v.el = baseElement;
+      if (result) {
+        if (isAppending) {
+          baseElement.innerHTML += result;
+        } else {
+          baseElement.innerHTML = result;
         }
       }
       this._views.push(v);
@@ -271,7 +270,7 @@
         founds.forEach(function (found) {
           var key = found.replace(/{/g, '');
           key = key.replace(/}/g, '');
-          if (data[key]) {
+          if (data[key] !== undefined) {
             html = html.replace(found, data[key]);
           }
         });
@@ -305,7 +304,7 @@
       }
     },
     _registerEvents: function (baseElement) {
-      if (!baseElement) {
+      if (baseElement === undefined) {
         baseElement = document;
       }
       // event: click
@@ -339,7 +338,7 @@
 
     _loadView: function (baseElement) {
       var callbackName;
-      if (!baseElement) {
+      if (baseElement === undefined) {
         baseElement = document;
       }
       var elements = baseElement.querySelectorAll('[ch-view]');
@@ -471,12 +470,34 @@
       }
     },
 
-    source: function (key) {
-      if (key === undefined || this.sources[key] === undefined) {
+    source: function (key, data) {
+      if (arguments.length === 0) {
         return this.sources;
       }
 
-      return this.sources[key].data;
+      if (arguments.length === 1) {
+        var src = this.sources[key];
+        return src === undefined
+          ? undefined
+          : src.data;
+      }
+
+      var goodToSet = arguments.length === 2 &&
+                this.sources[key] !== undefined;
+      if (goodToSet) {
+        var source = this.sources[key];
+        source.data = data;
+        for (var index = 0, l = source.els.length; index !== l; ++index) {
+          var element = source.els[index];
+          if (element.tagName.toUpperCase() === 'INPUT') {
+            element.value = data;
+          } else {
+            element.innerHTML = data;
+          }
+        }
+      } else {
+        return false;
+      }
     },
 
     _bindSources: function (baseElement) {
