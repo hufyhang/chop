@@ -20,8 +20,8 @@ $ch.define('events', function () {
     doClick();
   };
 
-  var sayHi = function (name) {
-    alert('Hi...' + name);
+  var sayHi = function (name, age) {
+    alert('Hi...' + name + ' @ ' + age);
   };
 
   return {

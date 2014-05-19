@@ -21,7 +21,7 @@
       <h3>Todo Chop.js</h3>
 
       <div class="input-div">
-        <input id="todo-input" type="text" class="form-control" ch-source="msg" ch-keypress="if (event.which === 13) {addTodo();}" placeholder="things to do" />
+        <input id="todo-input" type="text" class="form-control" ch-source="msg" ch-keypress="if (arguments[0].keyCode === 13) {addTodo();}" placeholder="things to do" />
         <div id="todo-btn" class="btn btn-primary" ch-click="addTodo();">Add</div>
       </div>
       <br/>Preview: <div class="preview" ch-source="msg"></div>

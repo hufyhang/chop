@@ -351,10 +351,7 @@
         callback = callback.replace(/\\}/g, '}');
 
         var func = new Function (callback);
-        var callFunc = function(event) {
-          func(event);
-        };
-        elements[index].addEventListener(evt, callFunc);
+        elements[index].addEventListener(evt, func);
       }
     },
     _registerEvents: function (baseElement) {
@@ -534,7 +531,9 @@
           : src.data;
       }
 
-      if (this.source[key] !== undefined) {
+      var goodToSet = arguments.length === 2 &&
+                this.sources[key] !== undefined;
+      if (goodToSet) {
         var source = this.sources[key];
         source.data = data;
         for (var index = 0, l = source.els.length; index !== l; ++index) {
@@ -546,10 +545,14 @@
           }
         }
       } else {
-        this.sources[key] = {};
-        this.sources[key].els = [];
-        this.sources[key].data = data;
-        return this.sources;
+        if (arguments.length === 2) {
+          this.sources[key] = {};
+          this.sources[key].els = [];
+          this.sources[key].data = data;
+          return this.sources[key];
+        }
+
+        return false;
       }
     },
 
