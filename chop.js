@@ -398,8 +398,6 @@
           method.toUpperCase() !== 'GET' && data.length !== 0;
       if (hasDataToSend) {
         ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        ajax.setRequestHeader("Content-length", data.length);
-        ajax.setRequestHeader("Connection", "close");
         ajax.send(data);
       } else {
         ajax.send();
