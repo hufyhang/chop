@@ -200,10 +200,61 @@
       window.location.href.match(/#(.*)$/);
       window.location.href = window.location.href.replace(/#(.*)$/, '') + '#' + path;
       var re = this.getFragment(path);
-      var routeEvent = this.routes[re];
-      if (routeEvent) {
-        routeEvent();
+      var params = {};
+
+      var keys = Object.keys(this.routes);
+      for (var index = 0, l = keys.length; index !== l; ++index) {
+        var exp = keys[index];
+        exp = exp.replace(/:\w+/g, '.+');
+        var regex = new RegExp(exp);
+
+        // find matched routing pattern
+        var matchedUrl = re.match(regex);
+        if (matchedUrl !== null) {
+          var routePath = keys[index];
+          var order = [];
+
+          var founds = routePath.match(/:\w+/g);
+          if (founds !== null) {
+            var i, len;
+            var parts = routePath.split('/');
+            // extract param patterns and order from routing setup
+            for (i = 0, len = founds.length; i !== len; ++i) {
+              var found = founds[i];
+              var pos = parts.indexOf(found);
+              var name = found.replace(/:/, '');
+              if (pos !== -1 && params[name] === undefined) {
+                order.push(pos);
+                params[name] = '';
+              }
+            }
+
+            // now extract url params according to fetched param order
+            parts = re.split('/');
+            var keyNames = Object.keys(params);
+            for (i = 0, len = order.length; i !== len; ++i) {
+              var number = order[i];
+              params[keyNames[i]] = parts[number];
+            }
+          }
+        }
       }
+
+      // finally, find and fire coresponding callback function
+      keys = Object.keys(this.routes);
+      for (var ii = 0; ii !== keys.length; ++ii) {
+        var pattern = keys[ii];
+        var original = keys[ii];
+        if (pattern !== undefined) {
+          pattern = pattern.replace(/\//g, '\\\/');
+          pattern = pattern.replace(/:\w+/g, '.+');
+          var regexp = new RegExp(pattern);
+          if (re.match(regexp) !== null) {
+            this.routes[original](params);
+          }
+        }
+      }
+
       return this;
     }
   };
@@ -281,7 +332,7 @@
       return html;
     },
 
-    _addEvent: function (baseElement, attr, event) {
+    _addEvent: function (baseElement, attr, evt) {
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
         var callback = elements[index].getAttribute(attr);
@@ -300,7 +351,10 @@
         callback = callback.replace(/\\}/g, '}');
 
         var func = new Function (callback);
-        elements[index].addEventListener(event, func);
+        var callFunc = function(event) {
+          func(event);
+        };
+        elements[index].addEventListener(evt, callFunc);
       }
     },
     _registerEvents: function (baseElement) {
@@ -398,8 +452,6 @@
           method.toUpperCase() !== 'GET' && data.length !== 0;
       if (hasDataToSend) {
         ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        ajax.setRequestHeader("Content-length", data.length);
-        ajax.setRequestHeader("Connection", "close");
         ajax.send(data);
       } else {
         ajax.send();
@@ -482,9 +534,7 @@
           : src.data;
       }
 
-      var goodToSet = arguments.length === 2 &&
-                this.sources[key] !== undefined;
-      if (goodToSet) {
+      if (this.source[key] !== undefined) {
         var source = this.sources[key];
         source.data = data;
         for (var index = 0, l = source.els.length; index !== l; ++index) {
@@ -496,7 +546,10 @@
           }
         }
       } else {
-        return false;
+        this.sources[key] = {};
+        this.sources[key].els = [];
+        this.sources[key].data = data;
+        return this.sources;
       }
     },
 

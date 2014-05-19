@@ -332,7 +332,7 @@
       return html;
     },
 
-    _addEvent: function (baseElement, attr, event) {
+    _addEvent: function (baseElement, attr, evt) {
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
         var callback = elements[index].getAttribute(attr);
@@ -351,7 +351,10 @@
         callback = callback.replace(/\\}/g, '}');
 
         var func = new Function (callback);
-        elements[index].addEventListener(event, func);
+        var callFunc = function(event) {
+          func(event);
+        };
+        elements[index].addEventListener(evt, callFunc);
       }
     },
     _registerEvents: function (baseElement) {
@@ -531,9 +534,7 @@
           : src.data;
       }
 
-      var goodToSet = arguments.length === 2 &&
-                this.sources[key] !== undefined;
-      if (goodToSet) {
+      if (this.source[key] !== undefined) {
         var source = this.sources[key];
         source.data = data;
         for (var index = 0, l = source.els.length; index !== l; ++index) {
@@ -545,7 +546,10 @@
           }
         }
       } else {
-        return false;
+        this.sources[key] = {};
+        this.sources[key].els = [];
+        this.sources[key].data = data;
+        return this.sources;
       }
     },
 
