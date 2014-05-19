@@ -23,6 +23,11 @@ ch-keypress, ch-keydown, ch-click, ch-change
 
 Adds event listener.
 
+ch-source
+---------
+
+Defines/adds data sources.
+
 APIs - $ch
 ==========
 
@@ -37,6 +42,11 @@ $ch.findAll(`query`)
 
 Returns an chop.js element array that contains all the found elements. If no
 elements found, returns an emptry array.
+
+$ch.source(`source`, `data`)
+----------------------------
+
+If only `source` provided, returns the value of `source`. Otherwise, sets the value of `source` to `data`.
 
 $ch.view(`param`)
 -----------------
@@ -80,6 +90,11 @@ Defines a chop.js module.
 
 - `name`: the name of the module. Has to be same with filename, but without extension name (i.e. `.js`)
 - `function`: the function of the module. The return value will be stored in `$ch.module.module_name`.
+
+$ch.module(`module`)
+--------------------
+
+Returns the returned data of `module`.
 
 $ch.require(`module`, `function`)
 ---------------------------------
