@@ -107,7 +107,13 @@ Requires/loads a chop.js module.
 $ch.router.add(`param`)
 -----------------------
 
-Adds hash routings.
+Adds hash routings. E.g.:
+        $ch.router.add({
+            'home': function () {...},
+            'user/:id': function (params) {
+                console.log(params.id);
+            }
+        });
 
 - `param`: the routing rules in the form of an object. E.g. `{'home': function () {...}}`
 
