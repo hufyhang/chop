@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="css/style.css" />
     <script type="text/template" id="todo-template">
       <div>
-        <div class="alert alert-info">
-          <span>#{{number}}</span>
+        <div class="alert alert-info" ch-click="removeTodo({{index}});">
+          <span>{{number}} - </span>
           {{content}}
         </div>
       </div>
@@ -26,8 +26,8 @@
       </div>
       <br/>Preview: <div class="preview" ch-source="msg"></div>
 
-      <div class="awesome-container" ch-view="listView">
-      </div>
+      <div class="awesome-container" ch-view="listView, counterView"></div>
+      <div class="counter-container"></div>
 
     </div>
 

@@ -14,7 +14,7 @@
         html = this.html;
       }
 
-      if (this.el) {
+      if (this.el !== undefined) {
         this.el.html(html);
         chop._loadView(this.el.el);
       } else {
@@ -113,10 +113,12 @@
     view: function (v, autoRender) {
       if (v) {
         this.el.innerHTML = '';
+        var isAppending = false;
         if (Array.isArray(v)) {
-          var isAppending = v.length > 1;
+          isAppending = true;
           for (var index = 0; index !== v.length; ++index) {
-            this._addView(v[index], autoRender, isAppending);
+            var item = v[index];
+            this._addView(item, autoRender, isAppending);
           }
         } else {
           this._addView(v, autoRender);
@@ -127,15 +129,13 @@
     },
 
     _addView: function (v, autoRender, isAppending) {
-      v.el = this;
-      var result;
+      var result = v.render();
       if (autoRender === undefined || autoRender) {
-        result = v.render();
         if (result) {
           if (isAppending) {
-            this.el.innerHTML += v.render();
+            this.el.innerHTML += result;
           } else {
-            this.el.innerHTML = v.render();
+            this.el.innerHTML = result;
           }
         }
       }
@@ -271,7 +271,7 @@
         founds.forEach(function (found) {
           var key = found.replace(/{/g, '');
           key = key.replace(/}/g, '');
-          if (data[key]) {
+          if (data[key] !== undefined) {
             html = html.replace(found, data[key]);
           }
         });
