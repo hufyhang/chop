@@ -1,6 +1,10 @@
+/* global Sizzle */
 (function (window, undefined) {
   'use strict';
   var root = window;
+
+  HTMLElement.prototype.querySelector = Sizzle;
+  HTMLElement.prototype.querySelectorAll = Sizzle;
 
   // chop.js view//{{{
   var chopView = {
