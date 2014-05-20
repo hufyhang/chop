@@ -3,8 +3,9 @@
   'use strict';
   var root = window;
 
-  HTMLElement.prototype.querySelector = Sizzle;
-  HTMLElement.prototype.querySelectorAll = Sizzle;
+  var _isArray = function (value) {
+    return Object.prototype.toString.call(value) === '[object Array]';
+  };
 
   // chop.js view//{{{
   var chopView = {
@@ -119,7 +120,7 @@
         var baseElement = this.el;
         baseElement.innerHTML = '';
         var isAppending = false;
-        if (Array.isArray(v)) {
+        if (_isArray(v)) {
           isAppending = true;
           for (var index = 0; index !== v.length; ++index) {
             var item = v[index];
@@ -179,7 +180,7 @@
     },
     remove: function(re) {
       if (re) {
-        if (!Array.isArray(re)) {
+        if (!_isArray(re)) {
           re = [re];
         }
 
@@ -514,7 +515,7 @@
         return false;
       }
 
-      if (!Array.isArray(srcs)) {
+      if (!_isArray(srcs)) {
         srcs = [srcs];
       }
 
