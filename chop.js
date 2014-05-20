@@ -435,7 +435,12 @@
       }
       var async = param.async;
 
-      var ajax = new XMLHttpRequest();
+      var ajax;
+      if (window.XMLHttpRequest) {
+        ajax = new XMLHttpRequest();
+      } else {
+        ajax = new ActiveXObject('Microsoft.XMLHTTP');
+      }
       ajax.open(method, url, async);
       ajax.onreadystatechange = function () {
         if (ajax.readyState !== 4) {
