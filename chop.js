@@ -1,11 +1,26 @@
-/* global Sizzle */
 (function (window, undefined) {
   'use strict';
   var root = window;
 
+  // browser utils functions//{{{
   var _isArray = function (value) {
     return Object.prototype.toString.call(value) === '[object Array]';
   };
+
+  if (!Object.create) {
+    Object.create = (function(){
+      function F(){}
+
+      return function(o){
+        if (arguments.length !== 1) {
+          throw new Error('Object.create implementation only accepts one parameter.');
+        }
+        F.prototype = o;
+        return new F();
+      };
+    })();
+  }
+//}}}
 
   // chop.js view//{{{
   var chopView = {
