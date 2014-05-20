@@ -44,6 +44,98 @@
   };
 //}}}
 
+  // chop.js model//{{{
+  var chopModel = {
+    _data: {},
+    set: function (scp, obj) {
+      if (arguments.length === 0) {
+        return false;
+      }
+
+      if (obj === undefined) {
+        this._data = scp;
+      } else {
+        this._data[scp] = obj;
+      }
+
+      return this;
+    },
+
+    get: function (scp, item) {
+      var scope = this._data;
+      var value = this._data;
+      var targetItem ;
+
+      if (item === undefined) {
+        targetItem = scp;
+      } else {
+        scope = scp;
+        targetItem = item;
+      }
+
+      if (targetItem !== undefined) {
+        value = scope[targetItem];
+      }
+      return value;
+    },
+
+    each: function (item, callback) {
+      var targetItem = this._data, func;
+      if (arguments.length === 0) {
+        return false;
+      }
+
+      if (callback === undefined) {
+        func = item;
+      } else {
+        targetItem = this._data[item];
+        func = callback;
+      }
+
+      if (targetItem === undefined || targetItem === null) {
+        return false;
+      }
+
+      for (var index = 0; index !== targetItem.length; ++index) {
+        item = targetItem[index];
+        func(item, index, targetItem);
+      }
+    },
+
+    _checkMatch: function (data, expr) {
+      var $$ = data;
+      return eval(expr);
+    },
+    filter: function (scp, exp) {
+      var scope = this._data, expr;
+      var results = [];
+      if (arguments.length === 0) {
+        return undefined;
+      }
+
+      if (exp === undefined) {
+        expr = scp;
+      } else {
+        scope = this._data[scp];
+        expr = exp;
+      }
+
+      if (scope === undefined || scope === null) {
+        return results;
+      }
+
+      for (var index = 0; index !== scope.length; ++index) {
+        var item = scope[index];
+        if (this._checkMatch(item, expr)) {
+          results.push(item);
+        }
+      }
+
+      return results;
+    }
+  };
+//}}}
+
   // chop.js html element//{{{
   var chopEl = {
     el: undefined,
@@ -315,8 +407,18 @@
       return false;
     },
 
+    model: function (data) {
+      if (arguments.length === 0) {
+        return undefined;
+      }
+
+      var obj = Object.create(chopModel);
+      obj._data = data;
+      return obj;
+    },
+
     view: function (data) {
-      if (!data) {
+      if (arguments.length === 0) {
         return false;
       }
 
@@ -356,7 +458,7 @@
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
         var callback = elements[index].getAttribute(attr);
-        callback = callback.replace(/\$ch\.event/g, 'arguments[0]');
+        callback = callback.replace(/\$\$\.event/g, 'arguments[0]');
 
         var founds = callback.match(/{{.+?}}/g);
         if (founds) {

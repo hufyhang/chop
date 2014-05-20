@@ -30,7 +30,7 @@ Sets chop.js view.
 ch-keypress, ch-keydown, ch-click, ch-change
 --------------------------------------------
 
-Adds event listener. Use `$ch.event` for event parameter.
+Adds event listener. Use `$$.event` for event parameter.
 
 ch-source
 ---------
@@ -56,6 +56,11 @@ $ch.source(`source`, `data`)
 ----------------------------
 
 If only `source` provided, returns the value of `source`. Otherwise, sets the value of `source` to `data`.
+
+$ch.model(`data`)
+-----------------
+
+Creates and returns a chop.js model object. `data` is a javascript object.
 
 $ch.view(`param`)
 -----------------
@@ -133,6 +138,35 @@ $ch.router.navigate(`path`)
 ---------------------------
 
 Redirects to `path`.
+
+APIs - chop.js model
+====================
+
+set(`scope`, `data`)
+--------------------
+
+Sets `scope` to `data`. If no `scope` provided, targets at whole model data.
+
+get(`scope`, `item`)
+--------------------
+
+Returns value of `item` in `scope`. If no `scope` provided, targets at whole model data.
+
+each(`item`, `callback`)
+------------------------
+
+Iterates `item` in model data and call `callback`. Parameters to `callback`:
+`currentItem`, `index`, `wholeItem`.
+
+If no `item` provided, iterates whole model data.
+
+filter(`scope`, `expression`)
+-----------------------------
+
+Filters and returns the array in `scope` according to `expression`.
+If no `scope` provided, targets at whole model data.
+
+Use prefix `$$.` for data in `expression`. E.g. `'$$.age > 18'`
 
 APIs - chop.js view
 ===================
