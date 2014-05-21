@@ -86,7 +86,7 @@
     },
 
     append: function (html) {
-      if (html) {
+      if (html !== undefined) {
         this.el.innerHTML = this.el.innerHTML + html;
       }
       return this;
@@ -104,7 +104,7 @@
     },
 
     click: function (callback) {
-      if (!callback) {
+      if (callback == undefined) {
         this.el.click();
       } else {
         this.el.addEventListener('click', callback);
@@ -113,8 +113,8 @@
     },
 
     keypress: function (callback) {
-      if (!callback) {
-        return false;
+      if (callback === undefined) {
+        throw new Error('$ch.keypress requires a parameter.');
       } else {
         this.el.addEventListener('keypress', callback);
         return this;
@@ -122,8 +122,8 @@
     },
 
     change: function (callback) {
-      if (!callback) {
-        return false;
+      if (callback === undefined) {
+        throw new Error('$ch.keypress requires a parameter.');
       } else {
         this.el.addEventListener('change', callback);
         return this;
@@ -196,8 +196,8 @@
       return path.toString().replace(/\/$/, '').replace(/^\//, '');
     },
     add: function(params) {
-      if (!params) {
-        return false;
+      if (params === undefined) {
+        throw new Error('$ch.router.add requires a parameter.');
       }
 
       var re, handler;
@@ -230,6 +230,10 @@
       return this;
     },
     navigate: function(path) {
+      if (arguments.length === 0) {
+        throw new Error('$ch.navigate requires a parameter.');
+      }
+
       path = path ? path : '';
       var firstNotSlash = path.match(/^\/.*/);
       if (!firstNotSlash) {
@@ -306,7 +310,7 @@
     sources: {},
     router: Router,
     find: function (query) {
-      if (query) {
+      if (query !== undefined) {
         var htmlElement = document.querySelector(query);
         if (!htmlElement) {
           return undefined;
@@ -315,12 +319,13 @@
         var elt = Object.create(chopEl);
         elt.el = htmlElement;
         return elt;
+      } else {
+        throw new Error('$ch.find requires a parameter.');
       }
-      return false;
     },
 
     findAll: function (query) {
-      if (query) {
+      if (query !== undefined) {
         var els = document.querySelectorAll(query);
         var elts = [];
         for (var index = 0; index !== els.length; ++index) {
@@ -329,23 +334,14 @@
           elts[index] = elt;
         }
         return elts;
+      } else {
+        throw new Error('$ch.findAll requires a parameter.');
       }
-      return false;
-    },
-
-    model: function (data) {
-      if (arguments.length === 0) {
-        return undefined;
-      }
-
-      var obj = Object.create(chopModel);
-      obj._data = data;
-      return obj;
     },
 
     view: function (data) {
       if (arguments.length === 0) {
-        return false;
+        throw new Error('$ch.view requires a parameter.');
       }
 
       var obj = Object.create(chopView);
@@ -357,7 +353,7 @@
 
     template: function (html, data) {
       if (!html && !data) {
-        return false;
+        throw new Error('invalid parameters for $ch.template.');
       }
 
       if (!data) {
@@ -464,7 +460,7 @@
 
     http: function (param) {
       if (!param.url) {
-        return false;
+        throw new Error('URL parameter not found for $ch.http.');
       }
 
       var url = param.url;
