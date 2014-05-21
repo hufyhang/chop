@@ -71,6 +71,8 @@ Creates and returns a chop.js view object. If no `param` provided, returns `fals
 a value or a function with return value. The `html` represents the HTML of
 the chop.js view.
 
+To manually render a view, call `render()`.
+
 $ch.template(`template`, `data`)
 --------------------------------
 

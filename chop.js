@@ -49,8 +49,8 @@
       }
 
       if (this.el !== undefined) {
-        this.el.html(html);
-        chop._loadView(this.el.el);
+        this.el.innerHTML = html;
+        chop._loadView(this.el);
       } else {
         return html;
       }
@@ -163,10 +163,14 @@
     },
 
     _addView: function (baseElement, v, isAppending) {
-      var result = v.render();
-      // v.el = baseElement;
-      if (result) {
-        if (isAppending) {
+      var result;
+      if (typeof v.html === 'function') {
+        result = v.html();
+      } else {
+        result = v.html;
+      }
+      if (result !== undefined) {
+        if (isAppending === true) {
           baseElement.innerHTML += result;
         } else {
           baseElement.innerHTML = result;
@@ -446,7 +450,9 @@
         var v;
         for (var i = 0; i !== vs.length; ++i) {
           v = vs[i];
+          window[v].el = undefined;
           var result = window[v].render();
+          window[v].el = elements[index];
           if (result) {
             elements[index].innerHTML += result;
           }
