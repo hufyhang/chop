@@ -1,3 +1,12 @@
+/*
+
+  chop.js
+  Licensed under the MIT license
+  Copyright (c) Feifei Hang, 2014
+  https://github.com/hufyhang/chop
+
+*/
+
 (function (window, undefined) {
   'use strict';
   var root = window;
