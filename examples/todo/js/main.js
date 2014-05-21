@@ -8,14 +8,13 @@ var listView = $ch.view({
     var html = '';
     var template = $ch.find('#todo-template').html();
 
-    for (var index = 0; index !== todos.length; ++index) {
-      var item = todos[index];
+    $ch.each(todos, function (item, index) {
       html += $ch.template(template, {
         index: index,
         number: index + 1,
         content: item
       });
-    }
+    });
 
     return html;
   }
@@ -34,13 +33,15 @@ var addTodo = function () {
   todos.push(content);
   $ch.source('msg', '');
 
-  $ch.find('.awesome-container').view([listView, counterView]);
+  listView.render();
+  counterView.render();
 };
 
 var removeTodo = function (index) {
   'use strict';
   todos.splice(index, 1);
-  $ch.find('.awesome-container').view([listView, counterView]);
+  listView.render();
+  counterView.render();
 };
 
 
