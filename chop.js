@@ -689,6 +689,30 @@
       }
 
       return results;
+    },
+
+    store: function (key, value) {
+      if (typeof Storage === 'undefined') {
+        throw new Error('Local storage is not supported by browser.');
+      }
+
+      if (arguments.length === 0) {
+        throw new Error('$ch.store requires at least one parameter.');
+      }
+
+      if (arguments.length === 1) {
+        var data = localStorage.getItem(key);
+        if (data !== null) {
+          data = JSON.parse(data);
+        }
+        return data;
+      } else {
+        if (value === undefined) {
+          throw new Error('$ch.store does not allow undefined value.');
+        }
+
+        localStorage.setItem(key, JSON.stringify(value));
+      }
     }
   };
 //}}}

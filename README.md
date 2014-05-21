@@ -57,10 +57,11 @@ $ch.source(`source`, `data`)
 
 If only `source` provided, returns the value of `source`. Otherwise, sets the value of `source` to `data`.
 
-$ch.model(`data`)
+$ch.store(`key`, `data`)
 -----------------
 
-Creates and returns a chop.js model object. `data` is a javascript object.
+If only `key` provided, returns the value of `key` from local storage.
+Otherwise, sets and saves `key` to `data`.
 
 $ch.view(`param`)
 -----------------

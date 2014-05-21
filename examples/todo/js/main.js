@@ -1,6 +1,10 @@
 /* global $ch */
 
-var todos = ['Coding'];
+var STORAGE = 'todo-list';
+var todos = $ch.store(STORAGE);
+if (todos === null) {
+  todos = ['Coding'];
+}
 
 var listView = $ch.view({
   html: function () {
@@ -35,6 +39,7 @@ var addTodo = function () {
 
   listView.render();
   counterView.render();
+  $ch.store(STORAGE, todos);
 };
 
 var removeTodo = function (index) {
@@ -42,6 +47,7 @@ var removeTodo = function (index) {
   todos.splice(index, 1);
   listView.render();
   counterView.render();
+  $ch.store(STORAGE, todos);
 };
 
 
