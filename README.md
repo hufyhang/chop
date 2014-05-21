@@ -139,32 +139,18 @@ $ch.router.navigate(`path`)
 
 Redirects to `path`.
 
-APIs - chop.js model
-====================
-
-set(`scope`, `data`)
---------------------
-
-Sets `scope` to `data`. If no `scope` provided, targets at whole model data.
-
-get(`scope`, `item`)
---------------------
-
-Returns value of `item` in `scope`. If no `scope` provided, targets at whole model data.
-
-each(`item`, `callback`)
+each(`obj`, `callback`)
 ------------------------
 
-Iterates `item` in model data and call `callback`. Parameters to `callback`:
-`currentItem`, `index`, `wholeItem`.
+Iterates `obj` call `callback`. Parameters to `callback`:
 
-If no `item` provided, iterates whole model data.
+- for array: `currentItem`, `index`, `obj`
+- for object: `key`, `value`, `index`, `obj`
 
-filter(`scope`, `expression`)
+filter(`obj`, `expression`)
 -----------------------------
 
-Filters and returns the array in `scope` according to `expression`.
-If no `scope` provided, targets at whole model data.
+Filters and returns the array in `obj` according to `expression`.
 
 Use prefix `$$.` for data in `expression`. E.g. `'$$.age > 18'`
 
