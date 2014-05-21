@@ -67,8 +67,6 @@ $ch.view(`param`)
 
 Creates and returns a chop.js view object. If no `param` provided, returns `false`.
 
-~~To manually render a view, call `render()`.~~
-
 `param` should at least contains an `html` property, which can be either
 a value or a function with return value. The `html` represents the HTML of
 the chop.js view.
@@ -139,7 +137,7 @@ $ch.router.navigate(`path`)
 
 Redirects to `path`.
 
-each(`obj`, `callback`)
+$ch.each(`obj`, `callback`)
 ------------------------
 
 Iterates `obj` call `callback`. Parameters to `callback`:
@@ -147,7 +145,7 @@ Iterates `obj` call `callback`. Parameters to `callback`:
 - for array: `currentItem`, `index`, `obj`
 - for object: `key`, `value`, `index`, `obj`
 
-filter(`obj`, `expression`)
+$ch.filter(`obj`, `expression`)
 -----------------------------
 
 Filters and returns the array in `obj` according to `expression`.
