@@ -403,16 +403,36 @@
       if (baseElement === undefined) {
         baseElement = document;
       }
+
       // event: click
       this._addEvent(baseElement, 'ch-click', 'click');
+      // event: dbclick
+      this._addEvent(baseElement, 'ch-dbclick', 'dbclick');
+
       // event: keypress
       this._addEvent(baseElement, 'ch-keypress', 'keypress');
       // event: keydown
       this._addEvent(baseElement, 'ch-keydown', 'keydown');
       // event: keyup
       this._addEvent(baseElement, 'ch-keyup', 'keyup');
+
       // event: change
       this._addEvent(baseElement, 'ch-change', 'change');
+
+      // event: mousedown
+      this._addEvent(baseElement, 'ch-mousedown', 'mousedown');
+      // event: mouseup
+      this._addEvent(baseElement, 'ch-mouseup', 'mouseup');
+      // event: mouseenter
+      this._addEvent(baseElement, 'ch-mouseenter', 'mouseenter');
+      // event: mousemove
+      this._addEvent(baseElement, 'ch-mousemove', 'mousemove');
+      // event: mouseout
+      this._addEvent(baseElement, 'ch-mouseout', 'mouseout');
+      // event: mouseover
+      this._addEvent(baseElement, 'ch-mouseover', 'mouseover');
+      // event: mouseleave
+      this._addEvent(baseElement, 'ch-mouseleave', 'mouseleave');
     },
 
     _loadMain: function () {

@@ -27,7 +27,7 @@ ch-view
 
 Sets chop.js view.
 
-ch-keypress, ch-keydown, ch-click, ch-change
+ch-keypress, ch-keydown, ch-click, ch-dbclick, ch-change, ch-mouseover, ch-mouseenter, ch-mouseout, ch-mouseleave, ch-mousemove, ch-mouseup, ch-mousedown
 --------------------------------------------
 
 Adds event listener. Use `$ch.event` for event parameter.
