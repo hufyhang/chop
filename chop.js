@@ -669,10 +669,6 @@
       }
     },
 
-    _checkMatch: function (data, expr) {
-      var $$ = data;
-      return eval(expr);
-    },
     filter: function (obj, expr) {
       var results = [];
       if (arguments.length !== 2) {
@@ -685,7 +681,7 @@
 
       for (var index = 0; index !== obj.length; ++index) {
         var item = obj[index];
-        if (this._checkMatch(item, expr)) {
+        if (expr(item) === true) {
           results.push(item);
         }
       }

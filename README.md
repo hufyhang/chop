@@ -150,7 +150,7 @@ $ch.filter(`obj`, `expression`)
 
 Filters and returns the array in `obj` according to `expression`.
 
-Use prefix `$$.` for data in `expression`. E.g. `'$$.age > 18'`
+`expression` is a function which takes a parameter representing `obj` and returns either true or false.
 
 APIs - chop.js view
 ===================
