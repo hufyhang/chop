@@ -155,6 +155,17 @@ Filters and returns the array in `obj` according to `expression`.
 
 `expression` is a function which takes a parameter representing `obj` and returns either true or false.
 
+$ch.xmlToJson(`xml`)
+--------------------
+
+Converts a `xml` string or object into JSON. Returns the converted javascript object.
+
+$ch.urlParams(`query`)
+----------------------
+
+Returns the URL `query` parameter of the page. If no `query` provided, returns
+all query parameters in a javascript object.
+
 APIs - chop.js view
 ===================
 
