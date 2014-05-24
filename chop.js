@@ -619,7 +619,8 @@
         source.data = data;
         for (var index = 0, l = source.els.length; index !== l; ++index) {
           var element = source.els[index];
-          if (element.tagName.toUpperCase() === 'INPUT') {
+          var tag = element.tagName.toUpperCase();
+          if (tag === 'INPUT' || tag === 'TEXTAREA') {
             element.value = data;
           } else {
             element.innerHTML = data;
