@@ -16,6 +16,24 @@ $ch.require('views', function () {
   tail = views.tail;
 });
 
+
+$ch.source('list', [{
+  name: 'Daniel',
+  age: 26
+}, {
+  name: 'Audrey',
+  age: 25
+}, {
+  name: 'Tom',
+  age: 26
+}]);
+
+var ageFilter = function (item) {
+  'use strict';
+  return item.age > 25;
+};
+
+
 $ch.find('#from-input').focus();
 
 $ch.find('.banner').css('color', 'red')

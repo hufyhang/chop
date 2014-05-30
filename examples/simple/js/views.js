@@ -5,6 +5,7 @@ $ch.define('views', function () {
   html += '<hr/><br/>&copy; 2012-2014 Chop.js';
   html += '<br/><input type="button" value="CLICK" ch-click="sayHi()"/>';
   html += '<br/><input type="button" value="ADVERT" ch-click="gotoAdvert()"/>';
+  html += '<br/><input type="button" value="FILTER in console" ch-click="console.log({{list | filter: ageFilter}})"/>';
 
   var tail = $ch.view({
     html: html

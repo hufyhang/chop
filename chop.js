@@ -397,7 +397,23 @@
             var found = founds[i];
             var key = found.replace(/{/g, '');
             key = key.replace(/}/g, '');
-            callback = callback.replace(found, '$ch.sources.' + key + '.data');
+            // check if using pipe operations e.g. filter
+            var parts = key.split('|');
+            if (parts.length === 1) {
+              callback = callback.replace(found, '$ch.sources.' + key + '.data');
+            } else {
+              key = parts[0].trim();
+              // iterate pipe operations
+              for (var ii = 1; ii !== parts.length; ++ii) {
+                var opt = parts[ii].trim();
+                var isFilter = opt.match(/filter\:.+/g) !== null;
+                if (isFilter) {
+                  opt = opt.replace(/filter\:\ */g, '');
+                  callback = callback.replace(found, '$ch.filter($ch.sources.' +
+                                              key + '.data, ' + opt + ')');
+                }
+              }
+            }
           }
         }
         // espace \{, \}
