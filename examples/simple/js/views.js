@@ -1,6 +1,10 @@
 /* global $ch */
 $ch.define('views', function () {
   'use strict';
+
+  $ch.require('greetings');
+  console.log('CHECK: ' + $ch.modules.greetings.msg);
+
   var html = '';
   html += '<hr/><br/>&copy; 2012-2014 Chop.js';
   html += '<br/><input type="button" value="CLICK" ch-click="sayHi()"/>';

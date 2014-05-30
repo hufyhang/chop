@@ -1,4 +1,6 @@
 /* global $ch */
+$ch.require('addon');
+
 var doClick, doKeypress, sayHi;
 $ch.require('events', function () {
   'use strict';
@@ -45,9 +47,6 @@ $ch.findAll('input').forEach(function (input) {
   'use strict';
   input.css('font-size', '1.5em');
 });
-
-$ch.require('greetings');
-console.log('CHECK: ' + $ch.modules.greetings.msg);
 
 $ch.require('greetings', function () {
   'use strict';
