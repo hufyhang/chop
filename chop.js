@@ -117,7 +117,7 @@
         throw new Error('$ch.on requires an event and a callback parameter.');
       }
 
-      this.el.addEventListener(evt, callback(event));
+      this.el.addEventListener(evt, callback);
     },
 
     click: function (callback) {
