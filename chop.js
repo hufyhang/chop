@@ -841,6 +841,10 @@
 //}}}
 
   root.$ch = chop;
+  root.$$CHOP = chop;
+  root.$$CHOPEL = chopEl;
+  root.$$CHOPVIEW = chopView;
+
   root.onload = function () {
     chop._loadMain();
   };

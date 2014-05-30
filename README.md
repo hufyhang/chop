@@ -214,3 +214,11 @@ change(`callback`)
 
 Adds event listener on change.
 
+
+Chop.js global variables
+========================
+
+- `$ch`/`$$CHOP` -- chop.js main variable.
+- `$$CHOPEL` -- chop.js html element.
+- `$$CHOPVIEW` -- chop.js view.
+
