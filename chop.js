@@ -112,8 +112,16 @@
       }
     },
 
+    on: function (evt, callback) {
+      if (arguments.length !== 2) {
+        throw new Error('$ch.on requires an event and a callback parameter.');
+      }
+
+      this.el.addEventListener(evt, callback(event));
+    },
+
     click: function (callback) {
-      if (callback == undefined) {
+      if (callback === undefined) {
         this.el.click();
       } else {
         this.el.addEventListener('click', callback);

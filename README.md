@@ -194,6 +194,11 @@ attr(`key`, `value`)
 
 Sets attribute `key` to `value`. If no parameters, returns all attributes.
 
+on(`event`, `callback`)
+-----------------------
+
+Registers `callback` to `event`.
+
 click(`callback`)
 -----------------
 
