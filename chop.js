@@ -470,9 +470,11 @@
 
     _loadMain: function () {
       var element = document.querySelector('script[ch-main]');
-      if (!element) {
+      if (element === null) {
         chop._loadView();
+        return;
       }
+
       var script = element.getAttribute('ch-main');
       this._path = script.substring(0, script.lastIndexOf('/') + 1);
       if (script) {

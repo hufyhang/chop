@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Plain Example</title>
+</head>
+<body>
+  <input type="button" class="button" value="Click me" ch-click="console.log({{list | filter: ageFilter}})"/>
+  
+  <script src="chop.min.js"></script>
+  <script>
+    var list = [{
+      name: 'Daniel',
+      age: 26
+    }, {
+      name: 'Audrey',
+      age: 25
+    }, {
+      name: 'Tom',
+      age: 26
+    }];
+
+    $ch.source('list', list);
+
+    var ageFilter = function (item) {
+      return item.age > 25
+    };
+
+  </script>
+</body>
+</html>
