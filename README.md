@@ -37,6 +37,12 @@ ch-source
 
 Defines/adds data sources.
 
+ch-render
+---------
+
+Turns the enclosed HTML element into an inline chop.js template, and renders the
+template according the value chop.js expression.
+
 APIs - $ch
 ==========
 

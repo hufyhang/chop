@@ -6,6 +6,10 @@
 </head>
 <body>
   <input type="button" class="button" value="Click me" ch-click="console.log({{list | filter: ageFilter}})"/>
+
+  <div ch-render="list | filter: ageFilter">
+    <div>{{name}} -- {{age}}</div>
+  </div>
   
   <script src="chop.min.js"></script>
   <script>

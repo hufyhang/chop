@@ -478,6 +478,63 @@
       this._addEvent(baseElement, 'ch-mouseleave', 'mouseleave');
     },
 
+    _renderInline: function (baseElement) {
+      if (baseElement === undefined) {
+        baseElement = document;
+      }
+      var elements = baseElement.querySelectorAll('[ch-render]');
+      var element, renderStr, source;
+      var i;
+      for (var index = 0; index !== elements.length; ++index) {
+        element = elements[index];
+        renderStr = element.getAttribute('ch-render');
+        var parts = renderStr.split('|');
+
+        source = chop.source(parts[0].trim());
+
+        if (parts.length > 1) {
+          for (i = 1; i !== parts.length; ++i) {
+            var part = parts[i].trim();
+            var isFilter = part. match(/filter\:.+/g) !== null;
+            if (isFilter) {
+              part = part.replace(/filter\:\ */g, '');
+              source = chop.filter(source, window[part]);
+            }
+          }
+        }
+
+        var template = element.innerHTML;
+        var html = '';
+        var founds, found, obj, ii;
+        if (_isArray(source)) {
+          for (i = 0; i !== source.length; ++i) {
+            html += template;
+            obj = source[i];
+            founds = template.match(/{{.+?}}/g);
+
+            for (ii = 0; ii !== founds.length; ++ii) {
+              found = founds[ii].replace(/{/g, '');
+              found = found.replace(/}/g, '');
+              html = html.replace(new RegExp(founds[ii], 'g'), obj[found]);
+            }
+
+          }
+        } else {
+          html = template;
+          founds = template.match(/{{.+?}}/g);
+          obj = source;
+
+          for (ii = 0; ii !== founds.length; ++ii) {
+            found = founds[ii].replace(/{/g, '');
+            found = found.replace(/}/g, '');
+            html = html.replace(new RegExp(founds[ii], 'g'), obj[found]);
+          }
+
+        }
+        element.innerHTML = html;
+      }
+    },
+
     _loadMain: function () {
       var element = document.querySelector('script[ch-main]');
       if (element === null) {
@@ -521,6 +578,7 @@
       }
       chop._registerEvents(baseElement);
       chop._bindSources(baseElement);
+      chop._renderInline(baseElement);
     },
 
     http: function (param) {
