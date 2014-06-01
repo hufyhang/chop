@@ -189,6 +189,16 @@ attr(`key`, `value`)
 
 Sets attribute `key` to `value`. If no parameters, returns all attributes.
 
+show()
+------
+
+Shows the element.
+
+hide()
+------
+
+Hides the element.
+
 on(`event`, `callback`)
 -----------------------
 

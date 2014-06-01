@@ -101,6 +101,16 @@
       return this;
     },
 
+    show: function () {
+      this.el.style.display = 'block';
+      return this;
+    },
+
+    hide: function () {
+      this.el.style.display = 'none';
+      return this;
+    },
+
     attr: function (key, value) {
       if (arguments.length === 0) {
         return this.el.attributes;
