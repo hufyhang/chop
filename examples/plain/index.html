@@ -7,7 +7,7 @@
 <body>
   <input type="button" class="button" value="Click me" ch-click="console.log({{list | filter: ageFilter}})"/>
 
-  <div ch-render="list | filter: ageFilter">
+  <div id="list-div" ch-inline="list | filter: ageFilter">
     <div>{{name}} -- {{age}}</div>
   </div>
   

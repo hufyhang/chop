@@ -204,7 +204,48 @@
         }
       }
       this._views.push(v);
-    }
+    },
+
+    inline: function (source) {
+      if (arguments.length === 0) {
+        return;
+      }
+      var element = this.el;
+      var id = element.id;
+      if (id === undefined || chop._inlineTemplates[id] === undefined) {
+        throw new Error('ID attribute is mandatory for chop.js inline template.');
+      }
+
+      var template = chop._inlineTemplates[id];
+      var html = '';
+      var founds, found, obj, i, ii;
+      if (_isArray(source)) {
+        for (i = 0; i !== source.length; ++i) {
+          html += template;
+          obj = source[i];
+          founds = template.match(/{{.+?}}/g);
+
+          for (ii = 0; ii !== founds.length; ++ii) {
+            found = founds[ii].replace(/{/g, '');
+            found = found.replace(/}/g, '');
+            html = html.replace(new RegExp(founds[ii], 'g'), obj[found]);
+          }
+
+        }
+      } else {
+        html = template;
+        founds = template.match(/{{.+?}}/g);
+        obj = source;
+
+        for (ii = 0; ii !== founds.length; ++ii) {
+          found = founds[ii].replace(/{/g, '');
+          found = found.replace(/}/g, '');
+          html = html.replace(new RegExp(founds[ii], 'g'), obj[found]);
+        }
+
+      }
+      this.el.innerHTML = html;
+    },
   };
 //}}}
 
@@ -477,6 +518,7 @@
       this._addEvent(baseElement, 'ch-mouseleave', 'mouseleave');
     },
 
+    _inlineTemplates: {},
     _renderInline: function (baseElement) {
       if (baseElement === undefined) {
         baseElement = document;
@@ -486,6 +528,11 @@
       var i;
       for (var index = 0; index !== elements.length; ++index) {
         element = elements[index];
+        var id = element.getAttribute('id');
+        if (id === undefined) {
+          continue;
+        }
+
         renderStr = element.getAttribute('ch-inline');
         var parts = renderStr.split('|');
 
@@ -503,6 +550,7 @@
         }
 
         var template = element.innerHTML;
+        this._inlineTemplates[id] = template;
         var html = '';
         var founds, found, obj, ii;
         if (_isArray(source)) {

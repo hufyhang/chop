@@ -43,6 +43,8 @@ ch-inline
 Turns the enclosed HTML element into an inline chop.js template, and renders the
 template according the value chop.js expression.
 
+Each ch-inline element __has to__ have an id.
+
 APIs - $ch
 ==========
 
@@ -194,6 +196,11 @@ attr(`key`, `value`)
 --------------------
 
 Sets attribute `key` to `value`. If no parameters, returns all attributes.
+
+inline(`data`)
+----------------
+
+Renders the inline-tempalte element with object `data`.
 
 show()
 ------
