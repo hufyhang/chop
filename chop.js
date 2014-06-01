@@ -205,7 +205,6 @@
       }
       this._views.push(v);
     }
-
   };
 //}}}
 
@@ -482,12 +481,12 @@
       if (baseElement === undefined) {
         baseElement = document;
       }
-      var elements = baseElement.querySelectorAll('[ch-render]');
+      var elements = baseElement.querySelectorAll('[ch-inline]');
       var element, renderStr, source;
       var i;
       for (var index = 0; index !== elements.length; ++index) {
         element = elements[index];
-        renderStr = element.getAttribute('ch-render');
+        renderStr = element.getAttribute('ch-inline');
         var parts = renderStr.split('|');
 
         source = chop.source(parts[0].trim());
