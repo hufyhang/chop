@@ -6,7 +6,7 @@ Dependencies
 
 none
 
-$ch.xmlToJson(`xml`)
+$ch.xml.toJSON(`xml`)
 --------------------
 
 Converts a `xml` string or object into JSON. Returns the converted javascript object.

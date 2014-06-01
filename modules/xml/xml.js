@@ -1,7 +1,9 @@
 /* global $ch, $$CHOP */
 $ch.define('xml', function () {
   'use strict';
-  $$CHOP._xmlToJson = function (xml) {
+  $$CHOP.xml = {};
+
+  $$CHOP.xml._toJSON = function (xml) {
     // Create the return object
     var obj = {};
 
@@ -24,21 +26,21 @@ $ch.define('xml', function () {
         var item = xml.childNodes.item(i);
         var nodeName = item.nodeName;
         if (typeof(obj[nodeName]) === "undefined") {
-          obj[nodeName] = this._xmlToJson(item);
+          obj[nodeName] = this._toJSON(item);
         } else {
           if (typeof(obj[nodeName].push) === "undefined") {
             var old = obj[nodeName];
             obj[nodeName] = [];
             obj[nodeName].push(old);
           }
-          obj[nodeName].push(this._xmlToJson(item));
+          obj[nodeName].push(this._toJSON(item));
         }
       }
     }
     return obj;
   };
 
-  $$CHOP.xmlToJson = function (data) {
+  $$CHOP.xml.toJSON = function (data) {
     var doc;
     if (arguments.length === 0) {
       throw new Error('$ch.xmlToJson requires a parameter.');
@@ -57,7 +59,7 @@ $ch.define('xml', function () {
       doc = data;
     }
 
-    return this._xmlToJson(doc);
+    return this._toJSON(doc);
   };
 
 });
