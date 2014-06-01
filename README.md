@@ -155,11 +155,6 @@ Filters and returns the array in `obj` according to `expression`.
 
 `expression` is a function which takes a parameter representing `obj` and returns either true or false.
 
-$ch.xmlToJson(`xml`)
---------------------
-
-Converts a `xml` string or object into JSON. Returns the converted javascript object.
-
 $ch.urlParams(`query`)
 ----------------------
 
