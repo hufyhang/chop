@@ -215,6 +215,9 @@ $ch.define('crypto', function () {
   $$CHOP.crypto.sha1 = function (msg) {
     // Secure Hash Algorithm (SHA1)
     // http://www.webtoolkit.info/
+    if (arguments.length === 0) {
+      throw new Error('crypto.sha1 has to be given a string.');
+    }
 
     function rotate_left(n,s) {
         var t4 = ( n<<s ) | (n>>>(32-s));
