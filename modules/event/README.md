@@ -15,3 +15,13 @@ $ch.event.emit(`event`, `data`)
 -----------------------
 
 Emits `event` signal and passes parameter `data`.
+
+$ch.event.watch(`source`, `callback`)
+-------------------------------------
+
+Triggers `callback` if data source `source` is changed.
+
+$ch.event.unwatch(`source`)
+---------------------------
+
+Unwatchs the changes on `source`.
