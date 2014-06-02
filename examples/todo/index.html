@@ -6,14 +6,6 @@
 
     <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/superhero/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
-    <script type="text/template" id="todo-template">
-      <div>
-        <div class="alert alert-info" ch-click="removeTodo({{index}});">
-          <span>{{number}} - </span>
-          {{content}}
-        </div>
-      </div>
-    </script>
 </head>
 <body>
 
@@ -26,7 +18,12 @@
       </div>
       <br/>Preview: <div class="preview" ch-source="msg"></div>
 
-      <div class="awesome-container" ch-view="listView"></div>
+      <div class="awesome-container" id="awesome-inline" ch-inline="todos">
+        <div class="alert alert-info" ch-click="removeTodo({{index}});">
+          <span>{{number}} - </span> {{content}}
+        </div>
+      </div>
+
       <div class="counter-container" ch-view="counterView"></div>
 
     </div>

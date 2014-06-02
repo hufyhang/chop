@@ -1,28 +1,17 @@
 /* global $ch */
+$ch.require('event');
 
 var STORAGE = 'todo-list';
 var todos = $ch.store(STORAGE);
 if (todos === null) {
-  todos = ['Coding'];
+  todos = [{
+    index: 0,
+    number: 1,
+    content: 'Coding'
+  }];
 }
 
-var listView = $ch.view({
-  html: function () {
-    'use strict';
-    var html = '';
-    var template = $ch.find('#todo-template').html();
-
-    $ch.each(todos, function (item, index) {
-      html += $ch.template(template, {
-        index: index,
-        number: index + 1,
-        content: item
-      });
-    });
-
-    return html;
-  }
-});
+$ch.source('todos', todos);
 
 var counterView = $ch.view({
   html: function () {
@@ -34,21 +23,34 @@ var counterView = $ch.view({
 var addTodo = function () {
   'use strict';
   var content = $ch.source('msg');
-  todos.push(content);
+  todos.push({
+    index: todos.length,
+    number: todos.length + 1,
+    content: content
+  });
   $ch.source('msg', '');
 
-  listView.render();
-  counterView.render();
-  $ch.store(STORAGE, todos);
+  $ch.event.emit('update');
 };
 
-var removeTodo = function (index) {
+var removeTodo = function (id) {
   'use strict';
-  todos.splice(index, 1);
-  listView.render();
-  counterView.render();
-  $ch.store(STORAGE, todos);
+  todos.splice(id, 1);
+  $ch.each(todos, function(item, index) {
+    item.index = index;
+    item.number = index + 1;
+  });
+  $ch.event.emit('update');
 };
 
 
 $ch.find('#todo-input').focus();
+
+$ch.event.listen('update', function () {
+  'use strict';
+  console.log('emit');
+  $ch.source('todos', todos);
+  $ch.find('#awesome-inline').inline();
+  counterView.render();
+  $ch.store(STORAGE, todos);
+});
