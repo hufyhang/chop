@@ -1,5 +1,5 @@
 /* global $ch */
-$ch.require('addon');
+$ch.require(['module/router', 'addon']);
 
 var doClick, doKeypress, sayHi;
 $ch.require('events', function () {
