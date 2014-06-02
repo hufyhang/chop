@@ -207,18 +207,35 @@
     },
 
     inline: function (source) {
-      if (arguments.length === 0) {
-        return;
-      }
       var element = this.el;
       var id = element.id;
-      if (id === undefined || chop._inlineTemplates[id] === undefined) {
+      if (id === undefined || chop._inlineTemplates['#' + id] === undefined) {
         throw new Error('ID attribute is mandatory for chop.js inline template.');
       }
 
-      var template = chop._inlineTemplates[id];
+      var template = chop._inlineTemplates['#' + id];
       var html = '';
       var founds, found, obj, i, ii;
+      if (arguments.length === 0) {
+        var inlineStr = element.getAttribute('ch-inline');
+        var substr = inlineStr.split('|');
+        var src = substr[0].trim();
+        var filter;
+        if (substr.length > 1) {
+          for (var fi = 1; fi !== substr.length; ++fi) {
+            if (substr[fi].trim().match(/filter\:.+/g)) {
+              filter = substr[fi].trim().replace(/filter\:\ */g, '');
+            }
+          }
+        }
+
+        if (filter === undefined) {
+          source = chop.source(src);
+        } else {
+          source = chop.filter(chop.source(src), window[filter]);
+        }
+
+      }
       if (_isArray(source)) {
         for (i = 0; i !== source.length; ++i) {
           html += template;
@@ -242,8 +259,8 @@
           found = found.replace(/}/g, '');
           html = html.replace(new RegExp(founds[ii], 'g'), obj[found]);
         }
-
       }
+
       this.el.innerHTML = html;
     },
   };
@@ -431,7 +448,6 @@
         }
 
         var template = element.innerHTML;
-        this._inlineTemplates[id] = template;
         var html = '';
         var founds, found, obj, ii;
         if (_isArray(source)) {
@@ -467,7 +483,24 @@
       }
     },
 
+    _addInlineTemplate: function (baseElement) {
+      if (baseElement === undefined) {
+        baseElement = document;
+      }
+      var elements = baseElement.querySelectorAll('[ch-inline]');
+      for (var index = 0; index !== elements.length; ++index) {
+        var element = elements[index];
+        var id = element.getAttribute('id');
+        if (id === undefined) {
+          continue;
+        }
+        chop._inlineTemplates['#' + id] = element.innerHTML;
+      }
+    },
+
     _loadMain: function () {
+      chop._addInlineTemplate();
+
       var element = document.querySelector('script[ch-main]');
       if (element === null) {
         chop._loadView();
