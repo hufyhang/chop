@@ -326,7 +326,7 @@
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
         var callback = elements[index].getAttribute(attr);
-        callback = callback.replace(/\$ch\.event/g, 'arguments[0]');
+        callback = callback.replace(/\$\$event/g, 'arguments[0]');
 
         var founds = callback.match(/{{.+?}}/g);
         if (founds) {
