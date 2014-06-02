@@ -11,7 +11,7 @@ $ch.event.listen(`event`, `callback`)
 
 Listens `event` for `callback`.
 
-$ch.event.emit(`event`)
+$ch.event.emit(`event`, `data`)
 -----------------------
 
-Emits `event` signal.
+Emits `event` signal and passes parameter `data`.

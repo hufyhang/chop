@@ -273,6 +273,10 @@
     els: [],
     modules: {},
     sources: {},
+
+    _isArray: _isArray,
+    isArray: _isArray,
+
     find: function (query) {
       if (query !== undefined) {
         var htmlElement = document.querySelector(query);

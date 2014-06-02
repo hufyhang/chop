@@ -25,16 +25,16 @@ $ch.define('event', function () {
       events[evt]._callback = callback;
     },
 
-    emit: function (evt) {
+    emit: function (evt, data) {
       if (arguments.length === 0) {
-        throw new Error('$ch.event.emit requires one parameter.');
+        throw new Error('$ch.event.emit requires at least one parameter.');
       }
 
       if (events[evt] === undefined) {
         return undefined;
       }
 
-      events[evt]._callback();
+      events[evt]._callback(data);
     }
   };
 });
