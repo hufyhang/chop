@@ -127,27 +127,6 @@ Requires/loads a chop.js module.
 - `module`: chop.js module name. If multiple modules, then in the form of an array.
 - `function`: _optional_. The callback function on module loaded.
 
-$ch.router.add(`param`)
------------------------
-
-Adds hash routings. E.g.:
-
-~~~
-$ch.router.add({
-    'home': function () {...},
-    'user/:id': function (params) {
-        console.log(params.id);
-    }
-});
-~~~
-
-- `param`: the routing rules in the form of an object. E.g. `{'home': function () {...}}`
-
-$ch.router.navigate(`path`)
----------------------------
-
-Redirects to `path`.
-
 $ch.each(`obj`, `callback`)
 ------------------------
 
