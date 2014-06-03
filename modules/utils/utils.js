@@ -158,7 +158,7 @@ $ch.define('utils', function () {
     },
 
     isEqual: function (a, b) {
-      if (arguments.length !== 1) {
+      if (arguments.length !== 2) {
         throw new Error('$ch.utils.isEqual requires two parameters.');
       }
       var index, len;
