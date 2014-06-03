@@ -68,6 +68,7 @@ $ch.define('event', function () {
         events[evt]._callback(data);
       } else {
         for (var index = 0, len = evt.length; index !== len; ++index) {
+          console.log(evt[index]);
           events[evt[index]]._callback(data);
         }
       }
