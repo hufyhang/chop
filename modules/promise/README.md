@@ -11,6 +11,24 @@ $ch.promise.defer()
 
 Returns a chop.js promise object.
 
+.resolve(`data`)
+----------------
+
+Resolves the promise with `data`.
+
+.reject(`data`)
+-----------------
+
+Rejects the promise with `data`.
+
+.then(`resolve`, `reject`)
+--------------------------
+
+Defines the `resolve` function as the callback on promise resolved and `reject` as
+the callback on reject.
+
+`reject` is optional.
+
 Usage example
 -------------
 
@@ -36,8 +54,11 @@ var ajax = function () {
 
 ajax().then(function (res) {
     console.log(res.data);
-}).save(function (res) {
-    console.log('Error: ' + res.statuscode);     
+    return res.data.toUpperCase();
+}).then(function (data) {
+    console.log('Upper: ' + data);     
+}, function (data) {
+    console.log('Error: ' + data.statusCode);
 });
 ~~~~~~
 

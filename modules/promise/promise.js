@@ -11,13 +11,12 @@ $ch.define('promise', function () {
         callbacks: [],
         saveCallback: undefined,
 
-        then: function (callback) {
+        then: function (callback, rejectCallback) {
+          if (arguments.length === 0) {
+            throw new Error('$ch.promise.event requires at least a resolve callback parameter.');
+          }
           this.callbacks.push(callback);
-          return this;
-        },
-
-        save: function (callback) {
-          this.saveCallback = callback;
+          this.saveCallback = rejectCallback;
           return this;
         },
 
