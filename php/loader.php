@@ -1,4 +1,6 @@
 <?php
+header('Content-Type: text/javascript;charset=utf-8');
+
 $GITHUB = 'https://raw.githubusercontent.com/hufyhang/chop/master/modules/';
 $module = $_GET['module'];
 $url = $GITHUB . $module . '/' . $module . '.min.js';
