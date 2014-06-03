@@ -265,6 +265,7 @@
 
       this.el.innerHTML = html;
       chop._loadView(this.el);
+      return this;
     },
   };
 //}}}
