@@ -119,12 +119,14 @@ $ch.module(`module`)
 
 Returns the returned data of `module`.
 
-$ch.require(`module`, `function`)
+$ch.require(`module`, `useLoader`, `function`)
 ---------------------------------
 
 Requires/loads a chop.js module.
 
 - `module`: chop.js module name. If multiple modules, then in the form of an array.
+- `useLoader`: [__Optional__] either `true` or `false` to define if to use
+Chop.js online module loader. Default: `true`.
 - `function`: _optional_. The callback function on module loaded.
 
 $ch.each(`obj`, `callback`)

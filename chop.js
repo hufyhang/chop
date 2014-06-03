@@ -10,6 +10,7 @@
 (function (window, undefined) {
   'use strict';
   var root = window;
+  var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
 
   // browser utils functions//{{{
   var _isArray = function (value) {
@@ -608,7 +609,7 @@
       this.modules[name] = callback();
     },
 
-    _useModule: function (srcs, callback) {
+    _useModule: function (srcs, useLoader, callback) {
       var tempSrcs = srcs;
       var script = tempSrcs.shift();
       var scriptEl;
@@ -617,9 +618,15 @@
       var hasScriptInHead = document.querySelector('script[ch-module="' +
                                                    script + '"]');
       if (!hasScriptInHead) {
+        var url = this._path + script + '.js';
+        if (useLoader === true) {
+          if (script.indexOf('-') === -1) {
+            url = MODULE_LOADER + script ;
+          }
+        }
         // synchronously download script
         var text = this.http({
-          url: this._path + script + '.js',
+          url: url,
           method: 'get',
           async: false
         });
@@ -634,9 +641,9 @@
       }
     },
 
-    _executeModule: function (srcs, callback) {
+    _executeModule: function (srcs, useLoader, callback) {
       if (srcs.length) {
-        this._useModule(srcs, callback);
+        this._useModule(srcs, useLoader, callback);
       } else {
         if (callback) {
           callback();
@@ -644,16 +651,24 @@
       }
     },
 
-    require: function (srcs, callback) {
+    require: function (srcs, useLoader, callback) {
       if (!srcs) {
         return false;
+      }
+
+      if (useLoader === 'function' || useLoader === undefined) {
+        useLoader = true;
+      }
+
+      if (callback === undefined) {
+        callback = useLoader;
       }
 
       if (!_isArray(srcs)) {
         srcs = [srcs];
       }
 
-      this._useModule(srcs, callback);
+      this._useModule(srcs, useLoader, callback);
     },
 
     module: function (mod) {

@@ -48,7 +48,6 @@ $ch.find('#todo-input').focus();
 
 $ch.event.listen('update', function () {
   'use strict';
-  console.log('emit');
   $ch.source('todos', todos);
   $ch.find('#awesome-inline').inline();
   counterView.render();
