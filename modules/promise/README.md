@@ -20,7 +20,12 @@ var ajax = function () {
     $ch.http({
         url: 'http://example.com',
         done: function (res) {
-            promise.resolve(res);
+            if (res.statusCode === 200) {
+                promise.resolve(res);
+            } else {
+             
+                promise.reject(res);
+            }
         }
     });
 
@@ -31,6 +36,8 @@ var ajax = function () {
 
 ajax().then(function (res) {
     console.log(res.data);
+}).save(function (res) {
+    console.log('Error: ' + res.statuscode);     
 });
 ~~~~~~
 

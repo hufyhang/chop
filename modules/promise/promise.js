@@ -9,9 +9,15 @@ $ch.define('promise', function () {
         promise: this,
         data: undefined,
         callbacks: [],
+        saveCallback: undefined,
 
         then: function (callback) {
           this.callbacks.push(callback);
+          return this;
+        },
+
+        save: function (callback) {
+          this.saveCallback = callback;
           return this;
         },
 
@@ -21,6 +27,11 @@ $ch.define('promise', function () {
           $$CHOP.each(this.callbacks, function (callback) {
             that.data = callback(that.data);
           });
+        },
+
+        reject: function (data) {
+          this.data = data;
+          this.saveCallback(this.data);
         }
       };
       return promise;
