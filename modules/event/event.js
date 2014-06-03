@@ -61,11 +61,17 @@ $ch.define('event', function () {
         throw new Error('$ch.event.emit requires at least one parameter.');
       }
 
-      if (events[evt] === undefined) {
-        return undefined;
+      if ($$CHOP.isArray(evt) === false) {
+        if (events[evt] === undefined) {
+          return undefined;
+        }
+        events[evt]._callback(data);
+      } else {
+        for (var index = 0, len = evt.length; index !== len; ++index) {
+          events[evt[index]]._callback(data);
+        }
       }
 
-      events[evt]._callback(data);
     },
 
     watch: function (name, callback) {
