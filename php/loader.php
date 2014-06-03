@@ -1,7 +1,7 @@
 <?php
 $GITHUB = 'https://raw.githubusercontent.com/hufyhang/chop/master/modules/';
 $module = $_GET['module'];
-$url = $GITHUB . $module . '/' . $module . '.js';
+$url = $GITHUB . $module . '/' . $module . '.min.js';
 echo url_get_contents($url);
 
 function url_get_contents ($url) {
