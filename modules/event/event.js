@@ -92,6 +92,10 @@ $ch.define('event', function () {
       };
 
       var watchChange = function () {
+        if ($$CHOP.sources[name].data === watches[name].old) {
+          return;
+        }
+
         var changes = {};
         var current = $$CHOP.sources[name].data;
         changes.current = current;
