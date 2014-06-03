@@ -114,6 +114,9 @@ Defines a chop.js module.
 - `name`: the name of the module. __Has to be same with filename, but without extension name (i.e. `.js`)__
 - `function`: the function of the module. The return value will be stored in `$ch.module.module_name`.
 
+The name of each customized module _MUST_ contains at least one hypen. E.g.
+`my-module`.
+
 $ch.module(`module`)
 --------------------
 
