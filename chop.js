@@ -188,6 +188,7 @@
         }
         chop._loadView(baseElement);
       }
+      return this;
     },
 
     _addView: function (baseElement, v, isAppending) {
