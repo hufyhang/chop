@@ -61,14 +61,13 @@ $ch.define('event', function () {
         throw new Error('$ch.event.emit requires at least one parameter.');
       }
 
-      if ($$CHOP.isArray(evt) === false) {
+      if ($$CHOP._isArray(evt) === false) {
         if (events[evt] === undefined) {
           return undefined;
         }
         events[evt]._callback(data);
       } else {
         for (var index = 0, len = evt.length; index !== len; ++index) {
-          console.log(evt[index]);
           events[evt[index]]._callback(data);
         }
       }
