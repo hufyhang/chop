@@ -14,6 +14,7 @@ $ch.define('promise', function () {
 
     resolve: function (data) {
       this.data = data;
+      console.log('Check: ' + this.data);
       $$CHOP.each(this.callbacks, function (callback) {
         this.data = callback(this.data);
       });
