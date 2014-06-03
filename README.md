@@ -15,6 +15,8 @@ Browser support
 Usage
 =====
 
+Put the following code at the bottom of `body` tag:
+
     <script src="chop.js" ch-main="js/main.js"></script>
 
 - The `ch-main` attribute indicates the entry point/script of the web page.
