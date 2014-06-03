@@ -21,6 +21,8 @@ $ch.event.watch(`source`, `callback`)
 
 Triggers `callback` if data source `source` is changed.
 
+Parameter to `callback`: `change`. `change` contains `.current` and `.old`.
+
 $ch.event.unwatch(`source`)
 ---------------------------
 

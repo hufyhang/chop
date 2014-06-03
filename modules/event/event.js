@@ -3,7 +3,8 @@ $ch.define('event', function () {
   'use strict';
   var events = {};
   var watches = {};
-  var WATCH_DELAY = 500;
+
+  $$CHOP.originalSourceFunction = $$CHOP.source;
 
   var objLength = function (obj) {
     var num = 0;
@@ -14,6 +15,21 @@ $ch.define('event', function () {
     }
 
     return num;
+  };
+
+  var getEventType = function (element) {
+    var event = 'change';
+    if (element.tagName.toUpperCase() === 'TEXTAREA') {
+      event = 'keypress';
+    }
+    else if (element.tagName.toUpperCase() === 'INPUT') {
+      var typeAttribute = element.getAttribute('type').toUpperCase();
+      var isTextInput = typeAttribute === 'TEXT' || typeAttribute === 'PASSWORD';
+      if (isTextInput) {
+        event = 'keypress';
+      }
+    }
+    return event;
   };
 
   $$CHOP.event = {};
@@ -74,6 +90,23 @@ $ch.define('event', function () {
         old: value,
         callback: callback
       };
+
+      var watchChange = function () {
+        var changes = {};
+        var current = $$CHOP.sources[name].data;
+        changes.current = current;
+        changes.old = watches[name].old;
+        callback(changes);
+        watches[name].old = current;
+      };
+
+      watches[name].watchChange = watchChange;
+
+      for (var index = 0, len = $$CHOP.sources[name].els.length; index !== len; ++index) {
+        var element = $$CHOP.sources[name].els[index];
+        var event = getEventType(element);
+        element.addEventListener(event, watchChange);
+      }
     },
 
     unwatch: function (name) {
@@ -81,56 +114,76 @@ $ch.define('event', function () {
         throw new Error('$ch.event.unwatch has to be given a data-source name parameter.');
       }
 
+      for (var index = 0, len = $$CHOP.sources[name].els.length; index !== len; ++index) {
+        var element = $$CHOP.sources[name].els[index];
+        var event = getEventType(element);
+        element.removeEventListener(event, watches[name].watchChange);
+      }
       delete watches[name];
     }
   };
 
-  var checkWath = function () {
-    $$CHOP.each(watches, function (key) {
-      var item = watches[key];
-      var current = $$CHOP.sources[item.source].data;
-      var hasChanged = false;
-      if (typeof current !== typeof item.old) {
-        hasChanged = true;
-      }
+  var checkWath = function (key) {
+    var item = watches[key];
+    if (item === undefined) {
+      return undefined;
+    }
 
-      else if ($$CHOP._isArray(current)) {
-        if (current.length !== item.old.length) {
-          hasChanged = true;
-        } else {
-          for (var index = 0, len = current.length; index !== len; ++index) {
-            if (current[index] !== item.old[index]) {
-              hasChanged = true;
-              break;
-            }
+    var current = $$CHOP.sources[item.source].data;
+    var hasChanged = false;
+    if (typeof current !== typeof item.old) {
+      hasChanged = true;
+    }
+
+    else if ($$CHOP._isArray(current)) {
+      if (current.length !== item.old.length) {
+        hasChanged = true;
+      } else {
+        for (var index = 0, len = current.length; index !== len; ++index) {
+          if (current[index] !== item.old[index]) {
+            hasChanged = true;
+            break;
           }
         }
       }
+    }
 
-      else if (typeof current === 'object' && hasChanged === false) {
-        if (objLength(current) !== objLength(item.old)) {
-          hasChanged = true;
-        } else {
-          $$CHOP.each(current, function (key) {
-            if (current[key] !== item.old[key]) {
-              hasChanged = true;
-            }
-          });
-        }
-      }
-
-      else if (current !== item.old && hasChanged === false){
+    else if (typeof current === 'object' && hasChanged === false) {
+      if (objLength(current) !== objLength(item.old)) {
         hasChanged = true;
+      } else {
+        $$CHOP.each(current, function (key) {
+          if (current[key] !== item.old[key]) {
+            hasChanged = true;
+          }
+        });
       }
+    }
 
-      if (hasChanged === true) {
-        item.current = current;
-        item.old = current;
-        item.callback(item);
-      }
+    else if (current !== item.old && hasChanged === false){
+      hasChanged = true;
+    }
 
-    });
+    if (hasChanged === true) {
+      item.current = current;
+      item.old = current;
+      item.callback(item);
+    }
+
   };
 
-  window.setInterval(checkWath, WATCH_DELAY);
+  var eventSource = function (name, data) {
+    if (arguments.length === 0) {
+      return $$CHOP.originalSourceFunction();
+    }
+    else if (arguments.length === 1) {
+      return $$CHOP.originalSourceFunction(name);
+    }
+    else {
+      $$CHOP.originalSourceFunction(name, data);
+      checkWath(name);
+    }
+  };
+
+  $$CHOP.source = eventSource;
 });
