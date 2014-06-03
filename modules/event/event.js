@@ -20,13 +20,13 @@ $ch.define('event', function () {
   var getEventType = function (element) {
     var event = 'change';
     if (element.tagName.toUpperCase() === 'TEXTAREA') {
-      event = 'keypress';
+      event = 'keyup';
     }
     else if (element.tagName.toUpperCase() === 'INPUT') {
       var typeAttribute = element.getAttribute('type').toUpperCase();
       var isTextInput = typeAttribute === 'TEXT' || typeAttribute === 'PASSWORD';
       if (isTextInput) {
-        event = 'keypress';
+        event = 'keyup';
       }
     }
     return event;
