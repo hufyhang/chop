@@ -30,6 +30,9 @@ $ch.define('promise', function () {
 
         reject: function (data) {
           this.data = data;
+          if (this.saveCallback === undefined) {
+            throw new Error('$ch.promise reject callback function is missing.');
+          }
           this.saveCallback(this.data);
         }
       };
