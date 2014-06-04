@@ -128,7 +128,7 @@ $ch.define('ui', function () {
   // pager button//{{{
   $$CHOPEL.pager = function (callback) {
     var element = this.el;
-    reset(e);
+    reset(element);
 
     element.style.color = '#2fa4e7';
     element.style.textShadow = 'none';
