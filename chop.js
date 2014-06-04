@@ -103,11 +103,12 @@
     },
 
     show: function () {
-      this.el.style.display = 'block';
+      this.el.style.display = this._display;
       return this;
     },
 
     hide: function () {
+      this._display = this.el.style.display;
       this.el.style.display = 'none';
       return this;
     },
@@ -121,6 +122,19 @@
         }
         return this;
       }
+    },
+
+    removeAttr: function (key) {
+      if (chop.isArray(key)) {
+        chop.each(key, function (attr) {
+          this.el.removeAttribute(attr);
+        });
+      }
+
+      if (typeof key === 'string') {
+        this.el.removeAttribute(key);
+      }
+      return this;
     },
 
     on: function (evt, callback) {
@@ -275,11 +289,22 @@
   var chop = {
     _path: '',
     els: [],
+    _chopEls: [],
     modules: {},
     sources: {},
 
     _isArray: _isArray,
     isArray: _isArray,
+
+    indexOfElement: function (element) {
+      for (var index = 0, len = this._chopEls.length; index !== len; ++index) {
+        var chel = this._chopEls[index];
+        if (chel.el === element) {
+          return index;
+        }
+      }
+      return -1;
+    },
 
     find: function (query) {
       if (query !== undefined) {
@@ -288,8 +313,17 @@
           return undefined;
         }
 
-        var elt = Object.create(chopEl);
-        elt.el = htmlElement;
+        var elt;
+        var elementIndex = this.indexOfElement(htmlElement);
+        if (elementIndex === -1) {
+          elt = Object.create(chopEl);
+          elt.el = htmlElement;
+          elt._display = elt.el.style.display;
+          this._chopEls.push(elt);
+        } else {
+          elt = this._chopEls[elementIndex];
+        }
+
         return elt;
       } else {
         throw new Error('$ch.find requires a parameter.');
@@ -301,8 +335,16 @@
         var els = document.querySelectorAll(query);
         var elts = [];
         for (var index = 0; index !== els.length; ++index) {
-          var elt = Object.create(chopEl);
-          elt.el = els[index];
+          var elt;
+          var elementIndex = this.indexOfElement(els[index]);
+          if (elementIndex === -1) {
+            elt = Object.create(chopEl);
+            elt.el = els[index];
+            elt._display = elt.el.style.display;
+            this._chopEls.push(elt);
+          } else {
+            elt = this._chopEls[elementIndex];
+          }
           elts[index] = elt;
         }
         return elts;

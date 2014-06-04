@@ -177,6 +177,11 @@ attr(`key`, `value`)
 
 Sets attribute `key` to `value`. If no parameters, returns all attributes.
 
+removeAttr(`key`)
+--------------------
+
+Removes attribute `key`.
+
 inline(`data`)
 ----------------
 

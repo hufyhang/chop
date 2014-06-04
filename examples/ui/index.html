@@ -37,13 +37,18 @@
     <div id="pager-btn">Next</div>
   </div>
 
+  <div id="inline-message" ch-inline="inline">
+    <hr />
+    {{information}}
+  </div>
+
   <div class="empty"></div>
 
   <script src="chop.min.js"></script>
   <script>
     $ch.require('ui', false);
-    $ch.find('#input').input();
-    $ch.find('#textarea').input();
+    $ch.find('#input').input().css('width', '50%');
+    $ch.find('#textarea').input().css('width', '50%');
     $ch.find('#click-btn').button(function () {
       'use strict';
       alert('Message:\n' + $ch.source('message'));
@@ -53,17 +58,18 @@
     $ch.find('#select').dropbox(function (value) {
       'use strict';
       console.log('Selected: ' + value);
-    });
+    }).css('width', '50%');
 
     $ch.find('#multipe-select').selectbox(function (value) {
       'use strict';
       console.log('Selected: ' + value);
-    });
+    }).css('width', '50%');
 
     $ch.find('#pager-btn').pager(function () {
        console.log('Clicked pager button.')
     });
 
+    $ch.source('inline', {information: 'Have fun with Chop.js!!!'});
   </script>
 </body>
 </html>
