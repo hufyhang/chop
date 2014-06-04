@@ -16,7 +16,7 @@
 
   <h5>Only the people whose age is greater than 20 will be shown below:</h5>
   <br />
-  <div id="preview" ch-inline="person | filter: ageFilter">
+  <div id="preview" ch-inline="person | filter: ageFilter" ch-init="person = []">
     <div>
       {{name}} is recently {{age}} years old.
     </div>

@@ -24,6 +24,11 @@ Put the following code at the bottom of `body` tag:
 APIs - HTML attributes
 ===========
 
+ch-init
+-------
+
+Initializes data sources. E.g. ch-init="list = []; msg = {from: 'a', to: 'b'}"
+
 ch-view
 -------
 

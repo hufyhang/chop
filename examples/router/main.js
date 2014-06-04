@@ -5,11 +5,6 @@ $ch.find('#name-input').input().focus();
 $ch.find('#age-input').input();
 $ch.find('#click-btn').button();
 
-$ch.source('person', [{
-  name: '',
-  age: ''
-}]);
-
 var ageFilter = function (item) {
   'use strict';
   return item.age > 20;

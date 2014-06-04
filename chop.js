@@ -549,7 +549,31 @@
       }
     },
 
+    _loadInit: function (baseElement) {
+      if (baseElement === undefined) {
+        baseElement = document;
+      }
+      var elements = baseElement.querySelectorAll('[ch-init]');
+      for (var index = 0, len = elements.length; index !== len; ++index) {
+        var element = elements[index];
+        var str = element.getAttribute('ch-init');
+        if (str === undefined) {
+          return;
+        }
+        var strs = str.trim().split(';');
+        for (var i = 0, l = strs.length; i !== l; ++i) {
+          var init = strs[i].trim();
+          var name = init.split('=')[0].trim();
+          init = init.replace(/\'/g, '\\\'');
+          init = init.replace(name, 'data');
+          var data = eval(init);
+          this.source(name, data);
+        }
+      }
+    },
+
     _loadMain: function () {
+      chop._loadInit();
       chop._addInlineTemplate();
 
       var element = document.querySelector('script[ch-main]');
@@ -592,6 +616,8 @@
           }
         }
       }
+
+      chop._loadInit(baseElement);
       chop._registerEvents(baseElement);
       chop._bindSources(baseElement);
       chop._renderInline(baseElement);
