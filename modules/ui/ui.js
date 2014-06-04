@@ -107,6 +107,7 @@ $ch.define('ui', function () {
   $$CHOPEL.pager = function (callback) {
     var element = this.el;
     element.style.color = '#2fa4e7';
+    element.style.textShadow = 'none';
     element.style.background = '#ffffff';
     element.style.display = 'inline-block';
     element.style.fontWeight = 'normal';
