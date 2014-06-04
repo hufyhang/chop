@@ -18,3 +18,12 @@ Returns the result of calculation `calc`. `calc` has to be a string.
 $ch.math.eval('0.1 + 0.2')
 // 0.3
 ~~~
+
+- When conducting nested calculation with `^` inside, use ` `(whitespace) to
+indicate different nesting level.
+
+E.g.
+
+~~~
+$ch.math.eval('log( sin(10)^2 )');
+~~~

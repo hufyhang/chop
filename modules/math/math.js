@@ -77,7 +77,7 @@ $ch.define('math', function () {
       });
     }
 
-    var pows =  str.match(/[-.\d]*\d*\ *\^\ *[-.\d]*\d*/g);
+    var pows =  str.match(/[-.\w\d()]+\ *\^\ *[-.\w\d()]+/g);
     if (pows !== null) {
       $$CHOP.each(pows, function (pow) {
         var mathStr = pow.replace(/\^/g, ',');
