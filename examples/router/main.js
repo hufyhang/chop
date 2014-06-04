@@ -1,5 +1,5 @@
 /* global $ch */
-$ch.require(['ui', 'event', 'router']);
+$ch.require(['ui', 'event', 'router', 'my-addon']);
 
 $ch.find('#name-input').input().focus();
 $ch.find('#age-input').input();
@@ -42,3 +42,5 @@ $ch.router.add({
     $ch.event.emit('greeting', {name: param.name, age: param.age});
   }
 });
+
+$ch.addon('Hello, ' + $ch.module('my-addon').name + '!!!');
