@@ -77,7 +77,15 @@ $ch.define('math', function () {
       });
     }
 
-    var pows =  str.match(/[-.\w\d()]+\ *\^\ *[-.\w\d()]+/g);
+    var pows =  str.match(/pow\(.*?\)/g);
+    if (pows !== null) {
+      $$CHOP.each(pows, function (pow) {
+        var mathStr = pow.replace(/pow\(/g, 'Math.pow(');
+        str = str.replace(pow, mathStr);
+      });
+    }
+
+    pows =  str.match(/[-.\w\d()]+\ *\^\ *[-.\w\d()]+/g);
     if (pows !== null) {
       $$CHOP.each(pows, function (pow) {
         var mathStr = pow.replace(/\^/g, ',');
