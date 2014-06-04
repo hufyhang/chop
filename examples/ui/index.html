@@ -7,10 +7,10 @@
 <body>
 
   <div>
-    <input type="text" id="input" value="" placeholder="Text of the click button..." ch-source="input-source"/>
+    <input type="text" id="input" value="" placeholder="Text of the click button..." ch-source="btn-name"/>
     <br/>
 
-    <div id="click-btn" ch-source="input-source">Click me</div>
+    <div id="click-btn" ch-source="btn-name">Click me</div>
     <br/>
 
     <textarea id="textarea" ch-source="message" placeholder="Message to show..."></textarea>
@@ -31,20 +31,6 @@
     <br/>
   </div>
 
-  <script src="chop.min.js"></script>
-  <script>
-    $ch.require('ui', false);
-    $ch.find('#input').input();
-    $ch.find('#textarea').input();
-    $ch.find('#click-btn').button(function () {
-      alert('Message:\n' + $ch.source('message'));
-    });
-    $ch.find('#select').dropbox(function (value) {
-      console.log('Selected: ' + value);
-    });
-    $ch.find('#multipe-select').selectbox(function (value) {
-      console.log('Selected: ' + value);
-    });
-  </script>
+  <script src="chop.min.js" ch-main="main.js"></script>
 </body>
 </html>

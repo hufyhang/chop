@@ -741,11 +741,14 @@
         source.els.push(element);
         source.data = val;
 
+        var that = this;
         element.addEventListener('keyup', function () {
+          var source = that.sources[this.getAttribute('ch-source')];
           source.data = this.value;
           source.els.forEach(function (item) {
             var valueContainer;
-            if (item.tagName.toUpperCase() === 'INPUT') {
+            var tagName = item.tagName.toUpperCase();
+            if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
               valueContainer = 'value';
             } else {
               valueContainer = 'innerHTML';
