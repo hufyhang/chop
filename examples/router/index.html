@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Chop.js Router Example</title>
+</head>
+<body>
+  <h2>Provide the following information and then hit Enter. Press the below button to greeting.</h2>
+  <div>
+    <input id="name-input" type="text" value="" placeholder="Name..." ch-source="name" ch-keypress="if($$event.keyCode === 13) {$ch.event.emit('update')}"/>
+  </div>
+  <div>
+    <input id="age-input" type="text" value="" placeholder="Age..." ch-source="age" ch-keypress="if($$event.keyCode === 13) {$ch.event.emit('update')}"/>
+  </div>
+  <div id="click-btn" ch-click="$ch.router.navigate('greeting/' + {{name}} + '/' + {{age}})">Done</div>
+
+  <h5>Only the people whose age is greater than 20 will be shown below:</h5>
+  <br />
+  <div id="preview" ch-inline="person | filter: ageFilter">
+    <div>
+      {{name}} is recently {{age}} years old.
+    </div>
+  </div>
+  <script src="chop.min.js" ch-main="main.js"></script>
+</body>
+</html>
