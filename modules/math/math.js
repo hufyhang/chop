@@ -102,9 +102,14 @@ $ch.define('math', function () {
 
       calc = generateEval(calc);
       var value = eval(calc);
+
       var valueStr = value + '';
       var factor = 2;
-      var prev = '', startMatch = false;
+      var prev = '', startMatch = false, isHuge = false;
+      if (valueStr.indexOf('e') !== -1) {
+        isHuge = true;
+      }
+
       for (var index = valueStr.length - 1; index !== -1; --index) {
         var digit = valueStr[index];
         if (digit === prev) {
@@ -113,15 +118,27 @@ $ch.define('math', function () {
           }
           ++factor;
         } else {
+          var isOkSmall = index < valueStr.length - 3 &&
+                        startMatch === false && isHuge === false;
+          if (isOkSmall) {
+            factor = -1;
+            break;
+          }
+
           if (startMatch === true) {
             break;
           }
         }
         prev = digit;
       }
-      factor = Math.pow(10, factor);
 
-      return Math.round(value * factor) / factor;
+      var result = value;
+      if (factor !== -1) {
+        factor = Math.pow(10, factor);
+        result = Math.round(value * factor) / factor;
+      }
+
+      return result;
     }
   };
 });
