@@ -4,13 +4,13 @@ $ch.define('math', function () {
 
   $$CHOP.math = {};
 
-  // Add the cot function to the Math object
-  function cot(aValue)
-  {
-    return 1/Math.tan(aValue);
-  }
   // Register the new function
-  Math.constructor.prototype.cot = cot;
+  Math.constructor.prototype.cot = function (value) {
+    return 1/Math.tan(value);
+  };
+  Math.constructor.prototype.sqr = function (x, y) {
+    return Math.exp(1/y*Math.log(x));
+  };
 
   var generateEval = function (str) {
     var sins =  str.match(/sin\(.*?\)/g);
@@ -53,13 +53,45 @@ $ch.define('math', function () {
       });
     }
 
-    var pows =  str.match(/\d\ *\^\ *\d/g);
+    var sqrs =  str.match(/sqr\(.*?\)/g);
+    if (sqrs !== null) {
+      $$CHOP.each(sqrs, function (sqr) {
+        var mathStr = sqr.replace(/sqr\(/g, 'Math.sqr(');
+        str = str.replace(sqr, mathStr);
+      });
+    }
+
+    var exps =  str.match(/exp\(.*?\)/g);
+    if (exps !== null) {
+      $$CHOP.each(exps, function (exp) {
+        var mathStr = exp.replace(/exp\(/g, 'Math.exp(');
+        str = str.replace(exp, mathStr);
+      });
+    }
+
+    var logs =  str.match(/log\(.*?\)/g);
+    if (logs !== null) {
+      $$CHOP.each(logs, function (log) {
+        var mathStr = log.replace(/log\(/g, 'Math.log(');
+        str = str.replace(log, mathStr);
+      });
+    }
+
+    var lns =  str.match(/ln\(.*?\)/g);
+    if (lns !== null) {
+      $$CHOP.each(lns, function (ln) {
+        var mathStr = ln.replace(/ln\(/g, 'Math.ln(');
+        str = str.replace(ln, mathStr);
+      });
+    }
+
+
+    var pows =  str.match(/[-.\d]*\d*\ *\^\ *[-.\d]*\d*/g);
     if (pows !== null) {
       $$CHOP.each(pows, function (pow) {
         var mathStr = pow.replace(/\^/g, ',');
         mathStr = 'Math.pow(' + mathStr + ')';
         str = str.replace(pow, mathStr);
-        console.log(str);
       });
     }
 
