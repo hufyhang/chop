@@ -88,10 +88,65 @@ $ch.define('ui', function () {
         callback(e.value);
       });
     }
+
+    this.on('focus', function () {
+      e.style.borderColor = '#66afe9';
+      e.style.outline = 0;
+    }).on('blur', function () {
+      e.style.borderColor = '#cccccc';
+      e.style.outline = 0;
+    });
+
     return this;
   };
 
   $$CHOPEL.selectbox = $$CHOPEL.dropbox;
+//}}}
+
+  // pager button//{{{
+  $$CHOPEL.pager = function (callback) {
+    var element = this.el;
+    element.style.color = '#2fa4e7';
+    element.style.background = '#ffffff';
+    element.style.display = 'inline-block';
+    element.style.fontWeight = 'normal';
+    element.style.textAlign = 'center';
+    element.style.verticalAlign = 'middle';
+    element.style.whiteSpace = 'no-wrap';
+    element.style.cursor = 'pointer';
+    element.style.padding = '8px 20px';
+    element.style.fontSize = '14px';
+    element.style.borderRadius = '15px';
+    element.style.border = '1px solid #dddddd';
+    element.style.userSelect = 'none';
+    element.style.webkitUserSelect = 'none';
+    element.style.mozUserSelect = 'none';
+    element.style.msUserSelect = 'none';
+    element.style.fontFamily = 'Arial, sans-serif';
+    element.style.lineHeight = '1em';
+
+    if (callback !== undefined) {
+      this.on('click', callback);
+    }
+
+    this.on('mouseover', function () {
+      element.style.background = '#dddddd';
+      element.style.color = '#157ab5';
+    }).on('mouseout', function () {
+      element.style.background = '#ffffff';
+      element.style.color = '#2fa4e7';
+    });
+
+    this.on('focus', function () {
+      element.style.borderColor = '#66afe9';
+      element.style.outline = 0;
+    }).on('blur', function () {
+      element.style.borderColor = '#cccccc';
+      element.style.outline = 0;
+    });
+
+    return this;
+  };
 //}}}
 
 });
