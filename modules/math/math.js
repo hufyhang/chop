@@ -59,6 +59,7 @@ $ch.define('math', function () {
         var mathStr = pow.replace(/\^/g, ',');
         mathStr = 'Math.pow(' + mathStr + ')';
         str = str.replace(pow, mathStr);
+        console.log(str);
       });
     }
 
