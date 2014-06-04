@@ -20,6 +20,12 @@ $ch.define('ui', function () {
     element.style.fontSize = '14px';
     element.style.borderRadius = '4px';
     element.style.border = '1px solid transparent';
+    element.style.userSelect = 'none';
+    element.style.webkitUserSelect = 'none';
+    element.style.mozUserSelect = 'none';
+    element.style.msUserSelect = 'none';
+    element.style.fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+
 
 
     if (callback !== undefined) {
