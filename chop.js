@@ -129,6 +129,7 @@
       }
 
       this.el.addEventListener(evt, callback);
+      return this;
     },
 
     click: function (callback) {
