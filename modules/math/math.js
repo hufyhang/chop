@@ -15,7 +15,7 @@ $ch.define('math', function () {
 
       var value = eval(calc);
       var valueStr = value + '';
-      var factor = 1;
+      var factor = 2;
       var prev = '', startMatch = false;
       for (var index = valueStr.length - 1; index !== -1; --index) {
         var digit = valueStr[index];
