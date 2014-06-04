@@ -110,7 +110,7 @@ $ch.define('math', function () {
         isHuge = true;
       }
 
-      for (var index = valueStr.length - 1; index !== -1; --index) {
+      for (var index = valueStr.length - 2; index !== -1; --index) {
         var digit = valueStr[index];
         if (digit === prev) {
           if (startMatch === false) {
