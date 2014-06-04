@@ -77,15 +77,6 @@ $ch.define('math', function () {
       });
     }
 
-    var lns =  str.match(/ln\(.*?\)/g);
-    if (lns !== null) {
-      $$CHOP.each(lns, function (ln) {
-        var mathStr = ln.replace(/ln\(/g, 'Math.ln(');
-        str = str.replace(ln, mathStr);
-      });
-    }
-
-
     var pows =  str.match(/[-.\d]*\d*\ *\^\ *[-.\d]*\d*/g);
     if (pows !== null) {
       $$CHOP.each(pows, function (pow) {
