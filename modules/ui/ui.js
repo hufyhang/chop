@@ -3,9 +3,27 @@ $ch.define('ui', function () {
   'use strict';
   $$CHOP.find('html').css('fontFamily', 'Arial, sans-serif');
 
+  var reset = function (element) {
+    element.style.textShadow = 'none';
+    element.style.color = 'black';
+    element.style.background = 'white';
+    element.style.display = 'inline-block';
+    element.style.fontWeight = 'normal';
+    element.style.textAlign = 'center';
+    element.style.verticalAlign = 'middle';
+    element.style.whiteSpace = 'no-wrap';
+    element.style.cursor = 'pointer';
+    element.style.padding = '0px 0px';
+    element.style.fontSize = '1em';
+    element.style.borderRadius = '0px';
+    element.style.border = '0px solid transparent';
+  };
+
   // click button//{{{
   $$CHOPEL.button = function (callback) {
     var element = this.el;
+    reset(element);
+
     element.style.borderColor = 'rgba(0, 0, 0, 0.6)';
     element.style.textShadow = '1px 1px 1px rgba(0, 0, 0, 0.3)';
     element.style.color = '#ffffff';
@@ -45,6 +63,8 @@ $ch.define('ui', function () {
   // input & textarea //{{{
   $$CHOPEL.input = function (callback) {
     var e = this.el;
+    reset(e);
+
     e.style.display = 'inline-block';
     e.style.padding = '8px 12px';
     e.style.fontSize = '14px';
@@ -75,6 +95,8 @@ $ch.define('ui', function () {
   // dropbox & selectbox //{{{
   $$CHOPEL.dropbox = function (callback) {
     var e = this.el;
+    reset(e);
+
     e.style.padding = '8px 12px';
     e.style.fontSize = '14px';
     e.style.color = '#555555';
@@ -106,6 +128,8 @@ $ch.define('ui', function () {
   // pager button//{{{
   $$CHOPEL.pager = function (callback) {
     var element = this.el;
+    reset(e);
+
     element.style.color = '#2fa4e7';
     element.style.textShadow = 'none';
     element.style.background = '#ffffff';
