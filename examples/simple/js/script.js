@@ -1,19 +1,19 @@
 /* global $ch */
-$ch.require(['module/router', 'addon']);
+$ch.require(['router', 'my-addon']);
 
 var doClick, doKeypress, sayHi;
-$ch.require('events', function () {
+$ch.require('my-events', function () {
   'use strict';
-  var events = $ch.modules.events;
+  var events = $ch.module('my-events');
   doClick = events.doClick;
   doKeypress = events.doKeypress;
   sayHi = events.sayHi;
 });
 
 var banner, tail;
-$ch.require('views', function () {
+$ch.require('my-views', function () {
   'use strict';
-  var views = $ch.modules.views;
+  var views = $ch.module('my-views');
   banner = views.banner;
   tail = views.tail;
 });
@@ -48,15 +48,15 @@ $ch.findAll('input').forEach(function (input) {
   input.css('font-size', '1.5em');
 });
 
-$ch.require('greetings', function () {
+$ch.require('my-greetings', function () {
   'use strict';
   console.log('DONE');
 });
 
-$ch.require(['greetings', 'information'], function () {
+$ch.require(['my-greetings', 'my-information'], function () {
   'use strict';
-  console.log('INFO: ' + $ch.modules.information.msg);
-  console.log('MSG: ' + $ch.modules.greetings.msg);
+  console.log('INFO: ' + $ch.module('my-greetings').msg);
+  console.log('MSG: ' + $ch.module('my-information').msg);
 });
 
 var gotoAdvert = function () {

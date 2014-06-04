@@ -680,17 +680,17 @@
         scriptEl.setAttribute('ch-module', script);
         scriptEl.text = text;
         document.querySelector('head').appendChild(scriptEl);
-        that._executeModule(tempSrcs, callback);
+        that._executeModule(tempSrcs, useLoader, callback);
       } else {
-        this._executeModule(tempSrcs, callback);
+        this._executeModule(tempSrcs, useLoader, callback);
       }
     },
 
     _executeModule: function (srcs, useLoader, callback) {
-      if (srcs.length) {
+      if (srcs.length > 0) {
         this._useModule(srcs, useLoader, callback);
       } else {
-        if (callback) {
+        if (typeof callback === 'function') {
           callback();
         }
       }
@@ -701,12 +701,12 @@
         return false;
       }
 
-      if (useLoader === 'function' || useLoader === undefined) {
-        useLoader = true;
+      if (callback === undefined && typeof useLoader === 'function') {
+        callback = useLoader;
       }
 
-      if (callback === undefined) {
-        callback = useLoader;
+      if (typeof useLoader === 'function' || useLoader === undefined) {
+        useLoader = true;
       }
 
       if (!_isArray(srcs)) {
