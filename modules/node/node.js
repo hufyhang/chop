@@ -149,6 +149,7 @@ $ch.define('node', function () {
         }
         this._node.appendChild(node._node);
         $$CHOP._loadView(this._node);
+        return this;
       },
 
       removeNode: function (node) {
@@ -157,6 +158,7 @@ $ch.define('node', function () {
         }
         this._node.removeChild(node._node);
         $$CHOP._loadView(this._node);
+        return this;
       }
     };
     return nodeTemplate;
@@ -199,6 +201,7 @@ $ch.define('node', function () {
     }
     this.el.appendChild(node._node);
     $$CHOP._loadView(this.el);
+    return this;
   };
 
   $$CHOPEL.removeNode = function (node) {
@@ -207,5 +210,6 @@ $ch.define('node', function () {
     }
     this.el.removeChild(node._node);
     $$CHOP._loadView(this.el);
+    return this;
   };
 });
