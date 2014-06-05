@@ -2,12 +2,47 @@
 $ch.define('ui', function () {
   'use strict';
   $$CHOP.find('html').css('fontFamily', 'Arial, sans-serif');
+  $$CHOP.find('hr').css('height', '1px').css('border', '0')
+    .css('border-top', '1px solid #ccc').css('margin', '1em').css('padding', '0');
+
+  // height//{{{
+  $$CHOPEL.height = function () {
+    return this.el.offsetHeight;
+  };
+//}}}
+
+  // width//{{{
+  $$CHOPEL.width = function () {
+    return this.el.offsetWidth;
+  };
+//}}}
 
   // scrollTop//{{{
   $$CHOPEL.scrollTop = function () {
     var doc = this.el;
     var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
     return top;
+  };
+//}}}
+
+  // full size//{{{
+  $$CHOPEL.full = function () {
+    var e = this.el;
+    e.style.width = '100%';
+    e.style.height = '100%';
+    return this;
+  };
+
+  $$CHOPEL.fullHeight = function () {
+    var e = this.el;
+    e.style.height = '100%';
+    return this;
+  };
+
+  $$CHOPEL.fullWidth = function () {
+    var e = this.el;
+    e.style.width = '100%';
+    return this;
   };
 //}}}
 
@@ -175,5 +210,49 @@ $ch.define('ui', function () {
     return this;
   };
 //}}}
+
+  // topbar
+  $$CHOPEL.topbar = function (zindex, next) {
+    var e = this.el;
+    if (typeof zindex !== 'number') {
+      next = zindex;
+      zindex = 1;
+    }
+
+    e.style.position = 'fixed';
+    e.style.display = 'inline-block';
+    e.style.zindex = zindex;
+    e.style.top = '0';
+    e.style.left = '0';
+    e.style.right = '0';
+    e.style.background = 'rgb(67, 145, 227)';
+    e.style.color = 'white';
+    e.style.border = '1px solid transparent';
+    e.style.paddingTop = '5px';
+    e.style.paddingBottom = '5px';
+    e.style.boxShadow = '0px 1px 1px #3b5998';
+
+    var subs = $ch.findAll('*', e);
+    $ch.each(subs, function (sub) {
+      var tagName = sub.el.tagName.toUpperCase();
+      if (tagName === 'DIV' || tagName === 'SPAN') {
+        if (sub.el.getAttribute('ch-logo') === null) {
+          sub.button();
+        } else {
+          $ch.find('img', sub.el).css('max-height', '30px');
+        }
+      }
+      sub.el.style.fontSize = '20px';
+      sub.el.style.display = 'table-cell';
+      sub.el.style.padding = '2px 3px';
+    });
+
+    if (next !== undefined) {
+      var margin = this.height() + 5 + 'px';
+      next.css('margin-top', margin);
+    }
+
+    return this;
+  };
 
 });

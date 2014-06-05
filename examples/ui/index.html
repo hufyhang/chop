@@ -7,6 +7,12 @@
 <body>
 
   <div>
+    <header id="topbar">
+      <div>Home</div>
+      <div>Conact</div>
+      <div>About</div>
+    </header>
+
     <input type="text" id="input" value="" placeholder="Text of the click button..." ch-source="btn-name"/>
     <br/>
 
@@ -47,6 +53,7 @@
   <script src="chop.min.js"></script>
   <script>
     $ch.require('ui', false);
+    $ch.find('#topbar').topbar($ch.find('#input'));
     $ch.find('#input').input().css('width', '50%');
     $ch.find('#textarea').input().css('width', '50%');
     $ch.find('#click-btn').button(function () {

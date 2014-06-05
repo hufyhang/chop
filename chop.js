@@ -157,10 +157,15 @@
     attr: function (key, value) {
       if (arguments.length === 0) {
         return this.el.attributes;
-      } else {
-        if (arguments.length === 2) {
-          this.el.setAttribute(key, value);
-        }
+      }
+
+      if (arguments.length === 1) {
+        var attr = this.el.getAttribute(key);
+        return attr;
+      }
+
+      if (arguments.length === 2) {
+        this.el.setAttribute(key, value);
         return this;
       }
     },
@@ -219,12 +224,18 @@
       return p1.toUpperCase();
     },
     css: function (key, value) {
-      if (arguments.length !== 0) {
+      if (arguments.length === 0) {
+        return this.el.style.cssText;
+      }
+
+      if (arguments.length === 1) {
+        return this.el.style[key];
+      }
+
+      if (arguments.length === 2) {
         key = key.replace(/(-[a-z])/g, this._cssReplacer);
         this.el.style[key] = value;
         return this;
-      } else {
-        return this.el.style.cssText;
       }
     },
 
@@ -347,9 +358,13 @@
       return -1;
     },
 
-    find: function (query) {
+    find: function (query, context) {
       if (query !== undefined) {
-        var htmlElement = document.querySelector(query);
+        if (context === undefined) {
+          context = document;
+        }
+
+        var htmlElement = context.querySelector(query);
         if (!htmlElement) {
           return undefined;
         }
@@ -371,9 +386,13 @@
       }
     },
 
-    findAll: function (query) {
+    findAll: function (query, context) {
       if (query !== undefined) {
-        var els = document.querySelectorAll(query);
+        if (context === undefined) {
+          context = document;
+        }
+
+        var els = context.querySelectorAll(query);
         var elts = [];
         for (var index = 0; index !== els.length; ++index) {
           var elt;

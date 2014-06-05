@@ -55,14 +55,14 @@ Each ch-inline element __has to__ have an id.
 APIs - $ch
 ==========
 
-$ch.find(`query`)
------------------
+$ch.find(`query` [, `context`])
+-------------------------------
 
 Returns an HTML element in the form of a chop.js element object. If no elements
 found, returns `undefined`.
 
-$ch.findAll(`query`)
---------------------
+$ch.findAll(`query` [, `context`])
+----------------------------------
 
 Returns an chop.js element array that contains all the found elements. If no
 elements found, returns an emptry array.
