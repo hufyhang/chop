@@ -33,43 +33,55 @@ $ch.define('store', function () {
         throw new Error('Cookie is not supported by this browser.');
       }
 
-      var obj;
+      var regex, data;
       if (arguments.length === 0) {
-        obj = document.cookie;
-        if (obj === undefined || obj === '') {
-          return {};
+        data = document.cookie;
+        if (data === undefined || data === '') {
+          return '';
         }
-        return JSON.parse(obj);
+        return data;
       }
 
       if (arguments.length === 1) {
+        data = document.cookie;
         if (typeof key === 'object') {
-          var str = JSON.stringify(key);
-          document.cookie = str;
+          $$CHOP.each(key, function (k, v) {
+            regex = new RegExp(k + '\\ *=[0-9A-Za-z\\.\\ \\-%]+;?', 'g');
+            data = data.replace(regex, '');
+            data = k + '=' + encodeURIComponent(v) + ';' + data;
+          });
+          document.cookie = data;
         }
 
         if (typeof key === 'string') {
-          obj = document.cookie;
-          if (obj === undefined || obj === '') {
-            obj = {};
+          data = document.cookie;
+          if (data === undefined || data === '') {
+            return '';
           } else {
-            obj = JSON.parse(obj);
+            regex = new RegExp(key + '\\ *=[0-9A-Za-z\\.\\ \\-%]+;?', 'g');
+            var founds = data.match(regex);
+            if (founds !== null) {
+              var found =  founds[0];
+              regex = new RegExp(key + '\\ *=\\ *', 'g');
+              found = found.trim().replace(regex, '').trim();
+              return decodeURIComponent(found);
+            } else {
+              return null;
+            }
           }
-          return obj[key];
         }
       }
 
       if (arguments.length === 2) {
-        obj = document.cookie;
-        if (obj === undefined) {
-          obj = {};
-        } else {
-          obj = JSON.parse(obj);
+        data = document.cookie;
+        if (data === undefined) {
+          data = '';
         }
+        regex = new RegExp(key + '\\ *=[0-9A-Za-z\\.\\ \\-%]+;?', 'g');
+        data = data.replace(regex, '');
+        data = key + '=' + encodeURIComponent(value) + ';' + data;
 
-        obj[key] = {};
-        obj[key] = value;
-        document.cookie(JSON.parse(obj));
+        document.cookie = data;
       }
     }
 
