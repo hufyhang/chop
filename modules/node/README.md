@@ -17,7 +17,7 @@ Returns the DOM element of the current Chop.js element.
 child()
 -------
 
-Returns all child DOM element of the current Chop.js element.
+Returns all Chop.js child element of the current Chop.js element.
 
 appendNode(`node`)
 ------------

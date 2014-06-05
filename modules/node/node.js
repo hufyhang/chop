@@ -23,7 +23,6 @@ $ch.define('node', function () {
           var node = nodes[index];
           var obj = createNode();
           obj._node = node;
-          console.log(obj);
           n.push(obj);
         }
         return n;
@@ -35,8 +34,11 @@ $ch.define('node', function () {
         }
         var children = this.child();
         var result = false;
-        if (children.indexOf(node) !== -1) {
-          result = true;
+        for (var index = 0, len = children.length; index !== len; ++index) {
+          var child = children[index];
+          if (child._node === node._node) {
+            result = true;
+          }
         }
         return result;
       },
@@ -151,7 +153,15 @@ $ch.define('node', function () {
   };
 
   $$CHOPEL.child = function () {
-    return this.el.childNodes;
+    var nodes = this.el.childNodes;
+    var n = [];
+    for (var index = 0, len = nodes.length; index !== len; ++index) {
+      var node = nodes[index];
+      var obj = createNode();
+      obj._node = node;
+      n.push(obj);
+    }
+    return n;
   };
 
   $$CHOP.node = function (tag, html) {
