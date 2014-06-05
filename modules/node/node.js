@@ -21,8 +21,8 @@ $ch.define('node', function () {
         return this;
       },
 
-      classList: function () {
-        return this._node.classList;
+      className: function () {
+        return this._node.className;
       },
 
       addClass: function (cls) {
