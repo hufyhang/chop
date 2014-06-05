@@ -12,6 +12,47 @@
   var root = window;
   var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
 
+  // bind sizzle
+  document.querySelector = function (query) {
+    if (arguments.length !== 1) {
+      throw new Error ('$ch.find requires one query parameter.');
+    }
+    var el = Sizzle(query);
+    if (el.length === 0) {
+      el = null;
+    } else {
+      el = el[0];
+    }
+    return el;
+  };
+
+  document.querySelectorAll = function (query) {
+    if (arguments.length !== 1) {
+      throw new Error ('$ch.findAll requires one query parameter.');
+    }
+    return Sizzle(query);
+  };
+
+  Element.prototype.querySelector = function (query) {
+    if (arguments.length !== 1) {
+      throw new Error ('$ch.find requires one query parameter.');
+    }
+    var el = Sizzle(query, this);
+    if (el.length === 0) {
+      el = null;
+    } else {
+      el = el[0];
+    }
+    return el;
+  };
+
+  Element.prototype.querySelectorAll = function (query) {
+    if (arguments.length !== 1) {
+      throw new Error ('$ch.findAll requires one query parameter.');
+    }
+    return Sizzle(query, this);
+  };
+
   // browser utils functions//{{{
   var _isArray = function (value) {
     return Object.prototype.toString.call(value) === '[object Array]';
@@ -587,7 +628,7 @@
       if (script) {
         var scriptEl = document.createElement('script');
         scriptEl.src = script;
-        document.querySelector('head').appendChild(scriptEl);
+        document.head.appendChild(scriptEl);
         scriptEl.onload = function () {
           chop._loadView();
         };
@@ -705,7 +746,7 @@
         scriptEl = document.createElement('script');
         scriptEl.setAttribute('ch-module', script);
         scriptEl.text = text;
-        document.querySelector('head').appendChild(scriptEl);
+        document.head.appendChild(scriptEl);
         that._executeModule(tempSrcs, useLoader, callback);
       } else {
         this._executeModule(tempSrcs, useLoader, callback);
