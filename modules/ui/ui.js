@@ -2,11 +2,11 @@
 $ch.define('ui', function () {
   'use strict';
   $$CHOP.find('html').css('fontFamily', 'Arial, sans-serif');
-  var hrs = $$CHOP.findAll('hr');
-  $$CHOP.each(hrs, function (hr) {
-    hr.css('height', '1px').css('border', '0')
-    .css('border-top', '1px solid #ccc').css('margin', '1em').css('padding', '0');
-  });
+  // var hrs = $$CHOP.findAll('hr');
+  // $$CHOP.each(hrs, function (hr) {
+  //   hr.css('height', '1px').css('border', '0')
+  //   .css('border-top', '1px solid #ccc').css('margin', '1em').css('padding', '0');
+  // });
 
   // height//{{{
   $$CHOPEL.height = function () {
