@@ -10,13 +10,11 @@ $ch.define('string', function () {
       }
 
       if (typeof data === 'object' && $$CHOP.isArray(data) === false) {
-        console.log('check');
-        var founds = data.match(/{{.+?}}/g);
+        var founds = pattern.match(/{{.+?}}/g);
         $$CHOP.each(founds, function (found) {
           var regex = new RegExp(found, 'g');
           var key = found.replace(/{/g, '');
           key = found.replace(/}/g, '');
-          console.log(key);
           if (data[key] !== undefined) {
             pattern = pattern.replace(regex, data[key]);
           }
