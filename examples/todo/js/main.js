@@ -1,8 +1,8 @@
 /* global $ch */
-$ch.require('event');
+$ch.require(['event', 'store']);
 
 var STORAGE = 'todo-list';
-var todos = $ch.store(STORAGE);
+var todos = $ch.store.local(STORAGE);
 if (todos === null) {
   todos = [{
     index: 0,
@@ -51,5 +51,5 @@ $ch.event.listen('update', function () {
   $ch.source('todos', todos);
   $ch.find('#awesome-inline').inline();
   counterView.render();
-  $ch.store(STORAGE, todos);
+  $ch.store.local(STORAGE, todos);
 });
