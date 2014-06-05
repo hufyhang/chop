@@ -10,6 +10,24 @@ $ch.define('node', function () {
         return this._node;
       },
 
+      parent: function () {
+        var n = createNode();
+        n._node = this._node.parentNode;
+        return n;
+      },
+
+      next: function () {
+        var n = createNode();
+        n._node = this._node.nextElementSibling;
+        return n;
+      },
+
+      previous: function () {
+        var n = createNode();
+        n._node = this._node.previousElementSibling;
+        return n;
+      },
+
       html: function (html) {
         if (arguments.length === 0) {
           return this._node.innerHTML;
@@ -22,6 +40,13 @@ $ch.define('node', function () {
       append: function (html) {
         if (html !== undefined) {
           this.html(this._node.innerHTML + html);
+        }
+        return this;
+      },
+
+      prepend: function (html) {
+        if (html !== undefined) {
+          this.html(html + this._node.innerHTML);
         }
         return this;
       },

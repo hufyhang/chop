@@ -46,6 +46,22 @@ context()
 Returns a DOM element object as the context for functions such as `$ch.find` and
 `$ch.findAll`.
 
+parent()
+--------
+
+Returns the parent Chop.js node object.
+
+next()
+------
+
+Returns the next Chop.js node object.
+
+previous()
+------
+
+Returns the previous Chop.js node object.
+
+
 html(`html`)
 ------------
 
@@ -55,6 +71,11 @@ append(`html`)
 --------------
 
 Appends `html` to innerHTML.
+
+prepend(`html`)
+--------------
+
+Prepends `html` to innerHTML.
 
 className(`name`)
 ---------
