@@ -36,7 +36,7 @@ $ch.define('store', function () {
       var obj;
       if (arguments.length === 0) {
         obj = document.cookie;
-        if (obj === undefined) {
+        if (obj === undefined || obj === '') {
           return {};
         }
         return JSON.parse(obj);
@@ -50,7 +50,7 @@ $ch.define('store', function () {
 
         if (typeof key === 'string') {
           obj = document.cookie;
-          if (obj === undefined) {
+          if (obj === undefined || obj === '') {
             obj = {};
           } else {
             obj = JSON.parse(obj);
