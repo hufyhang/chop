@@ -2,32 +2,37 @@
 $ch.define('node', function () {
   'use strict';
 
-  var Node = {
-    _node: undefined,
+  var createNode = function () {
+    var nodeTemplate = {
+      _node: undefined,
 
-    html: function (html) {
-      if (arguments.length === 0) {
-        return this._node.innerHTML;
-      }
-      this._node.innerHTML = html;
-      return this;
-    },
+      html: function (html) {
+        if (arguments.length === 0) {
+          return this._node.innerHTML;
+        }
+        this._node.innerHTML = html;
+        return this;
+      },
 
-    attr: function (key, value) {
-      if (arguments.length === 0) {
-        return this._node.attributes;
-      }
+      attr: function (key, value) {
+        if (arguments.length === 0) {
+          return this._node.attributes;
+        }
 
-      if (arguments.length === 1) {
-        return this._node.getAttribute(key);
+        if (arguments.length === 1) {
+          return this._node.getAttribute(key);
+        }
+        this._node.setAttribute(key, value);
+        return this;
       }
-      this._node.setAttribute(key, value);
-      return this;
-    }
+    };
+    return nodeTemplate;
   };
 
   $$CHOPEL.node = function () {
-    return this.el;
+    var nodeObj = createNode();
+    nodeObj._node = this.el;
+    return nodeObj;
   };
 
   $$CHOPEL.child = function () {
@@ -42,7 +47,7 @@ $ch.define('node', function () {
     if (html !== undefined) {
       node.innerHTML = html;
     }
-    var nodeObj = Object.create(Node);
+    var nodeObj = createNode();
     nodeObj._node = node;
     return nodeObj;
   };
@@ -52,5 +57,12 @@ $ch.define('node', function () {
       throw new Error('.appendNode requires a node parameter.');
     }
     this.el.appendChild(node._node);
+  };
+
+  $$CHOPEL.removeNode = function (node) {
+    if (arguments.length === 0) {
+      throw new Error('.removeNode requires a node parameter.');
+    }
+    this.el.removeChild(node._node);
   };
 });

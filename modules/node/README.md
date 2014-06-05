@@ -24,6 +24,11 @@ appendNode(`node`)
 
 Appends the `node` element to the current Chop.js element.
 
+removeNode(`node`)
+------------------
+
+Removes the `node` element from the current Chop.js element.
+
 APIs on `$ch`
 =============
 
