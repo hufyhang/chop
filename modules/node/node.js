@@ -31,8 +31,7 @@ $ch.define('node', function () {
       removeClass: function (cls) {
         if (cls !== undefined) {
           var className = this._node.className;
-          var re = new RegExp(cls, 'g');
-          this._node.className = className.replace(re, '');
+          this._node.className = className.replace(cls, '');
         }
         return this;
       },
