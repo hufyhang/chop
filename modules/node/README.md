@@ -86,6 +86,16 @@ prepend(`html`)
 
 Prepends `html` to innerHTML.
 
+appendNode(`node`)
+------------
+
+Appends the `node` element to the current Chop.js element.
+
+removeNode(`node`)
+------------------
+
+Removes the `node` element from the current Chop.js element.
+
 className(`name`)
 ---------
 

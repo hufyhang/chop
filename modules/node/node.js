@@ -141,6 +141,22 @@ $ch.define('node', function () {
         }
         this._node.setAttribute(key, value);
         return this;
+      },
+
+      appendNode: function (node) {
+        if (arguments.length === 0) {
+          throw new Error('.appendNode requires a node parameter.');
+        }
+        this._node.appendChild(node._node);
+        $$CHOP._loadView(this._node);
+      },
+
+      removeNode: function (node) {
+        if (arguments.length === 0) {
+          throw new Error('.removeNode requires a node parameter.');
+        }
+        this._node.removeChild(node._node);
+        $$CHOP._loadView(this._node);
       }
     };
     return nodeTemplate;
