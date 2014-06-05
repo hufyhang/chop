@@ -21,9 +21,9 @@ $ch.define('node', function () {
         var n = [];
         for (var index = 0, len = nodes.length; index !== len; ++index) {
           var node = nodes[index];
-          console.log(node);
           var obj = createNode();
           obj._node = node;
+          console.log(obj);
           n.push(obj);
         }
         return n;
