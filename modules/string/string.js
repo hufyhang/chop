@@ -10,6 +10,7 @@ $ch.define('string', function () {
       }
 
       if (typeof data === 'object' && $$CHOP.isArray(data) === false) {
+        console.log('check');
         var founds = data.match(/{{.+?}}/g);
         $$CHOP.each(founds, function (found) {
           var regex = new RegExp(found, 'g');
