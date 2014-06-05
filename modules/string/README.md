@@ -38,13 +38,16 @@ Appends `data` to buffer.
 
 Prepends `data` to buffer.
 
-.dump()
+.dump(`join`)
 -------
 
-Returns the constructed string and clears the buffer.
+Returns the constructed string and clears the buffer. If `join` provided, use
+`join` to connect the string.
 
-.toString()
+.toString(`join`)
 -----------
 
-Returns the constructed string.
+Returns the constructed string. If `join` provided, use
+`join` to connect the string.
+
 

@@ -33,8 +33,9 @@ $ch.define('string', function () {
         append: function (data) {
           if (data !== undefined) {
             if ($$CHOP.isArray) {
+              var that = this;
               $$CHOP.each(data, function (item) {
-                this.buffer.push(item);
+                that.buffer.push(item);
               });
             } else {
               this.buffer.push(data);
@@ -46,8 +47,9 @@ $ch.define('string', function () {
         prepend: function (data) {
           if (data !== undefined) {
             if ($$CHOP.isArray) {
+              var that = this;
               for (var index = data.length - 1, len = 0; index >= len; --index) {
-                this.buffer.unshift(data[index]);
+                that.buffer.unshift(data[index]);
               }
             } else {
               this.buffer.unshift(data);
@@ -56,14 +58,20 @@ $ch.define('string', function () {
           return this;
         },
 
-        dump: function () {
-          var result = this.buffer.join('');
+        dump: function (chars) {
+          if (chars === undefined) {
+            chars = '';
+          }
+          var result = this.buffer.join(chars);
           this.buffer = [];
           return result;
         },
 
-        toString: function () {
-          return this.buffer.join('');
+        toString: function (chars) {
+          if (chars === undefined) {
+            chars = '';
+          }
+          return this.buffer.join(chars);
         }
       };
 
