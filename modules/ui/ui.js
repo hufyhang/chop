@@ -214,7 +214,7 @@ $ch.define('ui', function () {
   };
 //}}}
 
-  // topbar
+  // topbar//{{{
   $$CHOPEL.topbar = function (zindex, next) {
     var e = this.el;
     if (typeof zindex !== 'number') {
@@ -257,5 +257,6 @@ $ch.define('ui', function () {
 
     return this;
   };
+//}}}
 
 });
