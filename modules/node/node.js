@@ -6,11 +6,16 @@ $ch.define('node', function () {
     var nodeTemplate = {
       _node: undefined,
 
+      context: function () {
+        return this._node;
+      },
+
       html: function (html) {
         if (arguments.length === 0) {
           return this._node.innerHTML;
         }
         this._node.innerHTML = html;
+        $$CHOP._loadView(this._node);
         return this;
       },
 
@@ -44,15 +49,31 @@ $ch.define('node', function () {
 
       addClass: function (cls) {
         if (cls !== undefined) {
-          this._node.className += cls + ' ';
+          if ($$CHOP.isArray(cls)) {
+            var that = this;
+            $$CHOP.each(cls, function (item) {
+              that._node.className += item + ' ';
+            });
+          } else {
+            this._node.className += cls + ' ';
+          }
         }
         return this;
       },
 
       removeClass: function (cls) {
         if (cls !== undefined) {
-          var className = this._node.className;
-          this._node.className = className.replace(cls, '');
+          var className;
+          if ($$CHOP.isArray(cls)) {
+            className = this._node.className;
+            $$CHOP.each(cls, function (item) {
+              className = className.replace(item, '');
+            });
+            this._node.className = className.replace(cls, '');
+          } else {
+            className = this._node.className;
+            this._node.className = className.replace(cls, '');
+          }
         }
         return this;
       },

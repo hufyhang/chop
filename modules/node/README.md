@@ -40,6 +40,12 @@ Creates and returns a Chop.js Node object.
 APIs on node objects
 ====================
 
+context()
+---------
+
+Returns a DOM element object as the context for functions such as `$ch.find` and
+`$ch.findAll`.
+
 html(`html`)
 ------------
 
