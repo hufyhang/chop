@@ -16,6 +16,29 @@ $ch.define('node', function () {
         return n;
       },
 
+      child: function () {
+        var nodes = this._node.childNodes;
+        var n = [];
+        $$CHOP.each(nodes, function (item) {
+          var obj = createNode();
+          obj._node = item;
+          n.push(obj);
+        });
+        return n;
+      },
+
+      contains: function (node) {
+        if (arguments.length === 0) {
+          throw new Error('.contains requires a chop.js node parameter.');
+        }
+        var children = this.child();
+        var result = false;
+        if (children.indexOf(node) !== -1) {
+          result = true;
+        }
+        return result;
+      },
+
       next: function () {
         var n = createNode();
         n._node = this._node.nextElementSibling;

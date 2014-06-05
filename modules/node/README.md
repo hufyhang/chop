@@ -51,6 +51,11 @@ parent()
 
 Returns the parent Chop.js node object.
 
+child()
+-------
+
+Returns the child Chop.js node object.
+
 next()
 ------
 
@@ -61,6 +66,10 @@ previous()
 
 Returns the previous Chop.js node object.
 
+contains(`node`)
+----------
+
+Checks if contains Chop.js node object `node`.
 
 html(`html`)
 ------------
