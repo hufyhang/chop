@@ -45,6 +45,21 @@ html(`html`)
 
 If no `html` provided, returns innerHTML. Otherwise, sets innerHTML to `html`.
 
+append(`html`)
+--------------
+
+Appends `html` to innerHTML.
+
+addClass(`class`)
+-----------------
+
+Adds class `class`.
+
+removeClass(`class`)
+--------------------
+
+Removes class `class`.
+
 attr(`key`, `value`)
 --------------------
 

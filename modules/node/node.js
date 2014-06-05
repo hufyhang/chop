@@ -14,6 +14,30 @@ $ch.define('node', function () {
         return this;
       },
 
+      append: function (html) {
+        if (html !== undefined) {
+          this.html(this._node.innerHTML + html);
+        }
+        return this;
+      },
+
+      addClass: function (cls) {
+        if (cls !== undefined) {
+          this._node.className += cls + ' ';
+        }
+        return this;
+      },
+
+      removeClass: function (cls) {
+        if (cls !== undefined) {
+          var className = this._node.className;
+          var re = new RegExp(cls, 'g');
+          this._node.className = className.replace(re, '');
+        }
+        return this;
+      },
+
+
       attr: function (key, value) {
         if (arguments.length === 0) {
           return this._node.attributes;
