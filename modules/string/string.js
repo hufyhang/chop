@@ -32,7 +32,7 @@ $ch.define('string', function () {
         buffer: [],
         append: function (data) {
           if (data !== undefined) {
-            if ($$CHOP.isArray) {
+            if ($$CHOP.isArray(data)) {
               var that = this;
               $$CHOP.each(data, function (item) {
                 that.buffer.push(item);
@@ -46,7 +46,7 @@ $ch.define('string', function () {
 
         prepend: function (data) {
           if (data !== undefined) {
-            if ($$CHOP.isArray) {
+            if ($$CHOP.isArray(data)) {
               var that = this;
               for (var index = data.length - 1, len = 0; index >= len; --index) {
                 that.buffer.unshift(data[index]);
@@ -76,7 +76,7 @@ $ch.define('string', function () {
       };
 
       if (str !== undefined) {
-        if ($$CHOP.isArray(str)) {
+        if (typeof str === 'object' && $$CHOP.isArray(str)) {
           $$CHOP.each(str, function (item) {
             buf.append(item);
           });
