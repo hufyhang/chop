@@ -80,11 +80,10 @@ $ch.define('string', function () {
           $$CHOP.each(str, function (item) {
             buf.append(item);
           });
+        } else {
+          buf.append(str);
         }
-      } else {
-        buf.append(str);
       }
-
       return buf;
     }
 
