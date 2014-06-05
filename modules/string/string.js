@@ -14,7 +14,8 @@ $ch.define('string', function () {
         console.log(founds);
         $$CHOP.each(founds, function (found) {
           var regex = new RegExp(found, 'g');
-          var key = found.replace(/{/g, '');
+          var key = '';
+          key = found.replace(/{/g, '');
           key = found.replace(/}/g, '');
           console.log(key);
           if (data[key] !== undefined) {
