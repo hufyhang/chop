@@ -25,8 +25,9 @@ $ch.define('node', function () {
         if (name !== undefined) {
           var result = true;
           if ($$CHOP.isArray(name)) {
+            var that = this;
             $$CHOP.each(name, function (item) {
-              if (this._node.className.indexOf(item) === -1) {
+              if (that._node.className.indexOf(item) === -1) {
                 result = false;
               }
             });
