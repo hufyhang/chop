@@ -19,11 +19,12 @@ $ch.define('node', function () {
       child: function () {
         var nodes = this._node.childNodes;
         var n = [];
-        $$CHOP.each(nodes, function (item) {
+        for (var index = 0, len = nodes.length; index !== len; ++index) {
+          var node = nodes[index];
           var obj = createNode();
-          obj._node = item;
+          obj._node = node;
           n.push(obj);
-        });
+        }
         return n;
       },
 
