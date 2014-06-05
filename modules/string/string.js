@@ -9,9 +9,6 @@ $ch.define('string', function () {
         throw new Error('$ch.string.build requires at least one pattern parameter.');
       }
 
-      pattern = pattern.replace(/\\{/g, '{');
-      pattern = pattern.replace(/\\}/g, '}');
-
       if (typeof data === 'object' && $$CHOP.isArray(data) === false) {
         var founds = pattern.match(/{{.+?}}/g);
         $$CHOP.each(founds, function (found) {
@@ -24,6 +21,10 @@ $ch.define('string', function () {
           }
         });
       }
+
+      pattern = pattern.replace(/\\{/g, '{');
+      pattern = pattern.replace(/\\}/g, '}');
+
       return pattern;
     },
 
