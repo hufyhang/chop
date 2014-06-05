@@ -101,6 +101,7 @@ $ch.define('node', function () {
       throw new Error('.appendNode requires a node parameter.');
     }
     this.el.appendChild(node._node);
+    $$CHOP._loadView(this.el);
   };
 
   $$CHOPEL.removeNode = function (node) {
@@ -108,5 +109,6 @@ $ch.define('node', function () {
       throw new Error('.removeNode requires a node parameter.');
     }
     this.el.removeChild(node._node);
+    $$CHOP._loadView(this.el);
   };
 });
