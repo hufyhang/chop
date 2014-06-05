@@ -24,7 +24,6 @@ $ch.define('context', function () {
       throw new Error('Geolocation is not supported by this browser.');
     }
   };
-  geolocation();
 
   $$CHOP.context = {
     language: userAgentLanguage(),
