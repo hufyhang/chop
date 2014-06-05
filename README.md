@@ -72,12 +72,6 @@ $ch.source(`source`, `data`)
 
 If only `source` provided, returns the value of `source`. Otherwise, sets the value of `source` to `data`.
 
-$ch.store(`key`, `data`)
------------------
-
-If only `key` provided, returns the value of `key` from local storage.
-Otherwise, sets and saves `key` to `data`.
-
 $ch.view(`param`)
 -----------------
 
