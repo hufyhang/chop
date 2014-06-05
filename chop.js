@@ -870,7 +870,15 @@
         source.data = val;
 
         var that = this;
-        element.addEventListener('keyup', function () {
+        var eventType = 'keyup';
+        var type = element.getAttribute('type');
+        if (type !== null) {
+          type = type.toUpperCase();
+          if (type === 'RANGE') {
+            eventType = 'change';
+          }
+        }
+        element.addEventListener(eventType, function () {
           var source = that.sources[this.getAttribute('ch-source')];
           source.data = this.value;
           source.els.forEach(function (item) {
