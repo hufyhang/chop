@@ -28,14 +28,14 @@ $ch.define('store', function () {
       }
     },
 
-    cookies: function (key, value) {
-      if (document.cookies === undefined) {
-        throw new Error('Cookies is not supported by this browser.');
+    cookie: function (key, value) {
+      if (document.cookie === undefined) {
+        throw new Error('Cookie is not supported by this browser.');
       }
 
       var obj;
       if (arguments.length === 0) {
-        obj = document.cookies;
+        obj = document.cookie;
         if (obj === undefined) {
           return {};
         }
@@ -45,11 +45,11 @@ $ch.define('store', function () {
       if (arguments.length === 1) {
         if (typeof key === 'object') {
           var str = JSON.stringify(key);
-          document.cookies = str;
+          document.cookie = str;
         }
 
         if (typeof key === 'string') {
-          obj = document.cookies;
+          obj = document.cookie;
           if (obj === undefined) {
             obj = {};
           } else {
@@ -60,7 +60,7 @@ $ch.define('store', function () {
       }
 
       if (arguments.length === 2) {
-        obj = document.cookies;
+        obj = document.cookie;
         if (obj === undefined) {
           obj = {};
         } else {
@@ -69,7 +69,7 @@ $ch.define('store', function () {
 
         obj[key] = {};
         obj[key] = value;
-        document.cookies(JSON.parse(obj));
+        document.cookie(JSON.parse(obj));
       }
     }
 
