@@ -11,10 +11,10 @@ $ch.define('string', function () {
 
       if (typeof data === 'object' && $$CHOP.isArray(data) === false) {
         var founds = pattern.match(/{{.+?}}/g);
-        console.log(founds);
         $$CHOP.each(founds, function (found) {
           var regex = new RegExp(found, 'g');
           var key = '';
+          console.log('Found: ' + found);
           key = found.replace(/{/g, '');
           key = found.replace(/}/g, '');
           console.log(key);
