@@ -32,11 +32,11 @@ $ch.define('node', function () {
         if (arguments.length === 0) {
           throw new Error('.contains requires a chop.js node parameter.');
         }
-        var children = this.child();
+        var children = this._node.childNodes;
         var result = false;
         for (var index = 0, len = children.length; index !== len; ++index) {
           var child = children[index];
-          if (child._node === node._node) {
+          if (child === node._node) {
             result = true;
           }
         }
