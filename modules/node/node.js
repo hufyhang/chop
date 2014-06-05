@@ -21,6 +21,8 @@ $ch.define('node', function () {
         return this;
       },
 
+      classList: this._node.classList,
+
       addClass: function (cls) {
         if (cls !== undefined) {
           this._node.className += cls + ' ';

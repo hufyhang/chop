@@ -37,7 +37,7 @@ $ch.node(`tag` [, `html`])
 
 Creates and returns a Chop.js Node object.
 
-APIs on node objects
+APIs and attributes on node objects
 ====================
 
 html(`html`)
@@ -49,6 +49,11 @@ append(`html`)
 --------------
 
 Appends `html` to innerHTML.
+
+.classList
+---------
+
+The class list of the node.
 
 addClass(`class`)
 -----------------
