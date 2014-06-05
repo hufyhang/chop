@@ -21,7 +21,9 @@ $ch.define('node', function () {
         return this;
       },
 
-      classList: this._node.classList,
+      classList: function () {
+        return this._node.classList;
+      },
 
       addClass: function (cls) {
         if (cls !== undefined) {
