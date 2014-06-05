@@ -11,17 +11,13 @@ $ch.context.language
 
 The language of the Web browser.
 
-$ch.context.latitude
+$ch.context.userAgent
 --------------------
 
-The latitude of current position.
+User agent inforamtion
 
-$ch.context.longitude
---------------------
+$ch.context.geolocation(`callback`)
+-----------------------------------
 
-The longitude of current position.
+Gets geolocation information and passes the data to `callback`.
 
-$ch.context.altitude
---------------------
-
-The altitude of current position.

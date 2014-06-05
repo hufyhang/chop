@@ -9,13 +9,15 @@ $ch.define('context', function () {
     return language;
   };
 
-  var geolocation = function () {
+  var userAgent = function () {
+    return window.navigator.userAgent;
+  };
+
+  var geolocation = function (callback) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
         var coords = position.coords;
-        $$CHOP.context.latitude = coords.latitude;
-        $$CHOP.context.longitude = coords.longitude;
-        $$CHOP.context.altitude = coords.altitude;
+        callback(coords);
       });
 
     } else {
@@ -25,7 +27,14 @@ $ch.define('context', function () {
   geolocation();
 
   $$CHOP.context = {
-    language: userAgentLanguage()
+    language: userAgentLanguage(),
+    userAgent: userAgent(),
+    geolocation: function (callback) {
+      if (callback === undefined) {
+        throw new Error('$ch.context.geolocation requires a callback parameter.');
+      }
+      geolocation(callback);
+    }
   };
 
 });
