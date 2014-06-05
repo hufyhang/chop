@@ -50,10 +50,11 @@ append(`html`)
 
 Appends `html` to innerHTML.
 
-className()
+className(`name`)
 ---------
 
-Returns the class name of the node.
+If no `name` provided, returns the class name of the node. Otherwise, checks if
+contains class `name`.
 
 addClass(`class`)
 -----------------

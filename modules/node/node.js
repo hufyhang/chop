@@ -21,7 +21,23 @@ $ch.define('node', function () {
         return this;
       },
 
-      className: function () {
+      className: function (name) {
+        if (name !== undefined) {
+          var result = true;
+          if ($$CHOP.isArray(name)) {
+            $$CHOP.each(name, function (item) {
+              if (this._node.className.indexOf(item) === -1) {
+                result = false;
+              }
+            });
+          } else {
+            if (this._node.className.indexOf(name) === -1) {
+              result = false;
+            }
+          }
+          return result;
+        }
+
         return this._node.className;
       },
 
