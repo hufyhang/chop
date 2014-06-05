@@ -16,13 +16,14 @@ $ch.define('string', function () {
           var key = '';
           key = found.replace(/{/g, '');
           key = found.replace(/}/g, '');
+          console.log(key);
           if (data[key] !== undefined) {
             pattern = pattern.replace(regex, data[key]);
           }
         });
 
-        pattern = pattern.replace(/\\{/g, '{');
-        pattern = pattern.replace(/\\}/g, '}');
+        // pattern = pattern.replace(/\\{/g, '{');
+        // pattern = pattern.replace(/\\}/g, '}');
       }
       return pattern;
     }
