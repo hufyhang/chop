@@ -140,6 +140,8 @@ $ch.define('node', function () {
           return this._node.getAttribute(key);
         }
         this._node.setAttribute(key, value);
+        var par = this._node.parentNode;
+        $$CHOP._loadView(par);
         return this;
       },
 
