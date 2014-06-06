@@ -857,17 +857,20 @@
         var element = elements[index];
         var name = element.getAttribute('ch-source');
         var source = this.sources[name];
-        var val = '';
         if (source === undefined) {
           this.sources[name] = {};
           source = this.sources[name];
           source.els = [];
-          if (element.value !== undefined) {
-            val = element.value;
+        }
+        if (source.data !== undefined) {
+          var tagName = element.tagName.toUpperCase();
+          if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+            element.value = source.data;
+          } else {
+            element.innerHTML = source.data;
           }
         }
         source.els.push(element);
-        source.data = val;
 
         var that = this;
         var eventType = 'keyup';
