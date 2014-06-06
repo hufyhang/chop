@@ -3,6 +3,11 @@ $ch.define('store', function () {
   'use strict';
 
   $$CHOP.store = {};
+
+  var cache = {
+    _cache: {}
+  };
+
   $$CHOP.store = {
     local: function (key, value) {
       if (typeof Storage === 'undefined') {
@@ -82,6 +87,30 @@ $ch.define('store', function () {
         data = key + '=' + encodeURIComponent(value) + ';' + data;
 
         document.cookie = data;
+      }
+    },
+
+    cache: function (key, value) {
+      if (arguments.length === 0) {
+        return cache._cache;
+      }
+
+      if (arguments.length === 1) {
+        if (typeof key !== 'string') {
+          throw new Error('$ch.store.cache requires a string-type parameter.');
+        }
+
+        return cache._cache[key];
+      }
+
+      if (arguments.length === 2) {
+        if (typeof key !== 'string') {
+          throw new Error('$ch.store.cache requires a string-type value for "key" parameter.');
+        }
+
+        cache._cache[key] = {};
+        cache._cache[key] = value;
+        return this;
       }
     }
 

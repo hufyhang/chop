@@ -23,3 +23,13 @@ If only `key` provides:
 Otherwise, sets value of `key` to `value` and saves in cookie.
 
 
+$ch.store.cache(`key`[, `value`])
+---------------------------------
+
+If no parameters provided, returns all cached data in the form of an object.
+
+If only `key` presented, returns the cached data of `key`.
+
+Otherwise, sets `key` to `value`.
+
+
