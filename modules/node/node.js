@@ -5,9 +5,14 @@ $ch.define('node', function () {
   var createNode = function () {
     var nodeTemplate = {
       _node: undefined,
+      _chopel: undefined,
 
       context: function () {
         return this._node;
+      },
+
+      chopEl: function () {
+        return this._chopel;
       },
 
       parent: function () {
@@ -169,6 +174,7 @@ $ch.define('node', function () {
   $$CHOPEL.node = function () {
     var nodeObj = createNode();
     nodeObj._node = this.el;
+    nodeObj._chopel = this;
     return nodeObj;
   };
 

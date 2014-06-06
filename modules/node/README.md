@@ -46,6 +46,11 @@ context()
 Returns a DOM element object as the context for functions such as `$ch.find` and
 `$ch.findAll`.
 
+chopEl()
+--------
+
+Returns the Chop.js HTML element object of the node.
+
 parent()
 --------
 
