@@ -38,7 +38,7 @@ var ajax = function () {
     $ch.http({
         url: 'http://example.com',
         done: function (res) {
-            if (res.statusCode === 200) {
+            if (res.status === 200) {
                 promise.resolve(res);
             } else {
              
