@@ -490,7 +490,7 @@
       }
     },
     _registerEvents: function (baseElement) {
-      if (baseElement === undefined) {
+      if (baseElement === undefined || baseElement === null) {
         baseElement = document;
       }
 
@@ -527,7 +527,7 @@
 
     _inlineTemplates: {},
     _renderInline: function (baseElement) {
-      if (baseElement === undefined) {
+      if (baseElement === undefined || baseElement === null) {
         baseElement = document;
       }
       var elements = baseElement.querySelectorAll('[ch-inline]');
@@ -610,7 +610,7 @@
     },
 
     _loadInit: function (baseElement) {
-      if (baseElement === undefined) {
+      if (baseElement === undefined || baseElement === null) {
         baseElement = document;
       }
       var elements = baseElement.querySelectorAll('[ch-init]');
@@ -656,7 +656,7 @@
 
     _loadView: function (baseElement) {
       var callbackName;
-      if (baseElement === undefined) {
+      if (baseElement === undefined || baseElement === null) {
         baseElement = document;
       }
       var elements = baseElement.querySelectorAll('[ch-view]');
@@ -849,7 +849,7 @@
     },
 
     _bindSources: function (baseElement) {
-      if (baseElement === undefined) {
+      if (baseElement === undefined || baseElement === null) {
         baseElement = document;
       }
       var elements = baseElement.querySelectorAll('[ch-source]');
