@@ -7,7 +7,7 @@ $ch.define('intl', function () {
   var originalLoadView = $$CHOP._loadView;
 
   var loadIntl = function (baseElement) {
-    if (baseElement === undefined) {
+    if (baseElement === undefined || baseElement === null) {
       baseElement = document;
     }
     var founds = baseElement.querySelectorAll('[ch-intl]');
