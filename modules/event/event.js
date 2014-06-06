@@ -200,6 +200,7 @@ $ch.define('event', function () {
           }
 
           if (this.current < this.callbacks.length) {
+            console.log(this.current);
             this.data = this.callbacks[this.current](this.data);
             ++this.current;
           } else {
