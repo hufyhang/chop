@@ -4,6 +4,33 @@ $ch.define('intl', function () {
 
   $$CHOP.intl = {};
 
+  var originalLoadView = $$CHOP._loadView;
+
+  var loadIntl = function (baseElement) {
+    if (baseElement === undefined) {
+      baseElement = document;
+    }
+    var founds = baseElement.querySelectorAll('[ch-intl]');
+    $$CHOP.each(founds, function (element) {
+      var key = element.getAttribute('ch-intl');
+      var value = $$CHOP.intl.get(key);
+      var tagName = element.tagName.toUpperCase();
+      if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+        element.value = value;
+      } else {
+        element.innerHTML = value;
+      }
+    });
+  };
+
+  $$CHOP._loadView = function (baseElement) {
+    if (baseElement === undefined) {
+      baseElement = document;
+    }
+    originalLoadView(baseElement);
+    loadIntl(baseElement);
+  };
+
   var parsePrefs = function (path) {
     var doc = $$CHOP.http({url: path, async: false});
     var obj = {};
@@ -45,6 +72,8 @@ $ch.define('intl', function () {
         that.languages[key] = {};
         that.languages[key] = parsePrefs(value);
       });
+
+      loadIntl();
     },
 
     lang: function (lang) {
@@ -53,6 +82,7 @@ $ch.define('intl', function () {
       }
 
       this.current = lang;
+      loadIntl();
       return this;
     },
 

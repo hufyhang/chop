@@ -6,6 +6,15 @@ Dependences
 
 None
 
+HTML attribute
+--------------
+
+`ch-intl`
+
+~~~
+<div ch-intl="message"></div>
+~~~
+
 $ch.intl.init(`lang`, `prefs`)
 ------------------------------
 

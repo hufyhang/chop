@@ -5,14 +5,14 @@
     <title>Chop.js Internationalzation Exmaple</title>
 </head>
 <body>
-  <div>Switch language below: </div>
+  <div ch-intl="hint"></div>
   <select id="lang-select">
     <option value="EN">English</option>
     <option value="CN">中文</option>
   </select>
 
   <br />
-  <div ch-source="message"></div>
+  <div ch-intl="message"></div>
   
   <script src="chop.min.js"></script>
   <script>
@@ -22,13 +22,8 @@
       cn: 'cn.prefs'
     });
 
-    var msg = $ch.intl.get('message');
-    $ch.source('message', msg);
-
     $ch.find('#lang-select').dropbox(function (value) {
       $ch.intl.lang(value.toLowerCase());
-      var msg = $ch.intl.get('message');
-      $ch.source('message', msg);
     });
   </script>
 </body>
