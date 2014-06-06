@@ -33,7 +33,7 @@ $ch.define('store', function () {
       }
     },
 
-    cookie: function (key, value) {
+    cookie: function (key, value, expDay) {
       if (document.cookie === undefined) {
         throw new Error('Cookie is not supported by this browser.');
       }
@@ -77,16 +77,28 @@ $ch.define('store', function () {
         }
       }
 
-      if (arguments.length === 2) {
+      if (arguments.length >= 2) {
         data = document.cookie;
         if (data === undefined) {
           data = '';
         }
+
         regex = new RegExp(key + '\\ *=[0-9A-Za-z\\.\\ \\-%]+;?', 'g');
         data = data.replace(regex, '');
         data = key + '=' + encodeURIComponent(value) + ';' + data;
 
-        document.cookie = data;
+        if (arguments.length === 3) {
+          if (expDay !== undefined) {
+            expDay = Number.parseFloat(expDay, 10);
+          }
+
+          var d = new Date();
+          d.setTime(d.getTime() + (expDay*24*60*60*1000));
+          var expires = "expires=" + d.toGMTString();
+          document.cookie = data + "; " + expires;
+        } else {
+          document.cookie = data;
+        }
       }
     },
 

@@ -12,7 +12,7 @@ $ch.store.local(`key`[, `data`])
 If only `key` provided, returns the value of `key` from local storage.
 Otherwise, sets and saves `key` to `data`.
 
-$ch.store.cookie(`key`[, `value`])
+$ch.store.cookie(`key`[, `value`[, `days`]])
 -----------------------------------
 
 If only `key` provides:
@@ -22,6 +22,7 @@ If only `key` provides:
 
 Otherwise, sets value of `key` to `value` and saves in cookie.
 
+If `days` presented, sets the cache data to expire in `days`.
 
 $ch.store.cache(`key`[, `value`])
 ---------------------------------
@@ -31,5 +32,4 @@ If no parameters provided, returns all cached data in the form of an object.
 If only `key` presented, returns the cached data of `key`.
 
 Otherwise, sets `key` to `value`.
-
 
