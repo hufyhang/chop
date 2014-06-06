@@ -226,8 +226,8 @@ $ch.define('event', function () {
 
       };
 
-      $$CHOP.each(arguments, function (arg) {
-        q.add(arg);
+      $$CHOP.each(arguments, function (arg, fn) {
+        q.add(fn);
       });
 
       return q;
