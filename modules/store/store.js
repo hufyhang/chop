@@ -51,7 +51,7 @@ $ch.define('store', function () {
         data = document.cookie;
         if (typeof key === 'object') {
           $$CHOP.each(key, function (k, v) {
-            regex = new RegExp(k + '\\ *=[0-9A-Za-z\\.\\ \\-%=&\\*#,|<>\\$:~`\'"\\[\\]{}\\?]+;?', 'g');
+            regex = new RegExp(k + '\\ *=[^;]{0,}', 'g');
             data = data.replace(regex, '');
             data = k + '=' + encodeURIComponent(v) + ';' + data;
           });
@@ -63,7 +63,7 @@ $ch.define('store', function () {
           if (data === undefined || data === '') {
             return '';
           } else {
-            regex = new RegExp(key + '\\ *=[0-9A-Za-z\\.\\ \\-%=&\\*#,|<>\\$:~`\'"\\[\\]{}\\?]+;?', 'g');
+            regex = new RegExp(key + '\\ *=[^;]{0,}', 'g');
             var founds = data.match(regex);
             if (founds !== null) {
               var found =  founds[0];
