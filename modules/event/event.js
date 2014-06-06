@@ -212,6 +212,9 @@ $ch.define('event', function () {
               this.data = this.callbacks[index](this.data);
             }
           }
+
+          this.state = 'stop';
+          this.current = 0;
         },
 
         stop: function () {
