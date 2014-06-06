@@ -49,7 +49,13 @@ $ch.define('regex', function () {
 
       var regex = new RegExp(reg, flag);
       var founds = tar.match(regex);
-      callback(founds);
+      if (founds !== null) {
+        $$CHOP.each(founds, function (found, index, founds) {
+          callback(found, index, founds);
+        });
+      } else {
+        callback(founds);
+      }
     }
   };
 });

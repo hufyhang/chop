@@ -16,6 +16,10 @@ Returns a string by replacing `target` with `to` according regular expression
 $ch.regex.match(`target`, `regex`[, `flag`], `callback`)
 ----------------------------------------------------
 
-Matches `regex` in `target` and calls `callback`. An array of the _matched_ 
-substrings will be the parameter when calling `callback`.
+Matches `regex` in `target` and calls `callback`.
+
+Each matched substring will be passed to `callback` in turn.
+
+If nothing matched, `callback` receives a `null` parameter. Othewise, receives
+`matchedString`, `stringIndex`, `allMatchedString`.
 
