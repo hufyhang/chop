@@ -145,7 +145,7 @@ $ch.define('event', function () {
               var that = this;
               $$CHOP.each(callback, function (call) {
                 that.callbacks.push(call);
-                ++this.length;
+                ++that.length;
               });
             } else {
               this.callbacks.push(callback);
