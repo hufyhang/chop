@@ -59,11 +59,6 @@ Executes one queued callback with parameter `data`. If `data` is not presented,
 
 Also returns the return value of the callback.
 
-.next(`data`)
---------
-
-Same as `.run(...)`.
-
 .stop()
 -------
 

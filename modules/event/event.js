@@ -199,17 +199,13 @@ $ch.define('event', function () {
             this.data = data;
           }
 
-          if (this.current < this.callbacks.length) {
-            console.log(this.current);
-            this.data = this.callbacks[this.current](this.data);
+          if (this.current < this.length) {
+            var index = this.current;
             ++this.current;
-          } else {
-            this.current = 0;
+            this.data = this.callbacks[index](this.data);
           }
           return this.data;
         },
-
-        next: this.run,
 
         stop: function () {
           this.current = 0;
