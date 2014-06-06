@@ -27,3 +27,47 @@ $ch.event.unwatch(`source`)
 ---------------------------
 
 Unwatchs the changes on `source`.
+
+$ch.event.queue(`callback`)
+---------------------------
+
+Creates and returns a callback queue. All function-type parameters will be added to the queue.
+
+APIs of "queue"
+===============
+
+.add(`callback`)
+----------------
+
+Appends `callback` to the queue.
+
+.remove(`callback`)
+-------------------
+
+Removes `callback` from the queue.
+
+.promote(`callback`)
+--------------------
+
+Moves `callback` to the front of the queue.
+
+.run(`data`)
+------------
+
+Starts the queue, and passes `data` as the initial parameter.
+
+.pause()
+--------
+
+Pauses the queue.
+
+.stop()
+-------
+
+Stops the queue.
+
+.reset()
+--------
+
+Rests the running position of the queue to 0.
+

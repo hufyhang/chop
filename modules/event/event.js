@@ -130,6 +130,107 @@ $ch.define('event', function () {
         element.removeEventListener(event, watches[name].watchChange);
       }
       delete watches[name];
+    },
+
+    queue: function () {
+      var q = {
+        callbacks: [],
+        current: 0,
+        length: 0,
+        data: undefined,
+        state: 'stop',
+
+        add: function (callback) {
+          if (callback !== undefined) {
+            if ($$CHOP.isArray(callback)) {
+              var that = this;
+              $$CHOP.each(callback, function (call) {
+                that.callbacks.push(call);
+                ++this.length;
+              });
+            } else {
+              this.callbacks.push(callback);
+              ++this.length;
+            }
+          }
+          return this;
+        },
+
+        remove: function (callback) {
+          if (callback !== undefined) {
+            var index;
+            if ($$CHOP.isArray(callback)) {
+              var that = this;
+              $$CHOP.each(callback, function (fn) {
+                index = that.callbacks.indexOf(fn);
+                if (index !== -1) {
+                  that.callbacks.splice(index, 1);
+                  --that.length;
+                }
+              });
+            } else {
+              index = this.callbacks.indexOf(callback);
+              if (index !== -1) {
+                this.callbacks.splice(index, 1);
+                --this.length;
+              }
+            }
+          }
+          return this;
+        },
+
+        promote: function (callback) {
+          if (callback !== undefined) {
+            var index = this.callbacks.indexOf(callback);
+            if (index !== -1) {
+              var fn = this.callbacks.splice(index, 1)[0];
+              this.callbacks.unshift(fn);
+            }
+          }
+          return this;
+        },
+
+        reset: function () {
+          this.current = 0;
+          return this;
+        },
+
+        run: function (data) {
+          this.data = data;
+          this.state = 'run';
+          for (var index = this.current, len = this.length; index !== len; ++index, ++this.current) {
+            if (this.state === 'stop') {
+              this.current = 0;
+              return this.data;
+            }
+
+            if (this.state === 'pause') {
+              return this.data;
+            }
+
+            if (this.state === 'run') {
+              this.data = this.callbacks[index](this.data);
+            }
+          }
+        },
+
+        stop: function () {
+          this.state = 'stop';
+          return this;
+        },
+
+        pause: function () {
+          this.state = 'pause';
+          return this;
+        }
+
+      };
+
+      $$CHOP.each(arguments, function (arg) {
+        q.add(arg);
+      });
+
+      return q;
     }
   };
 
