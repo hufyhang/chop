@@ -54,17 +54,20 @@ Moves `callback` to the front of the queue.
 .run(`data`)
 ------------
 
-Starts the queue, and passes `data` as the initial parameter.
+Executes one queued callback with parameter `data`. If `data` is not presented,
+         executing with runtime data of the queue.
 
-.pause()
+Also returns the return value of the callback.
+
+.next(`data`)
 --------
 
-Pauses the queue.
+Same as `.run(...)`.
 
 .stop()
 -------
 
-Stops the queue.
+Stops and resets the queue. Also flush the runtime data of the queue.
 
 .reset()
 --------

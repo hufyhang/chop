@@ -138,7 +138,6 @@ $ch.define('event', function () {
         current: 0,
         length: 0,
         data: undefined,
-        state: 'stop',
 
         add: function (callback) {
           if (callback !== undefined) {
@@ -196,37 +195,27 @@ $ch.define('event', function () {
         },
 
         run: function (data) {
-          this.data = data;
-          this.state = 'run';
-          for (var index = this.current, len = this.length; index !== len; ++index, ++this.current) {
-            if (this.state === 'stop') {
-              this.current = 0;
-              return this.data;
-            }
-
-            if (this.state === 'pause') {
-              return this.data;
-            }
-
-            if (this.state === 'run') {
-              this.data = this.callbacks[index](this.data);
-            }
+          if (arguments.length !== 0) {
+            this.data = data;
           }
 
-          this.state = 'stop';
-          this.current = 0;
+          if (this.current < this.callbacks.length) {
+            this.data = this.callbacks[this.current](this.data);
+            ++this.current;
+          } else {
+            this.current = 0;
+          }
+          return this.data;
         },
+
+        next: this.run,
 
         stop: function () {
-          this.state = 'stop';
-          return this;
-        },
-
-        pause: function () {
-          this.state = 'pause';
-          return this;
+          this.current = 0;
+          var result = this.data;
+          this.data = undefined;
+          return result;
         }
-
       };
 
       $$CHOP.each(arguments, function (arg, fn) {
