@@ -358,6 +358,24 @@
       return -1;
     },
 
+    chopEl: function (htmlElement) {
+      if (htmlElement === undefined) {
+        return undefined;
+      }
+
+      var elt;
+      var elementIndex = this.indexOfElement(htmlElement);
+      if (elementIndex === -1) {
+        elt = Object.create(chopEl);
+        elt.el = htmlElement;
+        elt._display = elt.el.style.display;
+        this._chopEls.push(elt);
+      } else {
+        elt = this._chopEls[elementIndex];
+      }
+      return elt;
+    },
+
     find: function (query, context) {
       if (query !== undefined) {
         if (context === undefined) {
@@ -369,16 +387,7 @@
           return undefined;
         }
 
-        var elt;
-        var elementIndex = this.indexOfElement(htmlElement);
-        if (elementIndex === -1) {
-          elt = Object.create(chopEl);
-          elt.el = htmlElement;
-          elt._display = elt.el.style.display;
-          this._chopEls.push(elt);
-        } else {
-          elt = this._chopEls[elementIndex];
-        }
+        var elt = this.chopEl(htmlElement);
 
         return elt;
       } else {
@@ -395,16 +404,7 @@
         var els = context.querySelectorAll(query);
         var elts = [];
         for (var index = 0; index !== els.length; ++index) {
-          var elt;
-          var elementIndex = this.indexOfElement(els[index]);
-          if (elementIndex === -1) {
-            elt = Object.create(chopEl);
-            elt.el = els[index];
-            elt._display = elt.el.style.display;
-            this._chopEls.push(elt);
-          } else {
-            elt = this._chopEls[elementIndex];
-          }
+          var elt = this.chopEl(els[index]);
           elts[index] = elt;
         }
         return elts;

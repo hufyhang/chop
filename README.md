@@ -67,6 +67,12 @@ $ch.findAll(`query` [, `context`])
 Returns an chop.js element array that contains all the found elements. If no
 elements found, returns an emptry array.
 
+$ch.chopEl(`DOMElement`)
+------------------------
+
+Converts a DOM element into Chop.js element object, and returns the Chop.js
+element object.
+
 $ch.source(`source`, `data`)
 ----------------------------
 
