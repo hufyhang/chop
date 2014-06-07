@@ -624,7 +624,7 @@
         for (var i = 0, l = strs.length; i !== l; ++i) {
           var init = strs[i].trim();
           var name = init.split('=')[0].trim();
-          init = init.replace(/\'/g, '\\\'');
+          init = init.replace(/'/g, "\\'");
           init = init.replace(name, 'data');
           var data = eval(init);
           this.source(name, data);
