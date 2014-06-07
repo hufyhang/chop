@@ -626,7 +626,8 @@
           var name = init.split('=')[0].trim();
           init = init.replace(/'/g, "\\'");
           init = init.replace(name, 'data');
-          var data = eval(init);
+          var data = eval("'" + init + "'");
+          data = eval(data)
           this.source(name, data);
         }
       }
