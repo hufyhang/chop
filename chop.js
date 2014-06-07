@@ -829,11 +829,30 @@
         source.data = data;
         for (var index = 0, l = source.els.length; index !== l; ++index) {
           var element = source.els[index];
-          var tag = element.tagName.toUpperCase();
-          if (tag === 'INPUT' || tag === 'TEXTAREA') {
-            element.value = data;
+          var attr = element.getAttribute('ch-source');
+          if (typeof attr === 'string' && attr !== '') {
+            var tag = element.tagName.toUpperCase();
+            if (tag === 'INPUT' || tag === 'TEXTAREA') {
+              element.value = data;
+            } else {
+              element.innerHTML = data;
+            }
           } else {
-            element.innerHTML = data;
+            var content = this._inlineSource[element.getAttribute('id')];
+            var founds = content.match(/{{.+?}}/g);
+            if (founds !== null) {
+              for (var i = 0, ll = founds.length; i !== ll; ++i) {
+                var srcName = founds[i].replace(/{{/g, '');
+                srcName = srcName.replace(/}}/g, '').trim();
+                var reg = new RegExp('{{' + srcName + '}}', 'g');
+                var d = this.sources[srcName];
+                d = d.data === undefined ? '' : d.data;
+                content = content.replace(reg, d);
+                content = content.replace(/\\{/g, '{');
+                content = content.replace(/\\}/g, '}');
+              }
+            }
+            element.innerHTML = content;
           }
         }
       } else {
@@ -848,6 +867,43 @@
       }
     },
 
+    _inlineSource: {},
+    _addSource: function (name, element, isInline) {
+      var source = this.sources[name];
+      if (source === undefined) {
+        this.sources[name] = {};
+        source = this.sources[name];
+        source.els = [];
+      }
+
+      if (isInline) {
+        var id = element.getAttribute('id');
+        if (this._inlineSource[id] === undefined) {
+          this._inlineSource[element.getAttribute('id')] = element.innerHTML;
+        }
+        var result = element.innerHTML;
+        if (typeof result === 'string') {
+          var reg = new RegExp('{{' + name + '}}', 'g');
+          var d = source.data === undefined ? '' : source.data;
+          result = result.replace(reg, d);
+        }
+        result = result.replace(/\\{/g, '{');
+        result = result.replace(/\\}/g, '}');
+        element.innerHTML = result;
+      }
+
+      if (source.data !== undefined) {
+        var tagName = element.tagName.toUpperCase();
+        if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+          element.value = source.data;
+        } else {
+          element.innerHTML = source.data;
+        }
+      }
+
+      source.els.push(element);
+    },
+
     _bindSources: function (baseElement) {
       if (baseElement === undefined || baseElement === null) {
         baseElement = document;
@@ -856,21 +912,20 @@
       for (var index = 0; index !== elements.length; ++index) {
         var element = elements[index];
         var name = element.getAttribute('ch-source');
-        var source = this.sources[name];
-        if (source === undefined) {
-          this.sources[name] = {};
-          source = this.sources[name];
-          source.els = [];
-        }
-        if (source.data !== undefined) {
-          var tagName = element.tagName.toUpperCase();
-          if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
-            element.value = source.data;
-          } else {
-            element.innerHTML = source.data;
+        // if ch-source="xxx"
+        if (name !== null && name !== '') {
+          this._addSource(name, element, false);
+        } else { // if in-line ch-source
+          var names = element.innerHTML.match(/{{.+?}}/g);
+          if (names !== null) {
+            for (var i = 0, l = names.length; i !== l; ++i) {
+              name = names[i];
+              name = name.replace(/{{/g, '');
+              name = name.replace(/}}/g, '');
+              this._addSource(name, element, true);
+            }
           }
         }
-        source.els.push(element);
 
         var that = this;
         var eventType = 'keyup';
@@ -881,23 +936,50 @@
             eventType = 'change';
           }
         }
-        element.addEventListener(eventType, function () {
-          var source = that.sources[this.getAttribute('ch-source')];
-          source.data = this.value;
-          source.els.forEach(function (item) {
-            var valueContainer;
-            var tagName = item.tagName.toUpperCase();
-            if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
-              valueContainer = 'value';
-            } else {
-              valueContainer = 'innerHTML';
-            }
 
-            if (item[valueContainer] !== source.data) {
-              item[valueContainer] = source.data;
-            }
+        var tagName = element.tagName.toUpperCase();
+        if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+
+          element.addEventListener(eventType, function () {
+            var source = that.sources[this.getAttribute('ch-source')];
+            source.data = this.value;
+            source.els.forEach(function (item) {
+              var valueContainer;
+              tagName = item.tagName.toUpperCase();
+              if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+                valueContainer = 'value';
+              } else {
+                valueContainer = 'innerHTML';
+              }
+
+              // check if is inline data source
+              var attr = item.getAttribute('ch-source');
+              if (typeof attr === 'string' && attr !== '') {
+                if (item[valueContainer] !== source.data) {
+                  item[valueContainer] = source.data;
+                }
+              } else {
+                var content = that._inlineSource[item.getAttribute('id')];
+                var founds = content.match(/{{.+?}}/g);
+                if (founds !== null) {
+                  for (var i = 0, l = founds.length; i !== l; ++i) {
+                    var src = founds[i].replace(/{{/g, '');
+                    src = src.replace(/}}/g, '').trim();
+                    var reg = new RegExp('{{' + src + '}}', 'g');
+                    var ds = that.sources[src];
+                    var d = ds.data === undefined ? '' : ds.data;
+                    content = content.replace(reg, d);
+                    content = content.replace(/\\{/g, '{');
+                    content = content.replace(/\\}/g, '}');
+                  }
+                }
+                item[valueContainer] = content;
+              }
+
+            });
           });
-        });
+
+        }
       }
     },
 

@@ -44,6 +44,12 @@ ch-source
 
 Defines/adds data sources.
 
+To use inline data source, the DOM element then has to have an ID. E.g.:
+
+~~
+<div id="inline-div" ch-source>This is a inline {{data}} source.</div>
+~~
+
 ch-inline
 ---------
 

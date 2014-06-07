@@ -22,8 +22,8 @@
     <textarea id="textarea" ch-source="message" placeholder="Message to show..."></textarea>
     <br/>
 
-    <div>Preview:</div>
-    <div ch-source="message"></div>
+    <div id="inline-preview" ch-source>Preview: {{message}}</div>
+    <div id="mix-info" ch-source>Combined: {{message}} -- {{btn-name}}</div>
     <br/>
 
     <select id="select">
