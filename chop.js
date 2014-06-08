@@ -330,6 +330,8 @@
         }
       }
 
+      html = html.replace(/\\{/g, '{');
+      html = html.replace(/\\}/g, '}');
       this.el.innerHTML = html;
       chop._loadView(this.el);
       return this;
