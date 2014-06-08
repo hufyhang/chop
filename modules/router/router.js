@@ -25,6 +25,8 @@ $ch.define('router', function () {
         throw new Error('$ch.router.add requires a parameter.');
       }
 
+      var deepLinkLoad = this.routes === {} ? true : false;
+
       var re, handler;
       for (var item in params) {
         if (params.hasOwnProperty(item)) {
@@ -33,6 +35,10 @@ $ch.define('router', function () {
 
           this.routes[re] = handler;
         }
+      }
+
+      if (deepLinkLoad) {
+        this.navigate();
       }
       return true;
     },
@@ -59,13 +65,15 @@ $ch.define('router', function () {
         throw new Error('$ch.navigate requires a parameter.');
       }
 
-      path = path ? path : '';
-      var firstNotSlash = path.match(/^\/.*/);
-      if (!firstNotSlash) {
-        path = '/' + path;
+      // path = path ? path : '';
+      if (path !== undefined) {
+        var firstNotSlash = path.match(/^\/.*/);
+        if (!firstNotSlash) {
+          path = '/' + path;
+        }
+        window.location.href.match(/#(.*)$/);
+        window.location.href = window.location.href.replace(/#(.*)$/, '') + '#' + path;
       }
-      window.location.href.match(/#(.*)$/);
-      window.location.href = window.location.href.replace(/#(.*)$/, '') + '#' + path;
       var re = this.getFragment(path);
       var params = {};
 
