@@ -25,8 +25,6 @@ $ch.define('router', function () {
         throw new Error('$ch.router.add requires a parameter.');
       }
 
-      var deepLinkLoad = this.routes === {} ? true : false;
-
       var re, handler;
       for (var item in params) {
         if (params.hasOwnProperty(item)) {
@@ -37,9 +35,6 @@ $ch.define('router', function () {
         }
       }
 
-      if (deepLinkLoad) {
-        this.navigate();
-      }
       return true;
     },
     remove: function(re) {
@@ -61,11 +56,6 @@ $ch.define('router', function () {
       return this;
     },
     navigate: function(path) {
-      if (arguments.length === 0) {
-        throw new Error('$ch.navigate requires a parameter.');
-      }
-
-      // path = path ? path : '';
       if (path !== undefined) {
         var firstNotSlash = path.match(/^\/.*/);
         if (!firstNotSlash) {

@@ -346,6 +346,7 @@
     _chopEls: [],
     modules: {},
     sources: {},
+    _misc: {},
 
     _isArray: _isArray,
     isArray: _isArray,
