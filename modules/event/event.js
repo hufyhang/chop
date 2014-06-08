@@ -54,6 +54,7 @@ $ch.define('event', function () {
       events[evt] = {};
       events[evt]._event = evt;
       events[evt]._callback = callback;
+      return this;
     },
 
     emit: function (evt, data) {
@@ -71,6 +72,8 @@ $ch.define('event', function () {
           events[evt[index]]._callback(data);
         }
       }
+
+      return this;
 
     },
 
@@ -117,6 +120,8 @@ $ch.define('event', function () {
         var event = getEventType(element);
         element.addEventListener(event, watchChange);
       }
+
+      return this;
     },
 
     unwatch: function (name) {
@@ -130,6 +135,7 @@ $ch.define('event', function () {
         element.removeEventListener(event, watches[name].watchChange);
       }
       delete watches[name];
+      return this;
     },
 
     queue: function () {
