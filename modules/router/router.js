@@ -18,10 +18,6 @@ $ch.define('router', function () {
     }
   };
 
-  window.addEventListener('onhashchange', function () {
-    $$CHOP.router.navigate();
-  });
-
   $$CHOP.router = {};
 
   $$CHOP.router = {
