@@ -658,6 +658,9 @@
       }
     },
 
+    _afterLoadView: function () {
+      return true;
+    },
     _loadView: function (baseElement) {
       var callbackName;
       if (baseElement === undefined || baseElement === null) {
@@ -685,6 +688,7 @@
       chop._registerEvents(baseElement);
       chop._bindSources(baseElement);
       chop._renderInline(baseElement);
+      chop._afterLoadView();
     },
 
     http: function (param) {

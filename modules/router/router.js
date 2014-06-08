@@ -6,6 +6,18 @@ $ch.define('router', function () {
     return Object.prototype.toString.call(value) === '[object Array]';
   };
 
+  var deepLinked = false;
+  var isDeepLinking = false;
+  var afterLoadView = $$CHOP._afterLoadView;
+
+  $$CHOP._afterLoadView = function () {
+    afterLoadView();
+    if (isDeepLinking) {
+      isDeepLinking = false;
+      $$CHOP.router.navigate();
+    }
+  };
+
   $$CHOP.router = {};
 
   $$CHOP.router = {
@@ -33,6 +45,10 @@ $ch.define('router', function () {
 
           this.routes[re] = handler;
         }
+      }
+
+      if (this.getFragment() !== '' && deepLinked === false) {
+        isDeepLinking = true;
       }
 
       return true;
