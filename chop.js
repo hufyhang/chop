@@ -309,7 +309,7 @@
         for (i = 0; i !== source.length; ++i) {
           html += template;
           obj = source[i];
-          founds = template.match(/{{.+?}}/g);
+          founds = template.match(/{{[^{]{1,}}}/g);
 
           for (ii = 0; ii !== founds.length; ++ii) {
             found = founds[ii].replace(/{/g, '');
@@ -320,7 +320,7 @@
         }
       } else {
         html = template;
-        founds = template.match(/{{.+?}}/g);
+        founds = template.match(/{{[^{]{1,}}}/g);
         obj = source;
 
         for (ii = 0; ii !== founds.length; ++ii) {
@@ -434,7 +434,7 @@
         return html;
       }
 
-      var founds = html.match(/{{.+?}}/g);
+      var founds = html.match(/{{[^{]{1,}}}/g);
       if (founds) {
         founds.forEach(function (found) {
           var key = found.replace(/{/g, '');
@@ -456,7 +456,7 @@
         var callback = elements[index].getAttribute(attr);
         callback = callback.replace(/\$\$event/g, 'arguments[0]');
 
-        var founds = callback.match(/{{.+?}}/g);
+        var founds = callback.match(/{{[^{]{1,}}}/g);
         if (founds) {
           for (var i = 0; i !== founds.length; ++i) {
             var found = founds[i];
@@ -565,7 +565,7 @@
           for (i = 0; i !== source.length; ++i) {
             html += template;
             obj = source[i];
-            founds = template.match(/{{.+?}}/g);
+            founds = template.match(/{{[^{]{1,}}}/g);
 
             for (ii = 0; ii !== founds.length; ++ii) {
               found = founds[ii].replace(/{/g, '');
@@ -576,7 +576,7 @@
           }
         } else {
           html = template;
-          founds = template.match(/{{.+?}}/g);
+          founds = template.match(/{{[^{]{1,}}}/g);
           obj = source;
 
           for (ii = 0; ii !== founds.length; ++ii) {
@@ -840,7 +840,7 @@
             }
           } else {
             var content = this._inlineSource[element.getAttribute('id')];
-            var founds = content.match(/{{.+?}}/g);
+            var founds = content.match(/{{[^{]{1,}}}/g);
             if (founds !== null) {
               for (var i = 0, ll = founds.length; i !== ll; ++i) {
                 var srcName = founds[i].replace(/{{/g, '');
@@ -917,7 +917,7 @@
         if (name !== null && name !== '') {
           this._addSource(name, element, false);
         } else { // if in-line ch-source
-          var names = element.innerHTML.match(/{{.+?}}/g);
+          var names = element.innerHTML.match(/{{[^{]{1,}}}/g);
           if (names !== null) {
             for (var i = 0, l = names.length; i !== l; ++i) {
               name = names[i];
@@ -961,7 +961,7 @@
                 }
               } else {
                 var content = that._inlineSource[item.getAttribute('id')];
-                var founds = content.match(/{{.+?}}/g);
+                var founds = content.match(/{{[^{]{1,}}}/g);
                 if (founds !== null) {
                   for (var i = 0, l = founds.length; i !== l; ++i) {
                     var src = founds[i].replace(/{{/g, '');

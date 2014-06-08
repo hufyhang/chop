@@ -24,7 +24,7 @@ $ch.define('model', function () {
 
   var processValue = function (v) {
     if (typeof v === 'string') {
-      var founds = v.trim().match(/{{.+?}}/g);
+      var founds = v.trim().match(/{{[^{]{1,}}}/g);
       if (founds !== null) {
         var src = founds[0].replace(/{/g, '').trim();
         src = src.replace(/}/g, '').trim();
