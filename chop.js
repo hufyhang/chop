@@ -876,6 +876,23 @@
     },
 
     _inlineSource: {},
+    _processInlineSourceContent: function (item, that) {
+      var content = that._inlineSource[item.getAttribute('id')];
+      var founds = content.match(/{{[^{]{1,}}}/g);
+      if (founds !== null) {
+        for (var i = 0, l = founds.length; i !== l; ++i) {
+          var src = founds[i].replace(/{{/g, '');
+          src = src.replace(/}}/g, '').trim();
+          var reg = new RegExp('{{' + src + '}}', 'g');
+          var ds = that.sources[src];
+          var d = ds.data === undefined ? '' : ds.data;
+          content = content.replace(reg, d);
+          content = content.replace(/\\{/g, '{');
+          content = content.replace(/\\}/g, '}');
+        }
+        return content;
+      }
+    },
     _addSource: function (name, element, isInline) {
       var source = this.sources[name];
       if (source === undefined) {
@@ -905,7 +922,12 @@
         if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
           element.value = source.data;
         } else {
-          element.innerHTML = source.data;
+          if (isInline) {
+            element.innerHTML = this._processInlineSourceContent(element, this);
+
+          } else {
+            element.innerHTML = source.data;
+          }
         }
       }
 
@@ -967,21 +989,7 @@
                   item[valueContainer] = source.data;
                 }
               } else {
-                var content = that._inlineSource[item.getAttribute('id')];
-                var founds = content.match(/{{[^{]{1,}}}/g);
-                if (founds !== null) {
-                  for (var i = 0, l = founds.length; i !== l; ++i) {
-                    var src = founds[i].replace(/{{/g, '');
-                    src = src.replace(/}}/g, '').trim();
-                    var reg = new RegExp('{{' + src + '}}', 'g');
-                    var ds = that.sources[src];
-                    var d = ds.data === undefined ? '' : ds.data;
-                    content = content.replace(reg, d);
-                    content = content.replace(/\\{/g, '{');
-                    content = content.replace(/\\}/g, '}');
-                  }
-                }
-                item[valueContainer] = content;
+                item[valueContainer] = that._processInlineSourceContent(item, that);
               }
 
             });

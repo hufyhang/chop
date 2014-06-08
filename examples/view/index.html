@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Chop.js View Example</title>
+
+    <script type="text/template" id="home-template">
+      <h3>Welcome to Chop.js View Example Page.</h3>
+      <div>Please enter your name below and hits Enter.</div>
+      <input type="text" value="" placeholder="name..." ch-source="name" ch-keypress="if ($$event.keyCode === 13) {$ch.event.emit('greeting')}"/>
+    </script>
+
+    <script type="text/template" id="greeting-template">
+      <h3 id="welcome-h3" ch-source>Very welcome, \{\{name\}\}!!!</h3>
+    </script>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script src="chop.min.js" ch-main="main.js"></script>
+</body>
+</html>
