@@ -72,7 +72,7 @@ hr {
   outline: 0;
 }
 
-.chopjs-ui-input :focus {
+.chopjs-ui-input:focus {
   border-color: #66afe9;
 }
 
@@ -87,7 +87,7 @@ hr {
   outline: 0;
 }
 
-.chopjs-ui-select :focus {
+.chopjs-ui-select:focus {
   border-color: #66afe9;
 }
 
