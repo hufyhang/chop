@@ -110,6 +110,7 @@ hr {
 
 .chopjs-ui-select:focus {
   border-color: #66afe9;
+  border-width: 2px;
 }
 
 .chopjs-ui-select-drop {
