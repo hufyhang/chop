@@ -55,7 +55,7 @@ hr {
 }
 
 
-.chopjs-ui-button :hover {
+.chopjs-ui-button:hover {
   background: #539DEB;
 }
 
@@ -113,7 +113,7 @@ hr {
   line-height: 1em;
 }
 
-.chopjs-ui-pager :hover {
+.chopjs-ui-pager:hover {
   background: #dddddd;
   color: #157ab5;
 }
