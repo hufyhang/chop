@@ -128,10 +128,13 @@ hr {
   top: 0;
   left: 5%;
   right: 5%;
-  border-radius: 6px;
+  vertical-align: middle;
+  border-radius: 3px;
   background-color: #18bc9c;
   color: white;
   border: 1px solid transparent;
+  padding-left: 15px;
+  padding-right: 15px;
   padding-top: 5px;
   padding-bottom: 5px;
   box-shadow: 0px 1px 1px #3b5998;
