@@ -1,0 +1,145 @@
+/* Chop.js Framework UI module CSS */
+html {
+  font-family: Arial, sans-serif;
+}
+
+hr {
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em;
+  padding: 0;
+}
+
+.chopjs-ui-hide {
+  display: none !important;
+}
+
+.chopjs-ui-full {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.chopjs-ui-full-width {
+  width: 100% !important;
+}
+
+.chopjs-ui-full-height {
+  height: 100% !important;
+}
+
+.chopjs-ui-disable {
+  cursor: not-allowed !important;
+}
+
+.chopjs-ui-button {
+  border-color: rgba(0, 0, 0, 0.6);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  background: #4391e3;
+  display: inline-block;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  white-space: no-wrap;
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select = none;
+  font-family: Arial, sans-serif;
+}
+
+
+.chopjs-ui-button :hover {
+  background: #539DEB;
+}
+
+.chopjs-ui-input {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #555555;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  outline: 0;
+}
+
+.chopjs-ui-input :focus {
+  border-color: #66afe9;
+}
+
+.chopjs-ui-select {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #555555;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  outline: 0;
+}
+
+.chopjs-ui-select :focus {
+  border-color: #66afe9;
+}
+
+.chopjs-ui-pager {
+  color: #2fa4e7;
+  text-shadow: none;
+  background: #ffffff;
+  display: inline-block;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  white-space: no-wrap;
+  cursor: pointer;
+  padding: 8px 20px;
+  font-size: 14px;
+  border-radius: 15px;
+  border: 1px solid #dddddd;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  font-family: Arial, sans-serif;
+  line-height: 1em;
+}
+
+.chopjs-ui-pager :hover {
+  background: #dddddd;
+  color: #157ab5;
+}
+
+.chopjs-ui-topbar {
+  position: fixed;
+  display: inline-block;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgb(67, 145, 227);
+  color: white;
+  border: 1px solid transparent;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  box-shadow: 0px 1px 1px #3b5998;
+
+
+}
+
+.chopjs-ui-topbar .ch-topbar-element {
+  font-size: 20px;
+  display: table-cell;
+  padding: 2px 3px;
+}
+
+.chopjs-ui-topbar .ch-topbar-img {
+  max-height: 30px;
+}
