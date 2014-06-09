@@ -148,9 +148,7 @@ $ch.define('ui', function () {
     $ch.each(subs, function (sub) {
       var tagName = sub.el.tagName.toUpperCase();
       if (tagName === 'DIV' || tagName === 'SPAN') {
-        if (sub.el.getAttribute('ch-logo') === null) {
-          sub.button();
-        } else {
+        if (sub.el.getAttribute('ch-logo') !== null) {
           sub.el.className += ' ch-topbar-img';
         }
       }

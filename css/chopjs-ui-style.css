@@ -33,30 +33,34 @@ hr {
 }
 
 .chopjs-ui-button {
-  border-color: rgba(0, 0, 0, 0.6);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-  color: #ffffff;
-  background: #4391e3;
+  font-family: Arial, sans-serif;
   display: inline-block;
+  color: #ffffff;
+  background-color: #3498db;
+  border-color: #3498db;
+  margin-bottom: 0;
   font-weight: normal;
   text-align: center;
   vertical-align: middle;
-  white-space: no-wrap;
   cursor: pointer;
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 4px;
+  background-image: none;
   border: 1px solid transparent;
-  user-select: none;
+  white-space: nowrap;
+  padding: 10px 15px;
+  font-size: 15px;
+  line-height: 1.42857143;
+  border-radius: 4px;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select = none;
-  font-family: Arial, sans-serif;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 
 .chopjs-ui-button:hover {
-  background: #539DEB;
+  color: #ffffff;
+  background-color: #2383c4;
+  border-color: #2077b2;
 }
 
 .chopjs-ui-input {
@@ -122,22 +126,25 @@ hr {
   position: fixed;
   display: inline-block;
   top: 0;
-  left: 0;
-  right: 0;
-  background: rgb(67, 145, 227);
+  left: 5%;
+  right: 5%;
+  border-radius: 6px;
+  background-color: #18bc9c;
   color: white;
   border: 1px solid transparent;
   padding-top: 5px;
   padding-bottom: 5px;
   box-shadow: 0px 1px 1px #3b5998;
-
-
 }
 
 .chopjs-ui-topbar .ch-topbar-element {
   font-size: 20px;
   display: table-cell;
   padding: 2px 3px;
+}
+
+.chopjs-ui-topbar .ch-topbar-element:hover {
+  color: navy;
 }
 
 .chopjs-ui-topbar .ch-topbar-img {
