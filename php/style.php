@@ -2,8 +2,8 @@
 header('Content-Type: text/css;charset=utf-8');
 
 $GITHUB = 'https://raw.githubusercontent.com/hufyhang/chop/master/css/';
-$module = $_GET['module'];
-$url = $GITHUB . $module . '.css';
+$q = $_GET['q'];
+$url = $GITHUB . $q . '.css';
 echo url_get_contents($url);
 
 function url_get_contents ($url) {
