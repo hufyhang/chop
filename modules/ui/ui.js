@@ -108,6 +108,10 @@ $ch.define('ui', function () {
     var e = this.el;
     this.el.className += ' chopjs-ui-select';
 
+    if (e.getAttribute('multiple') === null) {
+      this.el.className += ' chopjs-ui-select-drop';
+    }
+
     if (callback !== undefined) {
       this.on('change', function () {
         callback(e.value);
