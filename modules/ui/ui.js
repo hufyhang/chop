@@ -6,14 +6,14 @@ $ch.define('ui', function () {
   var hasStyle = $$CHOP.find('.chopjs-ui-style-css') !== undefined;
   if (!hasStyle) {
     var node = document.createElement('style');
-    node.className += 'chopjs-ui-style-css';
+    node.className += ' chopjs-ui-style-css';
     node.innerHTML = $$CHOP.http({url: UI_CSS, async: false});
     document.head.appendChild(node);
   }
 
   // hide and show//{{{
   $$CHOPEL.hide = function () {
-    this.el.className += 'chopjs-ui-hide';
+    this.el.className += ' chopjs-ui-hide';
     return this;
   };
 
@@ -46,19 +46,19 @@ $ch.define('ui', function () {
   // full size//{{{
   $$CHOPEL.full = function () {
     var e = this.el;
-    e.className += 'chopjs-ui-full';
+    e.className += ' chopjs-ui-full';
     return this;
   };
 
   $$CHOPEL.fullHeight = function () {
     var e = this.el;
-    e.className += 'chopjs-ui-full-height';
+    e.className += ' chopjs-ui-full-height';
     return this;
   };
 
   $$CHOPEL.fullWidth = function () {
     var e = this.el;
-    e.className += 'chopjs-ui-full-width';
+    e.className += ' chopjs-ui-full-width';
     return this;
   };
 //}}}
@@ -66,7 +66,7 @@ $ch.define('ui', function () {
   // disable & enable//{{{
   $$CHOPEL.disable = function () {
     this.attr('disabled', 'disabled');
-    this.el.className += 'chopjs-ui-disable';
+    this.el.className += ' chopjs-ui-disable';
     return this;
   };
 
@@ -79,7 +79,7 @@ $ch.define('ui', function () {
 
   // click button//{{{
   $$CHOPEL.button = function (callback) {
-    this.el.className += 'chopjs-ui-button';
+    this.el.className += ' chopjs-ui-button';
 
     if (callback !== undefined) {
       this.on('click', callback);
@@ -91,7 +91,7 @@ $ch.define('ui', function () {
 
   // input & textarea //{{{
   $$CHOPEL.input = function (callback) {
-    this.el.className += 'chopjs-ui-input';
+    this.el.className += ' chopjs-ui-input';
 
     if (callback !== undefined) {
       this.on('keyup', callback);
@@ -106,7 +106,7 @@ $ch.define('ui', function () {
   // dropbox & selectbox //{{{
   $$CHOPEL.dropbox = function (callback) {
     var e = this.el;
-    this.el.className += 'chopjs-ui-select';
+    this.el.className += ' chopjs-ui-select';
 
     if (callback !== undefined) {
       this.on('change', function () {
@@ -122,7 +122,7 @@ $ch.define('ui', function () {
 
   // pager button//{{{
   $$CHOPEL.pager = function (callback) {
-    this.el.className += 'chopjs-ui-pager';
+    this.el.className += ' chopjs-ui-pager';
 
     if (callback !== undefined) {
       this.on('click', callback);
@@ -140,7 +140,7 @@ $ch.define('ui', function () {
       zindex = 1;
     }
 
-    e.className += 'chopjs-ui-topbar';
+    e.className += ' chopjs-ui-topbar';
     e.style.zindex = zindex;
 
 
@@ -151,10 +151,10 @@ $ch.define('ui', function () {
         if (sub.el.getAttribute('ch-logo') === null) {
           sub.button();
         } else {
-          sub.el.className += '.ch-topbar-img';
+          sub.el.className += ' ch-topbar-img';
         }
       }
-      sub.el.className += 'ch-topbar-element';
+      sub.el.className += ' ch-topbar-element';
     });
 
     if (next !== undefined) {
