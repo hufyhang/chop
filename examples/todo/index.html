@@ -16,7 +16,7 @@
         <input id="todo-input" type="text" class="form-control" ch-source="msg" ch-keypress="if ($$event.keyCode === 13) {addTodo();}" placeholder="things to do" />
         <div id="todo-btn" class="btn btn-primary" ch-click="addTodo();">Add</div>
       </div>
-      <br/>Preview: <div class="preview" ch-source="msg"></div>
+      <br/>Preview: <div id="preview-div" class="preview" ch-source="msg"></div>
 
       <div class="awesome-container" id="awesome-inline" ch-inline="todos">
         <div class="alert alert-info" ch-click="removeTodo({{index}});">

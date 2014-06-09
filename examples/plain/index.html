@@ -5,7 +5,7 @@
     <title>Plain Example</title>
 </head>
 <body>
-  <input type="text" value="" ch-source="input"/>
+  <input id="input" type="text" value="" ch-source="input"/>
   <div id="preview" ch-source="input"></div>
   <input type="button" class="button" value="Click me" ch-click="console.log({{list | filter: ageFilter}})"/>
     <br />

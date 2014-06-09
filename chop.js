@@ -919,7 +919,17 @@
         }
       }
 
-      source.els.push(element);
+      var shouldAdd = true;
+      for (var index = 0, len = source.els.length; index !== len; ++index) {
+        var sid = source.els[index].id;
+        if (sid === element.id) {
+          shouldAdd = false;
+          break;
+        }
+      }
+      if (shouldAdd) {
+        source.els.push(element);
+      }
     },
 
     _bindSources: function (baseElement) {
