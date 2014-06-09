@@ -96,6 +96,12 @@ appendNode(`node`)
 
 Appends the `node` element to the current Chop.js element.
 
+prependNode(`node`)
+------------
+
+Prepends the `node` element to the current Chop.js element.
+
+
 removeNode(`node`)
 ------------------
 

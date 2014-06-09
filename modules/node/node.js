@@ -150,6 +150,21 @@ $ch.define('node', function () {
         return this;
       },
 
+      prependNode: function (node) {
+        if (arguments.length === 0) {
+          throw new Error('.prependNode requires a node parameter.');
+        }
+
+        var nodes = this.child();
+        if (nodes.length !== 0) {
+          this._node.insertBefore(node._node, nodes[0]);
+        } else {
+          this._node.appendChild(node._node);
+        }
+        $$CHOP._loadView(this._node);
+        return this;
+      },
+
       appendNode: function (node) {
         if (arguments.length === 0) {
           throw new Error('.appendNode requires a node parameter.');
