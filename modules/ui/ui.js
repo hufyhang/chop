@@ -3,9 +3,13 @@ $ch.define('ui', function () {
   'use strict';
   var UI_CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-ui-style';
 
-  var node = document.createElement('style');
-  node.innerHTML = $$CHOP.http({url: UI_CSS, async: false});
-  document.head.appendChild(node);
+  var hasStyle = $$CHOP.find('.chopjs-ui-style-css') !== undefined;
+  if (!hasStyle) {
+    var node = document.createElement('style');
+    node.className += 'chopjs-ui-style-css';
+    node.innerHTML = $$CHOP.http({url: UI_CSS, async: false});
+    document.head.appendChild(node);
+  }
 
   // hide and show//{{{
   $$CHOPEL.hide = function () {
