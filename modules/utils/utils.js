@@ -23,8 +23,7 @@ $ch.define('utils', function () {
 
     bind: function (callback, context) {
       var fn = callback;
-      fn.bind(context);
-      return fn;
+      return fn.bind(context);
     },
 
     now: function () {
