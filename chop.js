@@ -128,7 +128,7 @@
     },
 
     html: function (html) {
-      if (html) {
+      if (html !== undefined) {
         this.el.innerHTML = html;
         return this;
       } else {

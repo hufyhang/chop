@@ -6,16 +6,28 @@
 
     <script type="text/template" id="home-template">
       <h3>Welcome to Chop.js View Example Page.</h3>
-      <div>Please enter your name below and hits Enter.</div>
+      <div>Please enter your name below and hit Enter.</div>
       <input type="text" value="" placeholder="name..." ch-source="name" ch-keypress="if ($$event.keyCode === 13) {$ch.event.emit('greeting')}"/>
     </script>
 
     <script type="text/template" id="greeting-template">
       <h3 id="welcome-h3" ch-source>Very welcome, \{\{name\}\}!!!</h3>
     </script>
+
+    <script type="text/template" id="information-template">
+      <div id="inline-information" ch-inline="people | filter: peopleFilter">
+        <div>
+          Name: {{name}} <br/>
+          Gender: {{gender}} <br/>
+          Age: {{age}}
+        </div>
+        <br />
+      </div>
+    </script>
 </head>
 <body>
   <div id="container"></div>
+  <div id="info-container" ch-init="people = [{name: 'Daniel', gender: 'Male', age: 26}, {name: 'Audrey', gender: 'Female', age: 25}, {name: 'Daniel', gender: 'Male', age: 26.5}]"></div>
 
   <script src="chop.min.js" ch-main="main.js"></script>
 </body>
