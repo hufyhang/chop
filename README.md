@@ -119,6 +119,15 @@ The object `param` contains:
 
 If `async` is `false`, returns the response text.
 
+$ch.jsonp(`url`, `callback`)
+----------------------------
+
+Performs a JSONP request.
+
+`url` should be in the format of: `http://example.com/data.json?jsonp={callback}`.
+
+`callback` is a function and takes a data parameter refers to the loaded JSON.
+
 $ch.define(`name`, `function`)
 ------------------------------
 

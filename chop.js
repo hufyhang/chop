@@ -1039,7 +1039,41 @@
       }
 
       return results;
+    },
+
+    _jsonpCallbackCounter: 0,
+    _jsonpCallbacks: {},
+
+    jsonp: function(url, callback) {
+      var fn = 'JSONPCallback_' + this._jsonpCallbackCounter++;
+      this._jsonpCallbacks[fn] = this._evalJSONP(callback);
+      url = url.replace('={callback}', '=$ch._jsonpCallbacks[\'' + fn + '\']');
+
+      var scriptTag = document.createElement('SCRIPT');
+      scriptTag.src = url;
+      document.getElementsByTagName('HEAD')[0].appendChild(scriptTag);
+    },
+
+    _evalJSONP: function(callback) {
+      return function(data) {
+        var validJSON = false;
+        if (typeof data === "string") {
+          try {validJSON = JSON.parse(data);} catch (e) {
+            /*invalid JSON*/
+          }
+        } else {
+          validJSON = JSON.parse(JSON.stringify(data));
+          window.console && console.warn(
+            '$ch.JSONP: response data was not a JSON string');
+        }
+        if (validJSON) {
+          callback(validJSON);
+        } else {
+          throw("$ch.JSONP: JSONP call returned invalid or empty JSON");
+        }
+      };
     }
+
   };
 //}}}
 
