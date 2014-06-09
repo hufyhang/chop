@@ -143,17 +143,6 @@
       return this;
     },
 
-    show: function () {
-      this.el.style.display = this._display;
-      return this;
-    },
-
-    hide: function () {
-      this._display = this.el.style.display;
-      this.el.style.display = 'none';
-      return this;
-    },
-
     attr: function (key, value) {
       if (arguments.length === 0) {
         return this.el.attributes;
@@ -371,7 +360,6 @@
       if (elementIndex === -1) {
         elt = Object.create(chopEl);
         elt.el = htmlElement;
-        elt._display = elt.el.style.display;
         this._chopEls.push(elt);
       } else {
         elt = this._chopEls[elementIndex];
