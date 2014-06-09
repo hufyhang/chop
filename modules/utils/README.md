@@ -11,6 +11,11 @@ $ch.utils.extend(`destination`, `source`)
 
 Returns the `destination` object after extends against `source`.
 
+$ch.utils.bind(`function`, `context`)
+-------------------------------------
+
+Creates and return a new function that will call `function` in `context`.
+
 $ch.utils.now()
 ---------------
 

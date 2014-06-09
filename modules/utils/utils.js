@@ -21,6 +21,12 @@ $ch.define('utils', function () {
       return destination;
     },
 
+    bind: function (callback, context) {
+      var fn = callback;
+      fn.bind(context);
+      return fn;
+    },
+
     now: function () {
       return Date.parse(Date());
     },
