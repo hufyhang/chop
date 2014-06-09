@@ -157,7 +157,7 @@ $ch.define('node', function () {
 
         var nodes = this.child();
         if (nodes.length !== 0) {
-          this._node.insertBefore(node._node, nodes[0]);
+          this._node.insertBefore(node._node, nodes[0]._node);
         } else {
           this._node.appendChild(node._node);
         }
