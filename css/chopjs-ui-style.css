@@ -159,3 +159,19 @@ hr {
 .chopjs-ui-topbar .ch-topbar-img {
   max-height: 30px;
 }
+
+.chopjs-ui-color-warning {
+  color: #f39c12;
+}
+
+.chopjs-ui-color-danger {
+  color: #e74c3c;
+}
+
+.chopjs-ui-color-success {
+  color: #18bc9c;
+}
+
+.chopjs-ui-color-information {
+  color: #3498db;
+}

@@ -23,6 +23,37 @@ $ch.define('ui', function () {
   };
 //}}}
 
+  // colorful//{{{
+  $$CHOPEL.normal = function () {
+    this.el.className = this.el.className.replace(/chopjs-ui-color-\w+/g, '');
+    return this;
+  };
+
+  $$CHOPEL.warning = function () {
+    this.el.className = this.el.className.replace(/chopjs-ui-color-\w+/g, '');
+    this.el.className += ' chopjs-ui-color-warning';
+    return this;
+  };
+
+  $$CHOPEL.danger = function () {
+    this.el.className = this.el.className.replace(/chopjs-ui-color-\w+/g, '');
+    this.el.className += ' chopjs-ui-color-danger';
+    return this;
+  };
+
+  $$CHOPEL.success = function () {
+    this.el.className = this.el.className.replace(/chopjs-ui-color-\w+/g, '');
+    this.el.className += ' chopjs-ui-color-success';
+    return this;
+  };
+
+  $$CHOPEL.information = function () {
+    this.el.className = this.el.className.replace(/chopjs-ui-color-\w+/g, '');
+    this.el.className += ' chopjs-ui-color-information';
+    return this;
+  };
+//}}}
+
   // height//{{{
   $$CHOPEL.height = function () {
     return this.el.offsetHeight;
