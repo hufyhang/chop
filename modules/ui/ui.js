@@ -224,7 +224,14 @@ $ch.define('ui', function () {
       if (index === 0) {
         firstHtml = htmls[names[index]];
       }
-      html.push('<div class="chopjs-ui-tab ' + activeTag + '" ch-tab="' + names[index] + '">' + names[index] + '</div>');
+
+      var chopEvent = '';
+      var evt = tabs[index].getAttribute('ch-click');
+      if ( evt !== null) {
+        chopEvent += 'ch-click="' + evt + '" ';
+      }
+
+      html.push('<div class="chopjs-ui-tab ' + activeTag + '" ch-tab="' + names[index] + '" ' + chopEvent + '>' + names[index] + '</div>');
     }
     html.push('</div>');
 
