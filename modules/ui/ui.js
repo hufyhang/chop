@@ -32,7 +32,7 @@ $ch.define('ui', function () {
       e.tabs();
     });
 
-    originalLoadView();
+    originalLoadView(baseElement);
   };
 
 
