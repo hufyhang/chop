@@ -215,6 +215,9 @@ hr {
   background-color: #3498db;
 }
 
+.chopjs-ui-tabs .chopjs-ui-active:hover {
+}
+
 .chopjs-ui-tab:hover {
    background-color: #ecf0f1;
 }
