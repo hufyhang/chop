@@ -71,21 +71,19 @@
       $ch.source('message', 'Welcome to Chop.js');
     });
 
-    $ch.find('#select').on('change', function (value) {
+    $ch.find('#select').on('change', function () {
       'use strict';
-      console.log('Selected: ' + value);
+      console.log('Selected: ' + this.value);
     }).css('width', '50%');
 
-    $ch.find('#multipe-select').on('change', function (value) {
+    $ch.find('#multipe-select').on('change', function () {
       'use strict';
-      console.log('Selected: ' + value);
+      console.log('Selected: ' + this.value);
     }).css('width', '50%');
 
     $ch.find('#pager-btn').click(function () {
        console.log('Clicked pager button.')
     });
-
-    // $ch.find('#tabs').tabs();
 
     $ch.source('inline', {information: 'Have fun with Chop.js!!!'});
   </script>

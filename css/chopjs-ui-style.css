@@ -80,7 +80,7 @@ hr {
   border-color: #2077b2;
 }
 
-input, .chopjs-ui-input {
+input, textarea, .chopjs-ui-input {
   display: inline-block;
   padding: 8px 12px;
   font-size: 14px;
@@ -93,7 +93,7 @@ input, .chopjs-ui-input {
   outline: 0;
 }
 
-input:focus, .chopjs-ui-input:focus {
+input:focus, textarea:focus, .chopjs-ui-input:focus {
   border-color: #66afe9;
   border-width: 2px;
 }
