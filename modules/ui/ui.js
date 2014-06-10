@@ -222,7 +222,6 @@ $ch.define('ui', function () {
       var activeTag = index === 0 ? ' chopjs-ui-active' : '';
       html.push('<div class="chopjs-ui-tab ' + activeTag + '" ch-tab="' + names[index] + '">' + names[index] + '</div>');
     }
-    html.push('</div>');
 
     var content = ['<div class="chopjs-ui-tabs-content">'];
     if (typeof active === 'string' && htmls[active] !== undefined) {
@@ -232,7 +231,7 @@ $ch.define('ui', function () {
     }
     content.push('</div>');
 
-    e.innerHTML = html.join('') + content.join('');
+    e.innerHTML = html.join('') + content.join('') + '</div>';
 
     var onTabClicked = function (context) {
       for (var i = 0, l = tabs.length; i !== l; ++i) {

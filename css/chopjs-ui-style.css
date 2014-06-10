@@ -218,3 +218,7 @@ hr {
    background-color: #ecf0f1;
 }
 
+.chopjs-ui-tabs-content {
+   width: 100%;
+}
+
