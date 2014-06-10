@@ -252,12 +252,10 @@ $ch.define('ui', function () {
         var tabName = this.getAttribute('ch-tab');
         var ce = e.querySelector('.chopjs-ui-tabs-content');
         ce.innerHTML = htmls[tabName];
-        // $$CHOP._loadView(ce);
+        $$CHOP._loadView(ce);
       });
     }
 
-    console.log('CHECK!!');
-    // $$CHOP._loadView(e);
     return this;
   };
 //}}}
