@@ -222,6 +222,7 @@ $ch.define('ui', function () {
       var activeTag = index === 0 ? ' chopjs-ui-active' : '';
       html.push('<div class="chopjs-ui-tab ' + activeTag + '" ch-tab="' + names[index] + '">' + names[index] + '</div>');
     }
+    html.push('</div>');
 
     var content = ['<div class="chopjs-ui-tabs-content">'];
     if (typeof active === 'string' && htmls[active] !== undefined) {
@@ -231,7 +232,7 @@ $ch.define('ui', function () {
     }
     content.push('</div>');
 
-    e.innerHTML = html.join('') + content.join('') + '</div>';
+    e.innerHTML = html.join('') + content.join('');
 
     var onTabClicked = function (context) {
       for (var i = 0, l = tabs.length; i !== l; ++i) {
@@ -239,7 +240,7 @@ $ch.define('ui', function () {
       }
       context.el.className += ' chopjs-ui-active';
       var tabName = context.el.getAttribute('ch-tab');
-      e.el.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
+      e.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
 
       $$CHOP._loadView(e);
     };
