@@ -112,7 +112,7 @@ insert(`content`, `where`)
 
 Inserts `content` to `where`. `where` can be either `before` or `after`.
 
-`content` a Chop.js node object or any other type of value.
+`content` is a string-type value.
 
 class(`name`)
 ---------

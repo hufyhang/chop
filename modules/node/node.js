@@ -179,12 +179,12 @@ $ch.define('node', function () {
           where = 'after';
         }
 
-        if (typeof content === 'object' && $$CHOP.isArray(content) === false) {
+        if (typeof content !== 'string' && $$CHOP.isArray(content) === false) {
           content = content.html();
         }
 
         where = where.toUpperCase();
-        if (where !== 'AFTER' || where !== 'BEFORE') {
+        if (where !== 'AFTER' && where !== 'BEFORE') {
           where = 'AFTER';
         }
 
