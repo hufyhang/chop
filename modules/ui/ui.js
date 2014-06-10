@@ -238,11 +238,9 @@ $ch.define('ui', function () {
       for (var i = 0, l = tabs.length; i !== l; ++i) {
         tabs[i].className = tabs[i].className.replace(/chopjs-ui-active/g, '');
       }
-      context.className += ' chopjs-ui-active';
-      console.log('CHECK');
-      console.log(context);
-      var tabName = context.getAttribute('ch-tab');
-      e.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
+      context.el.className += ' chopjs-ui-active';
+      var tabName = context.el.getAttribute('ch-tab');
+      e.el.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
 
       $$CHOP._loadView(e);
     };
