@@ -200,7 +200,7 @@ $ch.define('ui', function () {
 //}}}
 
   // tabs
-  $$CHOPEL.tabs = function (active) {
+  $$CHOPEL.tabs = function () {
     var e = this.el;
     var htmls = {};
     var index, len;
@@ -234,21 +234,19 @@ $ch.define('ui', function () {
 
     e.innerHTML = html.join('') + content.join('');
 
-    var onTabClicked = function (context) {
-      for (var i = 0, l = tabs.length; i !== l; ++i) {
-        tabs[i].className = tabs[i].className.replace(/chopjs-ui-active/g, '');
-      }
-      context.el.className += ' chopjs-ui-active';
-      var tabName = context.el.getAttribute('ch-tab');
-      console.log(htmls);
-      console.log(tabName);
-      e.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
-      $$CHOP._loadView(e);
-    };
-
     for (index = 0, len = tabs.length; index !== len; ++index) {
       tab = tabs[index];
-      tab.addEventListener('click', onTabClicked(this));
+      tab.addEventListener('click', function () {
+        for (var i = 0, l = tabs.length; i !== l; ++i) {
+          tabs[i].className = tabs[i].className.replace(/chopjs-ui-active/g, '');
+        }
+        this.className += ' chopjs-ui-active';
+        var tabName = this.getAttribute('ch-tab');
+        console.log(htmls);
+        console.log(tabName);
+        e.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
+        $$CHOP._loadView(e);
+      });
     }
 
     $$CHOP._loadView(e);
