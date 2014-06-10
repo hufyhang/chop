@@ -4,20 +4,16 @@ $ch.define('ui', function () {
   var UI_CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-ui-style';
 
   var originalLoadView = $$CHOP._loadView;
-  console.log('CHECK!!!');
   $$CHOP._loadView = function (baseElement) {
     if (baseElement === undefined || baseElement === null) {
       baseElement = document;
     }
 
-    var context = $$CHOP.chopEl(baseElement);
-    console.log(baseElement);
+    var context = baseElement;
 
     // load from directives
     var els = $$CHOP.findAll('[ch-ui-button]', context);
     $$CHOP.each(els, function (e) {
-      console.log('HERE: ');
-      console.log(e);
       e.button();
     });
 
