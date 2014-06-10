@@ -234,6 +234,7 @@ $ch.define('ui', function () {
 
     e.innerHTML = html.join('') + content.join('');
 
+    console.log(tabs);
     for (index = 0, len = tabs.length; index !== len; ++index) {
       tab = tabs[index];
       tab.addEventListener('click', function () {
