@@ -16,6 +16,8 @@ $ch.define('ui', function () {
     // load from directives
     var els = $$CHOP.findAll('[ch-ui-button]', context);
     $$CHOP.each(els, function (e) {
+      console.log('HERE: ');
+      console.log(e);
       e.button();
     });
 
