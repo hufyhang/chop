@@ -239,6 +239,8 @@ $ch.define('ui', function () {
         tabs[i].className = tabs[i].className.replace(/chopjs-ui-active/g, '');
       }
       context.className += ' chopjs-ui-active';
+      console.log('CHECK');
+      console.log(context);
       var tabName = context.getAttribute('ch-tab');
       e.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
 
