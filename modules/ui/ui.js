@@ -216,22 +216,20 @@ $ch.define('ui', function () {
     }
 
     var html = [];
+    var firstHtml;
     html.push('<div class="chopjs-ui-tabs">');
     var names = Object.keys(htmls);
     for (index = 0, len = names.length; index !== len; ++index) {
       var activeTag = index === 0 ? ' chopjs-ui-active' : '';
+      if (index === 0) {
+        firstHtml = htmls[names[index]];
+      }
       html.push('<div class="chopjs-ui-tab ' + activeTag + '" ch-tab="' + names[index] + '">' + names[index] + '</div>');
     }
     html.push('</div>');
 
     var content = ['<div class="chopjs-ui-tabs-content">'];
-    if (typeof active === 'string' && htmls[active] !== undefined) {
-      content.push(htmls[active]);
-    } else {
-      console.log(htmls);
-      console.log(names[0]);
-      content.push(htmls[names[0]]);
-    }
+    content.push(firstHtml);
     content.push('</div>');
 
     e.innerHTML = html.join('') + content.join('');
