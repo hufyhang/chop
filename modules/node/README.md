@@ -107,7 +107,14 @@ removeNode(`node`)
 
 Removes the `node` element from the current Chop.js element.
 
-className(`name`)
+insert(`content`, `where`)
+--------------------------
+
+Inserts `content` to `where`. `where` can be either `before` or `after`.
+
+`content` a Chop.js node object or any other type of value.
+
+class(`name`)
 ---------
 
 If no `name` provided, returns the class name of the node. Otherwise, checks if

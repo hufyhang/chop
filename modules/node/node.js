@@ -83,7 +83,7 @@ $ch.define('node', function () {
         return this;
       },
 
-      className: function (name) {
+      class: function (name) {
         if (name !== undefined) {
           var result = true;
           if ($$CHOP.isArray(name)) {
@@ -171,6 +171,29 @@ $ch.define('node', function () {
         }
         this._node.appendChild(node._node);
         $$CHOP._loadView(this._node);
+        return this;
+      },
+
+      insert: function (content, where) {
+        if (where === undefined) {
+          where = 'after';
+        }
+
+        if (typeof content === 'object' && $$CHOP.isArray(content) === false) {
+          content = content.html();
+        }
+
+        where = where.toUpperCase();
+        if (where !== 'AFTER' || where !== 'BEFORE') {
+          where = 'AFTER';
+        }
+
+        if (where === 'AFTER') {
+          this.html(this.html() + content);
+        }
+        else if (where === 'BEFORE') {
+          this.html(content + this.html());
+        }
         return this;
       },
 
