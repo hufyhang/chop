@@ -243,8 +243,9 @@ $ch.define('ui', function () {
         }
         this.className += ' chopjs-ui-active';
         var tabName = this.getAttribute('ch-tab');
-        e.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
-        $$CHOP._loadView(e);
+        var ce = e.querySelector('.chopjs-ui-tabs-content');
+        ce.innerHTML = htmls[tabName];
+        $$CHOP._loadView(ce);
       });
     }
 
