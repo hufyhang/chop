@@ -199,7 +199,7 @@ $ch.define('ui', function () {
   };
 //}}}
 
-  // tabs
+  // tabs//{{{
   $$CHOPEL.tabs = function () {
     var e = this.el;
     var htmls = {};
@@ -251,5 +251,12 @@ $ch.define('ui', function () {
     $$CHOP._loadView(e);
     return this;
   };
+//}}}
+
+  // resize//{{{
+  $$CHOPEL.resize = function () {
+    this.el.className += ' chopjs-ui-resize';
+  };
+//}}}
 
 });

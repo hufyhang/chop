@@ -243,3 +243,7 @@ hr {
    width: 100%;
 }
 
+.chopjs-ui-resize {
+  resize: both;
+}
+
