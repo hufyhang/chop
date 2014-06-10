@@ -213,9 +213,14 @@ hr {
   border-bottom: none;
   color: #ffffff;
   background-color: #3498db;
+  cursor: default;
 }
 
 .chopjs-ui-tabs .chopjs-ui-active:hover {
+  border-bottom: none;
+  color: #ffffff;
+  background-color: #3498db;
+  cursor: default;
 }
 
 .chopjs-ui-tab:hover {
