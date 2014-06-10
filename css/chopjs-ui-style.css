@@ -211,6 +211,7 @@ hr {
 
 .chopjs-ui-tabs .chopjs-ui-active {
   border: 1px solid #ecf0f1;
+  border-bottom: none;
   color: black;
 }
 

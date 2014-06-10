@@ -228,6 +228,8 @@ $ch.define('ui', function () {
     if (typeof active === 'string' && htmls[active] !== undefined) {
       content.push(htmls[active]);
     } else {
+      console.log(htmls);
+      console.log(names[0]);
       content.push(htmls[names[0]]);
     }
     content.push('</div>');
@@ -240,6 +242,8 @@ $ch.define('ui', function () {
       }
       context.el.className += ' chopjs-ui-active';
       var tabName = context.el.getAttribute('ch-tab');
+      console.log(htmls);
+      console.log(tabName);
       e.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
       $$CHOP._loadView(e);
     };
