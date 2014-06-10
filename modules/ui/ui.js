@@ -199,4 +199,41 @@ $ch.define('ui', function () {
   };
 //}}}
 
+  // tabs
+  $$CHOPEL.tabs = function (active) {
+    var e = this.el;
+    var htmls = {};
+    var index, len;
+    var tabs = e.querySelectorAll('[ch-tab]');
+    for (index = 0, len = tabs.length; index !== len; ++index) {
+      var tab = tabs[index];
+      var name = tab.getAttribute('ch-tab');
+      if (name === null || name === undefined) {
+        continue;
+      }
+      htmls[name] = tab.innerHTML;
+    }
+
+    var html = [];
+    html.push('<div class="chopjs-ui-tabs">');
+    var names = Object.keys(htmls);
+    for (index = 0, len = names.length; index !== len; ++index) {
+      html.push('<div class="chopjs-ui-tab">' + names[index] + '</div>');
+    }
+    html.push('</div>');
+
+    var content = ['<div class="chopjs-ui-tabs-content">'];
+    if (typeof active === 'string' && htmls[active] !== undefined) {
+      content.push(htmls[active]);
+    } else {
+      content.push(htmls[names[0]]);
+    }
+    content.push('</div>');
+
+    e.innerHTML = html.join('') + content.join('');
+
+    $$CHOP._loadView(e);
+    return this;
+  };
+
 });

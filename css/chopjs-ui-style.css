@@ -192,3 +192,24 @@ hr {
 .chopjs-ui-color-information {
   color: #3498db;
 }
+
+.chopjs-ui-tabs {
+   display: inline-block;
+   border: none;
+   border-bottom: 1px solid #ecf0f1;
+   color: rgb(24, 188, 156);
+}
+
+.chopjs-ui-tab {
+   display: table-cell;
+   border: 1px solid #ecf0f1;
+   border-bottom: none;
+   border-radius: 3px;
+   color: black;
+   cursor: pointer;
+}
+
+.chopjs-ui-tab:hover {
+   background-color: #ecf0f1;
+}
+

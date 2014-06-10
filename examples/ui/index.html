@@ -48,6 +48,13 @@
     {{information}}
   </div>
 
+
+  <div id="tabs">
+    <div ch-tab="Home">Hello world!!!</div>
+    <div ch-tab="Greetings">Greetings!</div>
+    <div ch-tab="Chop.js">Chop.js Framework</div>
+  </div>
+
   <div class="empty"></div>
 
   <script src="chop.min.js"></script>
@@ -75,6 +82,8 @@
     $ch.find('#pager-btn').pager(function () {
        console.log('Clicked pager button.')
     });
+
+    $ch.find('#tabs').tabs();
 
     $ch.source('inline', {information: 'Have fun with Chop.js!!!'});
   </script>
