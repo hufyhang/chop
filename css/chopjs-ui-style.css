@@ -209,7 +209,7 @@ hr {
    cursor: pointer;
 }
 
-.chopjs-ui-tab .chopjs-ui-active {
+.chopjs-ui-tabs .chopjs-ui-active {
   border: 1px solid #ecf0f1;
   color: black;
 }

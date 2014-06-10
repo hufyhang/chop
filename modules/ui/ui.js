@@ -241,7 +241,6 @@ $ch.define('ui', function () {
       context.el.className += ' chopjs-ui-active';
       var tabName = context.el.getAttribute('ch-tab');
       e.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
-
       $$CHOP._loadView(e);
     };
 
