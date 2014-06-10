@@ -205,8 +205,9 @@ $ch.define('ui', function () {
     var htmls = {};
     var index, len;
     var tabs = e.querySelectorAll('[ch-tab]');
+    var tab;
     for (index = 0, len = tabs.length; index !== len; ++index) {
-      var tab = tabs[index];
+      tab = tabs[index];
       var name = tab.getAttribute('ch-tab');
       if (name === null || name === undefined) {
         continue;
@@ -218,7 +219,8 @@ $ch.define('ui', function () {
     html.push('<div class="chopjs-ui-tabs">');
     var names = Object.keys(htmls);
     for (index = 0, len = names.length; index !== len; ++index) {
-      html.push('<div class="chopjs-ui-tab">' + names[index] + '</div>');
+      var activeTag = index === 0 ? ' chopjs-ui-active' : '';
+      html.push('<div class="chopjs-ui-tab ' + activeTag + '" ch-tab="' + names[index] + '">' + names[index] + '</div>');
     }
     html.push('</div>');
 
@@ -231,6 +233,22 @@ $ch.define('ui', function () {
     content.push('</div>');
 
     e.innerHTML = html.join('') + content.join('');
+
+    var onTabClicked = function (context) {
+      for (var i = 0, l = tabs.length; i !== l; ++i) {
+        tabs[i].className = tabs[i].className.replace(/chopjs-ui-active/g, '');
+      }
+      context.className += ' chopjs-ui-active';
+      var tabName = context.getAttribute('ch-tab');
+      e.querySelector('.chopjs-ui-tabs-content').innerHTML = htmls[tabName];
+
+      $$CHOP._loadView(e);
+    };
+
+    for (index = 0, len = tabs.length; index !== len; ++index) {
+      tab = tabs[index];
+      tab.addEventListener('click', onTabClicked(this));
+    }
 
     $$CHOP._loadView(e);
     return this;

@@ -198,15 +198,20 @@ hr {
    border: none;
    border-bottom: 1px solid #ecf0f1;
    color: rgb(24, 188, 156);
+   width: 100%;
 }
 
 .chopjs-ui-tab {
    display: table-cell;
-   border: 1px solid #ecf0f1;
+   padding: 5px 10px;
    border-bottom: none;
    border-radius: 3px;
-   color: black;
    cursor: pointer;
+}
+
+.chopjs-ui-tab .chopjs-ui-active {
+  border: 1px solid #ecf0f1;
+  color: black;
 }
 
 .chopjs-ui-tab:hover {
