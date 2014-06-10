@@ -51,7 +51,9 @@
 
   <div id="tabs">
     <div ch-tab="Home">Hello world!!!</div>
-    <div ch-tab="Greetings">Greetings!</div>
+    <div ch-tab="Greetings">
+      <span id="greeting-span" ch-source>Greetings, {{message}}</span>
+    </div>
     <div ch-tab="Chop.js">Chop.js Framework</div>
   </div>
 

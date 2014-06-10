@@ -46,6 +46,7 @@ hr {
 
 .chopjs-ui-disable {
   cursor: not-allowed !important;
+  background-color: #ecf0f1;
 }
 
 .chopjs-ui-button {
@@ -196,23 +197,22 @@ hr {
 .chopjs-ui-tabs {
    display: inline-block;
    border: none;
-   border-bottom: 1px solid #ecf0f1;
+   border-bottom: 2px solid #3498db;
    color: rgb(24, 188, 156);
    width: 100%;
 }
 
 .chopjs-ui-tab {
    display: table-cell;
-   padding: 5px 10px;
+   padding: 10px 10px;
    border-bottom: none;
-   border-radius: 3px;
    cursor: pointer;
 }
 
 .chopjs-ui-tabs .chopjs-ui-active {
-  border: 1px solid #ecf0f1;
   border-bottom: none;
-  color: black;
+  color: #ffffff;
+  background-color: #3498db;
 }
 
 .chopjs-ui-tab:hover {
