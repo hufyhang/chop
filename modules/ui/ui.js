@@ -256,6 +256,7 @@ $ch.define('ui', function () {
       });
     }
 
+    console.log('CHECK');
     // $$CHOP._loadView(e);
     return this;
   };
