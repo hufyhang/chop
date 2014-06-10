@@ -4,9 +4,9 @@ $ch.define('ui', function () {
   var UI_CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-ui-style';
 
   var originalLoadView = $$CHOP._loadView;
-  console.log('CHECK');
+  console.log('CHECK!!!');
   $$CHOP._loadView = function (baseElement) {
-    if (baseElement === undefined) {
+    if (baseElement === undefined || baseElement === null) {
       baseElement = document;
     }
 
