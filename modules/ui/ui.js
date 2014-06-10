@@ -3,6 +3,39 @@ $ch.define('ui', function () {
   'use strict';
   var UI_CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-ui-style';
 
+  var originalLoadView = $$CHOP._loadView;
+  $$CHOP._loadView = function (baseElement) {
+    if (baseElement === undefined) {
+      baseElement = document;
+    }
+
+    var context = $$CHOP.chopEl(baseElement);
+
+    // load from directives
+    var els = $$CHOP.findAll('[ch-ui-button]', context);
+    $$CHOP.each(els, function (e) {
+      e.button();
+    });
+
+    els = $$CHOP.findAll('[ch-ui-select]', context);
+    $$CHOP.each(els, function (e) {
+      e.selectbox();
+    });
+
+    els = $$CHOP.findAll('[ch-ui-pager]', context);
+    $$CHOP.each(els, function (e) {
+      e.pager();
+    });
+
+    els = $$CHOP.findAll('[ch-ui-tabs]', context);
+    $$CHOP.each(els, function (e) {
+      e.tabs();
+    });
+
+    originalLoadView();
+  };
+
+
   var hasStyle = $$CHOP.find('.chopjs-ui-style-css') !== undefined;
   if (!hasStyle) {
     var node = document.createElement('style');
@@ -266,26 +299,5 @@ $ch.define('ui', function () {
   };
 //}}}
 
-
-  // load from directives
-  var els = $$CHOP.findAll('[ch-ui-button]');
-  $$CHOP.each(els, function (e) {
-    e.button();
-  });
-
-  els = $$CHOP.findAll('[ch-ui-select]');
-  $$CHOP.each(els, function (e) {
-    e.selectbox();
-  });
-
-  els = $$CHOP.findAll('[ch-ui-pager]');
-  $$CHOP.each(els, function (e) {
-    e.pager();
-  });
-
-  els = $$CHOP.findAll('[ch-ui-tabs]');
-  $$CHOP.each(els, function (e) {
-    e.tabs();
-  });
 
 });
