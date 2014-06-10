@@ -207,6 +207,10 @@ hr {
    padding: 10px 10px;
    border-bottom: none;
    cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .chopjs-ui-tabs .chopjs-ui-active {
@@ -214,6 +218,10 @@ hr {
   color: #ffffff;
   background-color: #3498db;
   cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .chopjs-ui-tabs .chopjs-ui-active:hover {
@@ -221,6 +229,10 @@ hr {
   color: #ffffff;
   background-color: #3498db;
   cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .chopjs-ui-tab:hover {
