@@ -256,7 +256,7 @@ $ch.define('ui', function () {
       });
     }
 
-    $$CHOP._loadView(e);
+    // $$CHOP._loadView(e);
     return this;
   };
 //}}}
