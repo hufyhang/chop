@@ -16,7 +16,7 @@
     <input type="text" id="input" value="" placeholder="Text of the click button..." ch-source="btn-name"/>
     <br/>
 
-    <div id="click-btn" ch-source="btn-name">Click me</div>
+    <div id="click-btn" ch-source="btn-name" ch-ui-button>Click me</div>
     <br/>
 
     <textarea id="textarea" ch-source="message" placeholder="Message to show..."></textarea>
@@ -26,21 +26,21 @@
     <div id="mix-info" ch-source>Combined: {{message}} -- {{btn-name}}</div>
     <br/>
 
-    <select id="select">
+    <select id="select" ch-ui-select>
       <option>1</option>
       <option>2</option>
       <option>3</option>
     </select>
     <br/>
 
-    <select multiple id="multipe-select">
+    <select multiple id="multipe-select" ch-ui-select>
       <option>1</option>
       <option>2</option>
       <option>3</option>
     </select>
     <br/>
 
-    <div id="pager-btn">Next</div>
+    <div id="pager-btn" ch-ui-pager>Next</div>
   </div>
 
   <div id="inline-message" ch-inline="inline">
@@ -49,7 +49,7 @@
   </div>
 
 
-  <div id="tabs">
+  <div id="tabs" ch-ui-tabs>
     <div ch-tab="Home">Hello world!!!</div>
     <div ch-tab="Greetings">
       <span id="greeting-span" ch-source>Greetings, {{message}}</span>
@@ -63,29 +63,29 @@
   <script>
     $ch.require('ui');
     $ch.find('#topbar').topbar($ch.find('#input'));
-    $ch.find('#input').input().css('width', '50%');
-    $ch.find('#textarea').input().css('width', '50%');
-    $ch.find('#click-btn').button(function () {
+    $ch.find('#input').css('width', '50%');
+    $ch.find('#textarea').css('width', '50%');
+    $ch.find('#click-btn').click(function () {
       'use strict';
       alert('Message:\n' + $ch.source('message'));
       $ch.source('message', 'Welcome to Chop.js');
     });
 
-    $ch.find('#select').dropbox(function (value) {
+    $ch.find('#select').on('change', function (value) {
       'use strict';
       console.log('Selected: ' + value);
     }).css('width', '50%');
 
-    $ch.find('#multipe-select').selectbox(function (value) {
+    $ch.find('#multipe-select').on('change', function (value) {
       'use strict';
       console.log('Selected: ' + value);
     }).css('width', '50%');
 
-    $ch.find('#pager-btn').pager(function () {
+    $ch.find('#pager-btn').click(function () {
        console.log('Clicked pager button.')
     });
 
-    $ch.find('#tabs').tabs();
+    // $ch.find('#tabs').tabs();
 
     $ch.source('inline', {information: 'Have fun with Chop.js!!!'});
   </script>

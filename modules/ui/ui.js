@@ -266,4 +266,26 @@ $ch.define('ui', function () {
   };
 //}}}
 
+
+  // load from directives
+  var els = $$CHOP.findAll('[ch-ui-button]');
+  $$CHOP.each(els, function (e) {
+    e.button();
+  });
+
+  els = $$CHOP.findAll('[ch-ui-select]');
+  $$CHOP.each(els, function (e) {
+    e.selectbox();
+  });
+
+  els = $$CHOP.findAll('[ch-ui-pager]');
+  $$CHOP.each(els, function (e) {
+    e.pager();
+  });
+
+  els = $$CHOP.findAll('[ch-ui-tabs]');
+  $$CHOP.each(els, function (e) {
+    e.tabs();
+  });
+
 });
