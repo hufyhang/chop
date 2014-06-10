@@ -67,11 +67,15 @@ $ch.find(`query` [, `context`])
 Returns an HTML element in the form of a chop.js element object. If no elements
 found, returns `undefined`.
 
+`context` could be an HTML element. E.g. `$ch.find('#btn', $ch.find('#context').el)`.
+
 $ch.findAll(`query` [, `context`])
 ----------------------------------
 
 Returns an chop.js element array that contains all the found elements. If no
 elements found, returns an emptry array.
+
+`context` could be an HTML element. E.g. `$ch.findAll('.btn', $ch.find('#context').el)`.
 
 $ch.chopEl(`DOMElement`)
 ------------------------
