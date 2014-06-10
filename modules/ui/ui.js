@@ -234,7 +234,7 @@ $ch.define('ui', function () {
 
     e.innerHTML = html.join('') + content.join('');
 
-    console.log(tabs);
+    tabs = e.querySelectorAll('.chopjs-ui-tab');
     for (index = 0, len = tabs.length; index !== len; ++index) {
       tab = tabs[index];
       tab.addEventListener('click', function () {
