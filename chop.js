@@ -371,6 +371,8 @@
       if (query !== undefined) {
         if (context === undefined) {
           context = document;
+        } else {
+          context = context.el;
         }
 
         var htmlElement = context.querySelector(query);
@@ -390,6 +392,8 @@
       if (query !== undefined) {
         if (context === undefined) {
           context = document;
+        } else {
+          context = context.el;
         }
 
         var els = context.querySelectorAll(query);

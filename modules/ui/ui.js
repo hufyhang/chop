@@ -9,7 +9,7 @@ $ch.define('ui', function () {
       baseElement = document;
     }
 
-    var context = baseElement;
+    var context = $ch.chopEl(baseElement);
 
     // load from directives
     var els = $$CHOP.findAll('[ch-ui-button]', context);
