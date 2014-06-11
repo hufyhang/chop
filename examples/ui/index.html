@@ -50,12 +50,34 @@
 
 
   <div id="tabs" ch-ui-tabs>
-    <div ch-tab="Home">Hello world!!!</div>
+    <div ch-tab="Tiles">
+      Chop.js UI Tiles
+
+      <div class="chopjs-ui-tile">
+        <div class="chopjs-ui-tile-header">HEADER</div>
+        <div>Welcome to Chop.js framework.</div>
+        <div class="chopjs-ui-tile-footer">FOOTER HERE</div>
+      </div>
+
+      <div class="chopjs-ui-tile">
+        <div class="chopjs-ui-tile-header">HEADER</div>
+        <div>Welcome to Chop.js framework.</div>
+        <div class="chopjs-ui-tile-footer">FOOTER HERE</div>
+      </div>
+
+      <div class="chopjs-ui-tile">
+        <div class="chopjs-ui-tile-header">HEADER</div>
+        <div>Welcome to Chop.js framework.</div>
+        <div class="chopjs-ui-tile-footer">FOOTER HERE</div>
+      </div>
+
+    </div>
     <div ch-tab="Greetings">
       <span id="greeting-span" ch-source>Greetings, {{message}}</span>
     </div>
     <div id="tab-click" ch-tab="Chop.js" ch-click="console.log('Clicked message: ' + {{message}})">Chop.js Framework</div>
   </div>
+
 
   <div class="empty"></div>
 
