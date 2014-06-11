@@ -42,6 +42,7 @@ $ch.define('svg', function () {
           });
           n.setAttribute('style', styles.join(';'));
         }
+        n.innerHTML = text;
         g.appendChild(n);
         return this;
       },
