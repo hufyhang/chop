@@ -654,6 +654,7 @@
       if (baseElement === undefined || baseElement === null) {
         baseElement = document;
       }
+
       var elements = baseElement.querySelectorAll('[ch-view]');
       for (var index = 0; index !== elements.length; ++index) {
         callbackName = elements[index].getAttribute('ch-view');

@@ -247,3 +247,23 @@ select:focus, .chopjs-ui-select:focus {
   resize: both;
 }
 
+.chopjs-ui-tile {
+  display: inline-block;
+  padding: 10px 10px;
+  box-shadow: rgb(197, 197, 197) 0px 5px 10px;
+  border-top: 5px solid #3498db;
+  margin: 10px 10px 10px 10px;
+}
+
+.chopjs-ui-tile .chopjs-ui-tile-header {
+  width: 100%;
+  border-bottom: 1px solid rgb(209, 209, 209);
+  font-weight: bolder;
+}
+
+.chopjs-ui-tile .chopjs-ui-tile-footer {
+  width: 100%;
+  border-top: 1px solid rgb(209, 209, 209);
+  padding: 5px 10px;
+  color: rgb(209, 209, 209);
+}
