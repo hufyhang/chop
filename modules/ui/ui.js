@@ -32,6 +32,11 @@ $ch.define('ui', function () {
       e.tabs();
     });
 
+    els = $$CHOP.findAll('[ch-ui-tile]', context);
+    $$CHOP.each(els, function (e) {
+      e.tile();
+    });
+
     originalLoadView(baseElement);
   };
 
@@ -299,5 +304,22 @@ $ch.define('ui', function () {
   };
 //}}}
 
+  // tile //{{{
+  $$CHOPEL.tile = function () {
+    this.el.className += ' chopjs-ui-tile';
+
+    var header = this.el.querySelector('[ch-ui-tile-header]');
+    if (header !== null && header !== undefined) {
+      header.className += ' chopjs-ui-tile-header';
+    }
+
+    var footer = this.el.querySelector('[ch-ui-tile-footer]');
+    if (footer !== null && footer !== undefined) {
+      footer.className += ' chopjs-ui-tile-footer';
+    }
+
+    return this;
+  };
+//}}}
 
 });
