@@ -249,6 +249,7 @@ select:focus, .chopjs-ui-select:focus {
 
 .chopjs-ui-tile {
   display: inline-block;
+  background-color: #ffffff;
   padding: 10px 10px;
   box-shadow: rgb(197, 197, 197) 0px 5px 10px;
   border-top: 5px solid #3498db;
