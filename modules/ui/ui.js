@@ -283,6 +283,32 @@ $ch.define('ui', function () {
     for (index = 0, len = tabs.length; index !== len; ++index) {
       tab = tabs[index];
       tab.addEventListener('click', function () {
+        // remove all the contained ch-source from $ch.sources first
+        var srcs = e.querySelector('.chopjs-ui-tabs-content [ch-source]');
+        $$CHOP.each(srcs, function (item) {
+          var name = item.getAttribute('ch-source');
+          var index;
+          if (name !== null) {
+            index = $$CHOP.sources[name].els.indexOf(item);
+            if (index !== -1) {
+              $$CHOP.sources[name].els = $$CHOP.sources[name].els.splice(index, 1);
+            }
+          } else {
+            var names = item.innerHTML.match(/{{[^{]{1,}}}/g);
+            if (names !== null) {
+              $$CHOP.each(names, function (n) {
+                name = n.replace(/{/g, '');
+                name = name.replace(/}/g, '').trim();
+                index = $$CHOP.sources[name].els.indexOf(item);
+                if (index !== -1) {
+                  $$CHOP.sources[name].els = $$CHOP.sources[name].els.splice(index, 1);
+                }
+              });
+            }
+          }
+        });
+
+
         for (var i = 0, l = tabs.length; i !== l; ++i) {
           tabs[i].className = tabs[i].className.replace(/chopjs-ui-active/g, '');
         }
