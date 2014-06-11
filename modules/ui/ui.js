@@ -288,20 +288,22 @@ $ch.define('ui', function () {
         $$CHOP.each(srcs, function (item) {
           var name = item.getAttribute('ch-source');
           var index;
-          if (name !== null) {
+          if (name !== null && name !== undefined && name.trim() !== '') {
             index = $$CHOP.sources[name].els.indexOf(item);
             if (index !== -1) {
-              $$CHOP.sources[name].els = $$CHOP.sources[name].els.splice(index, 1);
+              $$CHOP.sources[name].els.splice(index, 1);
             }
           } else {
-            var names = item.innerHTML.match(/{{[^{]{1,}}}/g);
+            console.log(item);
+            var id = item.id;
+            var names = $$CHOP._inlineSource[id].match(/{{[^{]{1,}}}/g);
             if (names !== null) {
               $$CHOP.each(names, function (n) {
                 name = n.replace(/{/g, '');
                 name = name.replace(/}/g, '').trim();
                 index = $$CHOP.sources[name].els.indexOf(item);
                 if (index !== -1) {
-                  $$CHOP.sources[name].els = $$CHOP.sources[name].els.splice(index, 1);
+                  $$CHOP.sources[name].els.splice(index, 1);
                 }
               });
             }
