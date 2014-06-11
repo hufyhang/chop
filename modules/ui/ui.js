@@ -284,7 +284,7 @@ $ch.define('ui', function () {
       tab = tabs[index];
       tab.addEventListener('click', function () {
         // remove all the contained ch-source from $ch.sources first
-        var srcs = e.querySelector('.chopjs-ui-tabs-content [ch-source]');
+        var srcs = e.querySelectorAll('.chopjs-ui-tabs-content [ch-source]');
         $$CHOP.each(srcs, function (item) {
           var name = item.getAttribute('ch-source');
           var index;
