@@ -199,7 +199,16 @@ $ch.define('rdfa', function () {
           element = scope.querySelector('[about="' + name + '"]');
         }
 
-        result[name] = element;
+        result[name].scope = element;
+        var type = element.getAttribute('typeof');
+        result[name].typeof = type;
+        var meta = element.querySelectorAll('[property]');
+        $$CHOP.each(meta, function (item) {
+          var key = item.getAttribute('property');
+          var value = item.getAttribute('content') || item.innerHTML;
+          result[name][key] = value;
+        });
+
       });
 
       return result;
