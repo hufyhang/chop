@@ -230,11 +230,11 @@ $ch.define('rdfa', function () {
           result[name] = {};
           result[name].typeof = found.getAttribute('typeof');
 
-          var elements = found.querySelectorAll('[property]');
+          var elements = found.querySelectorAll('[property],[rel]');
           $$CHOP.each(elements, function (element) {
             buffer.push(element);
             var href = element.getAttribute('href');
-            var attr = element.getAttribute('property');
+            var attr = element.getAttribute('property') || element.getAttribute('rel');
             var value = element.getAttribute('content') || element.innerHTML;
             if (href !== null) {
               if (result[name][attr] === undefined || $$CHOP.isArray(result[name][attr]) === false) {
