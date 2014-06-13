@@ -212,6 +212,66 @@ $ch.define('rdfa', function () {
       });
 
       return result;
+    },
+
+    _tree: function (scope, buffer, result, query) {
+      if (query === undefined) {
+        query = '[about],[resource]';
+      } else {
+        query = '[about="' + query + '"],[resource="' + query + '"]';
+      }
+
+      // get all about/resource first
+      var founds = scope.querySelectorAll(query);
+      $$CHOP.each(founds, function (found) {
+        if (buffer.indexOf(found) === -1) {
+          buffer.push(found);
+          var name = found.getAttribute('about') || found.getAttribute('resource');
+          result[name] = {};
+          result[name].typeof = found.getAttribute('typeof');
+
+          var elements = found.querySelectorAll('[property]');
+          $$CHOP.each(elements, function (element) {
+            buffer.push(element);
+            var href = element.getAttribute('href');
+            var attr = element.getAttribute('property');
+            var value = element.getAttribute('content') || element.innerHTML;
+            if (href !== null) {
+              if (result[name][attr] === undefined || $$CHOP.isArray(result[name][attr]) === false) {
+                result[name][attr] = [];
+              }
+              result[name][attr].push(href);
+            } else {
+              result[name][attr] = value;
+            }
+          });
+        }
+      });
+
+      // get all stand-alone properties
+      founds = scope.querySelectorAll('[property]');
+      $$CHOP.each(founds, function (found) {
+        if (buffer.indexOf(found) === -1) {
+          var attr = found.getAttribute('property');
+          if (attr !== null) {
+            result[attr] = found.getAttribute('content') || found.innerHTML;
+          }
+        }
+      });
+
+      return result;
+    },
+
+    tree: function (scope) {
+      if (scope === undefined) {
+        scope = this.scope;
+      }
+      var result = {};
+      var buffer = [];
+
+      result = this._tree(scope, buffer, result);
+
+      return result;
     }
 
   };
