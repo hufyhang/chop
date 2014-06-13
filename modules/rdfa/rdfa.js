@@ -61,7 +61,7 @@ $ch.define('rdfa', function () {
 
         attr = item.getAttribute('content');
         if (attr !== null) {
-          container.rel = attr;
+          container.content = attr;
         }
 
         result.push(container);
