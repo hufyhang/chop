@@ -168,7 +168,43 @@ $ch.define('rdfa', function () {
         }
       }
       return getter(scope, 'resource', value);
+    },
+
+    trace: function (scope, target, attr) {
+      if (arguments.length === 0) {
+        throw new Error('$ch.rdfa.trace requires at least one parameter.');
+      }
+
+      if (typeof scope === 'string') {
+        target = scope;
+        scope = this.scope;
+      } else {
+        if (arguments.length < 2) {
+          throw new Error('$ch.rdfa.trace requires a target parameter.');
+        }
+      }
+
+      if (attr === undefined) {
+        attr = 'href';
+      }
+
+      var founds = scope.querySelectorAll('[' + target + ']');
+      var result = {};
+      $$CHOP.each(founds, function (found) {
+        var name = found.getAttribute(attr);
+        result[name] = {};
+
+        var element = scope.querySelector('[resource="' + name + '"]');
+        if (element === null) {
+          element = scope.querySelector('[about="' + name + '"]');
+        }
+
+        result[name] = element;
+      });
+
+      return result;
     }
+
   };
 
 });
