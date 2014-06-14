@@ -244,7 +244,7 @@ $ch.define('rdfa', function () {
       return result;
     },
 
-    tree: function () {
+    graph: function () {
       $$CHOP.require('rdfa_processor');
       return document.data.graph.subjects;
     }
