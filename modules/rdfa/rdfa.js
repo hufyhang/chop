@@ -230,12 +230,12 @@ $ch.define('rdfa', function () {
           result[name] = {};
           result[name].typeof = found.getAttribute('typeof');
 
-          var elements = found.querySelectorAll('[property],[rel]');
+          var elements = found.querySelectorAll('[property]');
           $$CHOP.each(elements, function (element) {
             buffer.push(element);
             var href = element.getAttribute('href');
-            var attr = element.getAttribute('property') || element.getAttribute('rel');
-            var value = element.getAttribute('content') || element.innerHTML;
+            var attr = element.getAttribute('property');
+            var value = element.getAttribute('content') || href || element.innerHTML;
             if (href !== null) {
               if (result[name][attr] === undefined || $$CHOP.isArray(result[name][attr]) === false) {
                 result[name][attr] = [];
@@ -248,13 +248,54 @@ $ch.define('rdfa', function () {
         }
       });
 
-      // get all stand-alone properties
-      founds = scope.querySelectorAll('[property]');
+      // get all stand-alone typeofs
+      founds = scope.querySelectorAll('[typeof]');
       $$CHOP.each(founds, function (found) {
         if (buffer.indexOf(found) === -1) {
+          buffer.push(found);
+          var type = found.getAttribute('typeof');
+          result[type] = {};
+          result[type].typeof = type;
+
+          var elements = found.querySelectorAll('[property]');
+          $$CHOP.each(elements, function (element) {
+            var href = element.getAttribute('href');
+            var t = element.getAttribute('typeof');
+            var attr = element.getAttribute('property');
+            var value = element.getAttribute('content') || href || element.innerHTML;
+            if (t !== null) {
+              if (result[type][attr] === undefined || $$CHOP.isArray(result[type][attr]) === false) {
+                result[type][attr] = [];
+              }
+              result[type][attr].push(t);
+            } else {
+              if (href !== null) {
+                if (result[type][attr] === undefined || $$CHOP.isArray(result[type][attr]) === false) {
+                  result[type][attr] = [];
+                }
+                result[type][attr].push(href);
+              } else {
+                result[type][attr] = value;
+              }
+
+              buffer.push(element);
+            }
+
+          });
+        }
+      });
+
+
+      // get all stand-alone properties
+      founds = scope.querySelectorAll('[property]');
+      result.document = {};
+      result.document.typeof = 'Document';
+      $$CHOP.each(founds, function (found) {
+        if (buffer.indexOf(found) === -1) {
+          buffer.push(found);
           var attr = found.getAttribute('property');
           if (attr !== null) {
-            result[attr] = found.getAttribute('content') || found.innerHTML;
+            result.document[attr] = found.getAttribute('content') || found.getAttribute('href') || found.innerHTML;
           }
         }
       });
