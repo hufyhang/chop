@@ -244,9 +244,81 @@ $ch.define('rdfa', function () {
       return result;
     },
 
-    tree: function () {
-      $$CHOP.require('rdfa-processor');
-      return document.data.graph;
+    _tree: function (scope, buffer, result, query) {
+      if (query === undefined) {
+        query = '[about],[resource]';
+      } else {
+        query = '[about="' + query + '"],[resource="' + query + '"]';
+      }
+      var that = this;
+
+      // get all about/resource first
+      var founds = scope.querySelectorAll(query);
+      $$CHOP.each(founds, function (found) {
+        if (buffer.indexOf(found) === -1) {
+          buffer.push(found);
+          var name = found.getAttribute('about') || found.getAttribute('resource');
+          result[name] = {};
+          var type = found.getAttribute('typeof');
+          result[name].typeof = type;
+          var property = found.getAttribute('property') || found.getAttribute('rel');
+          if (property !== null) {
+            result[name][property] = found.getAttribute('content') ||
+              found.getAttribute('resource') || found.getAttribute('href') ||
+              found.innerHTML;
+          }
+
+          result = that._checkProperty(found, result, buffer, name);
+        }
+      });
+
+      // get all stand-alone typeofs
+      founds = scope.querySelectorAll('[typeof]');
+      $$CHOP.each(founds, function (found) {
+        if (buffer.indexOf(found) === -1) {
+          buffer.push(found);
+          var type = found.getAttribute('typeof');
+          result[type] = {};
+          result[type].typeof = type;
+          var property = found.getAttribute('property') || found.getAttribute('rel');
+          if (property !== null) {
+            result[type][property] = found.getAttribute('content') ||
+              found.getAttribute('resource') || found.getAttribute('href') ||
+              found.innerHTML;
+          }
+
+          result = that._checkProperty(found, result, buffer, type);
+        }
+      });
+
+
+      // get all stand-alone properties
+      founds = scope.querySelectorAll('[property]');
+      result.document = {};
+      result.document.typeof = 'Document';
+      $$CHOP.each(founds, function (found) {
+        if (buffer.indexOf(found) === -1) {
+          buffer.push(found);
+          var attr = found.getAttribute('property');
+          if (attr !== null) {
+            result.document[attr] = found.getAttribute('content') || found.getAttribute('href') || found.innerHTML;
+          }
+        }
+      });
+
+      return result;
+    },
+
+    tree: function (scope) {
+      if (scope === undefined) {
+        scope = this.scope;
+      }
+      var result = {};
+      var buffer = [];
+
+      result = this._tree(scope, buffer, result);
+
+      return result;
     }
 
   };
