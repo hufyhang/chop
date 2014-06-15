@@ -247,6 +247,8 @@ $ch.define('rdfa', function () {
     _linkSubjects: function (subjects, toBeRemoved) {
       var that = this;
       $$CHOP.each(subjects, function (key, subject) {
+        delete subject.graph;
+        delete subject.origins;
         var predicates = subject.predicates;
         if (predicates === undefined) {
           return;
@@ -259,6 +261,7 @@ $ch.define('rdfa', function () {
           }
 
           $$CHOP.each(objs, function (object) {
+            delete object.origin;
             var subjectName = object.value;
             if (subjects[subjectName] !== undefined) {
               var subj = subjects[subjectName];
