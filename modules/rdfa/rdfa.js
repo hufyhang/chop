@@ -244,8 +244,44 @@ $ch.define('rdfa', function () {
       return result;
     },
 
+    _linkSubjects: function (subjects, toBeRemoved) {
+      var that = this;
+      $$CHOP.each(subjects, function (key, subject) {
+        var predicates = subject.predicates;
+        if (predicates === undefined) {
+          return;
+        }
+
+        $$CHOP.each(predicates, function (key, predicate) {
+          var objs = predicate.objects;
+          if ($$CHOP.isArray(objs) === false) {
+            return;
+          }
+
+          $$CHOP.each(objs, function (object) {
+            var subjectName = object.value;
+            if (subjects[subjectName] !== undefined) {
+              var subj = subjects[subjectName];
+              subj = that._linkSubjects(subj, toBeRemoved);
+              object.subject = subj;
+              toBeRemoved.push(subjectName);
+            }
+          });
+        });
+
+      });
+
+      return subjects;
+    },
+
     graph: function () {
-      return document.data.graph.subjects;
+      var subjects = document.data.graph.subjects;
+      var toBeRemoved = [];
+      subjects = this._linkSubjects(subjects, toBeRemoved);
+      $$CHOP.each(toBeRemoved, function (item) {
+        delete subjects[item];
+      });
+      return subjects;
     },
 
     subject: function (sub) {
