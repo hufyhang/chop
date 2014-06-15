@@ -245,8 +245,15 @@ $ch.define('rdfa', function () {
     },
 
     graph: function () {
-      $$CHOP.require('rdfa_processor');
       return document.data.graph.subjects;
+    },
+
+    subject: function (sub) {
+      if (typeof sub !== 'string') {
+        return document.data.graph.subjects;
+      } else {
+        return document.data.getSubject(sub);
+      }
     }
 
   };
