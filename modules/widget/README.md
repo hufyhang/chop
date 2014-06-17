@@ -49,6 +49,17 @@ $ch.widget.add('greeting', function (data) {
 });
 ~~~
 
+$ch.wdiget.tunnel.set(`obj`)
+----------------------------
+
+Sets `obj` through widget tunnel.
+
+$ch.wdiget.tunnel.get(`widget`[, `key`])
+----------------------------------------
+
+Gets data passed via widget data tunnel of `widget`. If no `key` presented,
+     returns all passed data in the form of a JavaScript object.
+
 HTML Directive Examples
 -----------------------
 

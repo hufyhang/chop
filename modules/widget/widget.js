@@ -4,6 +4,8 @@ $ch.define('widget', function () {
   // bring in router module
   $ch.require('router');
 
+  var DATA_TUNNEL = '_chopjs_widget_data_tunnel';
+
   $$CHOP.widget = {};
 
   $$CHOP.widget = {
@@ -16,6 +18,39 @@ $ch.define('widget', function () {
           view: viewFunction
         };
       });
+    },
+
+    tunnel: {
+      set: function (obj) {
+        if (typeof obj !== 'object') {
+          throw new Error('$ch.widget.tunnel.set requires an object-type parameter.');
+        }
+
+        var str = JSON.stringify(obj);
+        str = encodeURIComponent(str);
+        var node = document.createElement('input');
+        node.setAttribute('id', DATA_TUNNEL);
+        node.setAttribute('type', 'hide');
+        node.setAttribute('value', str);
+        document.body.appendChild(node);
+      },
+
+      get: function (widget, key) {
+        if (arguments.length === 0) {
+          throw new Error('$ch.widget.tunnel.get requires at least one parameter.');
+        }
+
+        var doc = document.getElementById(widget).contentWindow.document;
+        var value = doc.getElementById(DATA_TUNNEL).getAttribute('value');
+        value = decodeURIComponent(value);
+        var obj = JSON.parse(value);
+        if (typeof key === 'string') {
+          return obj[key];
+        } else {
+          return obj;
+        }
+      }
+
     }
   };
 
