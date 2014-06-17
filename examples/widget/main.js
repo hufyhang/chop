@@ -17,9 +17,6 @@ var showInfo = function () {
 $ch.widget.register({
   'greeting': function (data) {
     'use strict';
-    $ch.widget.tunnel.set('greeting', {
-      message: 'Chop.js Widget module is awesome.'
-    });
     return makeView(data.name);
   }
 });
