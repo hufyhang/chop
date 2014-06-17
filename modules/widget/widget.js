@@ -50,30 +50,38 @@ $ch.define('widget', function () {
 
 
   // search and process Chop.js widget in HTML
-  var widgets = $$CHOP.findAll('ch-widget');
-  $$CHOP.each(widgets, function (element) {
-    element = element.el;
-    var url = element.getAttribute('src').trim();
-    var name = element.getAttribute('widget').trim();
-    var pre;
-
-    if (url.slice(-1) === '/') {
-      pre = '#/_chopjs_widget/';
-    } else {
-      pre = '/#/_chopjs_widget/';
+  var originalLoadView = $$CHOP._loadView;
+  $$CHOP._loadView = function (baseElement) {
+    if (baseElement === undefined) {
+      baseElement = document;
     }
 
-    url = url + pre + name;
+    originalLoadView(baseElement);
+    var widgets = baseElement.querySelectorAll('ch-widget');
+    $$CHOP.each(widgets, function (element) {
+      var url = element.getAttribute('src').trim();
+      var name = element.getAttribute('widget').trim();
+      var pre;
 
-    var data = [];
-    var dataEls = element.querySelectorAll('ch-data');
-    $$CHOP.each(dataEls, function (dataEl) {
-      var key = dataEl.getAttribute('key').trim();
-      var value = dataEl.innerHTML;
-      data.push(key + '=' + value);
+      if (url.slice(-1) === '/') {
+        pre = '#/_chopjs_widget/';
+      } else {
+        pre = '/#/_chopjs_widget/';
+      }
+
+      url = url + pre + name;
+
+      var data = [];
+      var dataEls = element.querySelectorAll('ch-data');
+      $$CHOP.each(dataEls, function (dataEl) {
+        var key = dataEl.getAttribute('key').trim();
+        var value = dataEl.innerHTML;
+        data.push(key + '=' + value);
+      });
+
+      url += '/' + data.join('&');
+      element.innerHTML = '<iframe src="' + url + '"></iframe>';
     });
+  };
 
-    url += '/' + data.join('&');
-    element.innerHTML = '<iframe src="' + url + '"></iframe>';
-  });
 });
