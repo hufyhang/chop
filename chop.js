@@ -190,6 +190,24 @@
       return this;
     },
 
+    delegate: function (evt, callback) {
+      if (arguments.length < 3) {
+        throw new Error('$ch.delegate requires at least three parameters.');
+      }
+
+      for (var index = 2, len = arguments.length; index !== len; ++index) {
+        var query = arguments[index];
+        var founds = this.el.querySelectorAll(query);
+
+        for (var i = 0, l = founds.length; i !== l; ++i) {
+          var found = founds[i];
+          found.addEventListener(evt, callback);
+        }
+      }
+
+      return this;
+    },
+
     click: function (callback) {
       if (callback === undefined) {
         this.el.click();

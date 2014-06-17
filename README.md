@@ -231,6 +231,20 @@ detach(`event`, `callback`)
 
 Detaches the subscription of `callback` on `event`.
 
+delegate(`event`, `callback`, `query`)
+--------------------------------------
+
+Adds `callback` to all `query` element on `event`. Multiple `query` can present.
+
+E.g.:
+
+~~~
+aViewObject.delegate('click', triggerSomething, 'button', 'div.btn');
+
+// all buttons and btn-class divs in 'aViewObject' will fire 'triggersomething'
+on click.
+~~~
+
 click(`callback`)
 -----------------
 
