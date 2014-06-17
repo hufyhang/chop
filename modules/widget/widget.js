@@ -37,9 +37,20 @@ $ch.define('widget', function () {
           throw new Error('$ch.widget.tunnel.get requires at least one parameter.');
         }
 
+        if (document.getElementById(widget) === null) {
+          return undefined;
+        }
         var name = document.getElementById(widget).getAttribute('widget');
         var doc = document.getElementById(widget).querySelector('iframe').contentWindow.document;
-        var value = doc.getElementById(DATA_TUNNEL + name).getAttribute('value');
+        doc = doc.getElementById(DATA_TUNNEL + name);
+        if (doc === null) {
+          return undefined;
+        }
+        var value = doc.getAttribute('value');
+        if (value === null) {
+          return undefined;
+        }
+
         value = decodeURIComponent(value);
         var obj = JSON.parse(value);
         if (typeof key === 'string') {
