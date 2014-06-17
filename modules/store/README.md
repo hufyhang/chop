@@ -12,6 +12,11 @@ $ch.store.local(`key`[, `data`])
 If only `key` provided, returns the value of `key` from local storage.
 Otherwise, sets and saves `key` to `data`.
 
+$ch.store.session(`key`[, `data`])
+----------------------------------
+
+Same as `$ch.store.local`, but use `sessionStorage` instead.
+
 $ch.store.cookie(`key`[, `value`[, `days`]])
 -----------------------------------
 

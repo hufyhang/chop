@@ -33,6 +33,32 @@ $ch.define('store', function () {
       }
     },
 
+
+    session: function (key, value) {
+      if (typeof Storage === 'undefined') {
+        throw new Error('Session storage is not supported by browser.');
+      }
+
+      if (arguments.length === 0) {
+        throw new Error('$ch.store.session requires at least one parameter.');
+      }
+
+      if (arguments.length === 1) {
+        var data = sessionStorage.getItem(key);
+        if (data !== null) {
+          data = JSON.parse(data);
+        }
+        return data;
+      } else {
+        if (value === undefined) {
+          throw new Error('$ch.store.session does not allow undefined value.');
+        }
+
+        sessionStorage.setItem(key, JSON.stringify(value));
+      }
+    },
+
+
     cookie: function (key, value, expDay) {
       if (document.cookie === undefined) {
         throw new Error('Cookie is not supported by this browser.');
