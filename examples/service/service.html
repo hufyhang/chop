@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Chop.js Service Example - Client</title>
+</head>
+<body>
+  <h2>Below is a Chop.js service element</h2>
+  <ch-service src="http://localhost:8000/" service="greeting">
+    <ch-data key="name">Chop.js Framework (Service module)</ch-data>
+  </ch-service>
+
+  <script src="chop.min.js"></script>
+  <script>
+    $ch.require('ui');
+    $ch.require('service', false);
+  </script>
+</body>
+</html>

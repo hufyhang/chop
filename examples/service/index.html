@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Chop.js Service Example</title>
+</head>
+<body>
+  <input type="text" id="name-input" placeholder="Enter your name and hit enter..." value="" ch-source="name" ch-keypress="if ($$event.keyCode === 13) {showInfo()}"/>
+  <div id="container"></div>
+  <script src="chop.min.js" ch-main="main.js"></script>
+</body>
+</html>
