@@ -41,7 +41,7 @@ $ch.define('widget', function () {
         }
 
         var name = document.getElementById(widget).getAttribute('widget');
-        var doc = document.getElementById(widget).contentWindow.document;
+        var doc = document.getElementById(widget).querySelector('iframe').contentWindow.document;
         var value = doc.getElementById(DATA_TUNNEL + name).getAttribute('value');
         value = decodeURIComponent(value);
         var obj = JSON.parse(value);
