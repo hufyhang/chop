@@ -96,6 +96,7 @@ input, textarea, .chopjs-ui-input {
 input:focus, textarea:focus, .chopjs-ui-input:focus {
   border-color: #66afe9;
   border-width: 2px;
+  box-shadow: #66afe9 0px 0px 20px;
 }
 
 select, .chopjs-ui-select {
