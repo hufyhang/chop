@@ -29,7 +29,7 @@ $ch.define('widget', function () {
 
         var str = JSON.stringify(obj);
         str = encodeURIComponent(str);
-        this._tunnel[name] = str;
+        $$CHOP.widget._tunnel[name] = str;
       },
 
       get: function (widget, key) {
