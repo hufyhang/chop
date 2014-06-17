@@ -26,6 +26,36 @@ $ch.define('utils', function () {
       return fn.bind(context);
     },
 
+    first: function (array, number) {
+      if ($$CHOP.isArray(array) === false) {
+        throw new Error('$ch.utils.first requires an array-type parameter.');
+      }
+      if (typeof number !== 'number') {
+        number = array.length;
+      }
+
+      var result = [];
+      for (var index = 0; index !== number; ++index) {
+        result.push(array[index]);
+      }
+      return result;
+    },
+
+    last: function (array, number) {
+      if ($$CHOP.isArray(array) === false) {
+        throw new Error('$ch.utils.last requires an array-type parameter.');
+      }
+      if (typeof number !== 'number') {
+        number = -1;
+      }
+
+      var result = [];
+      for (var index = array.length - 1; index !== number; --index) {
+        result.push(array[index]);
+      }
+      return result.reverse();
+    },
+
     map: function (array, callback) {
       if ($$CHOP.isArray(array) === false) {
         throw new Error('$ch.utils.map requires an array-type parameter.');

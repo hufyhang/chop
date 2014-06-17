@@ -22,6 +22,18 @@ $ch.utils.map(`array`, `callback`)
 Returns an array which is created by iterate through `array` and call `callback`
 on each of its items.
 
+$ch.utils.first(`array`[, `howMany`])
+-------------------------------------
+
+Returns the first `howMany` elements in `array`. If `howMany` is not presented,
+        returns the whole `array`.
+
+$ch.utils.last(`array`[, `howMany`])
+-------------------------------------
+
+Returns the last `howMany` elements in `array`. If `howMany` is not presented,
+        returns the whole `array`.
+
 $ch.utils.now()
 ---------------
 
