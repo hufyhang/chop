@@ -173,7 +173,7 @@ Filters and returns the array in `obj` according to `expression`.
 
 `expression` is a function which takes a parameter representing `obj` and returns either true or false.
 
-APIs - chop.js view
+APIs - chop.js element
 ===================
 
 css(`style`, `value`)
@@ -225,6 +225,11 @@ on(`event`, `callback`)
 -----------------------
 
 Registers `callback` to `event`.
+
+detach(`event`, `callback`)
+---------------------------
+
+Detaches the subscription of `callback` on `event`.
 
 click(`callback`)
 -----------------

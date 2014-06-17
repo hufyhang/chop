@@ -181,6 +181,15 @@
       return this;
     },
 
+    detach: function (evt, callback) {
+      if (arguments.length !== 2) {
+        throw new Error('$ch.detach requires two parameters.');
+      }
+
+      this.el.removeEventListener(evt, callback);
+      return this;
+    },
+
     click: function (callback) {
       if (callback === undefined) {
         this.el.click();
