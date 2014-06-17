@@ -91,7 +91,7 @@ $ch.define('router', function () {
       for (var index = 0, l = keys.length; index !== l; ++index) {
         var exp = keys[index];
         exp = exp.replace(/:\w+/g, '.+');
-        var regex = new RegExp(exp);
+        var regex = new RegExp('^' + exp + '$');
 
         // find matched routing pattern
         var matchedUrl = re.match(regex);

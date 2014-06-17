@@ -33,7 +33,15 @@ $ch.define('service', function () {
       } else {
         view = service.view(data);
       }
-      $$CHOP.find('html').view(view);
+      var styles = document.querySelectorAll('body style');
+      var scripts = document.querySelectorAll('body script');
+      $$CHOP.find('body').view(view);
+      $$CHOP.each(styles, function (style) {
+        document.body.appendChild(style);
+      });
+      $$CHOP.each(scripts, function (script) {
+        document.body.appendChild(script);
+      });
     }
   });
 
