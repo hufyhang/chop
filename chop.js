@@ -801,7 +801,7 @@
         this._useModule(srcs, useLoader, callback);
       } else {
         if (typeof callback === 'function') {
-          callback();
+          callback(chop);
         }
       }
     },
