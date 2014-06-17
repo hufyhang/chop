@@ -294,7 +294,6 @@ $ch.define('ui', function () {
               $$CHOP.sources[name].els.splice(index, 1);
             }
           } else {
-            console.log(item);
             var id = item.id;
             var names = $$CHOP._inlineSource[id].match(/{{[^{]{1,}}}/g);
             if (names !== null) {

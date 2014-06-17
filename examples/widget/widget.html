@@ -6,14 +6,22 @@
 </head>
 <body>
   <h2>Below is a Chop.js widget element</h2>
-  <ch-widget src="http://localhost:8000/" widget="greeting">
-    <ch-data key="name">Chop.js Framework (Widget module)</ch-data>
-  </ch-widget>
+
+  <nav ch-ui-tabs>
+    <div ch-tab="Widget">
+      <ch-widget src="http://localhost:8000/" widget="greeting">
+        <ch-data key="name">Chop.js Framework (Widget module)</ch-data>
+      </ch-widget>
+    </div>
+
+    <div ch-tab="Contact">
+      Tel: 000-000-000
+    </div>
+  </nav>
 
   <script src="chop.min.js"></script>
   <script>
-    $ch.require('ui');
-    $ch.require('widget.min', false);
+    $ch.require(['ui', 'widget']);
   </script>
 </body>
 </html>

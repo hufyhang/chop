@@ -53,6 +53,11 @@ $ch.define('widget', function () {
   var loadWidget = function (baseElement) {
     var widgets = baseElement.querySelectorAll('ch-widget');
     $$CHOP.each(widgets, function (element) {
+      // do nothing is already contains iframe
+      if (element.querySelector('iframe') !== null) {
+        return;
+      }
+
       var url = element.getAttribute('src').trim();
       var name = element.getAttribute('widget').trim();
       var pre;
