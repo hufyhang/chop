@@ -36,6 +36,11 @@ Returns the value of `key`. If no `key` provided, returns all the data.
 Sets `key` to `value`. If only an object parameter presented, sets the model
 object to the object.
 
+.toJSON()
+---------
+
+Returns a JavaScript object of the Chop.js model.
+
 .reset()
 --------
 

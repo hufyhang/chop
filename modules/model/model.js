@@ -53,6 +53,16 @@ $ch.define('model', function () {
         return Object.keys(this._data).length;
       },
 
+      toJSON: function () {
+        var obj = {};
+        var that = this;
+        $$CHOP.each(this._data, function (key) {
+          obj[key] = that.get(key);
+        });
+
+        return obj;
+      },
+
       get: function (item) {
         if (item === undefined) {
           return this._data;
