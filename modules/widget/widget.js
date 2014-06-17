@@ -91,9 +91,9 @@ $ch.define('widget', function () {
       });
 
       $$CHOP.each($$CHOP.widget._tunnel, function (name, str) {
-        var node = document.createElement('input');
+        var node = document.createElement('ch-widget-data-tunnel');
         node.setAttribute('id', DATA_TUNNEL + name);
-        node.setAttribute('type', 'hide');
+        node.setAttribute('style', 'display: none');
         node.setAttribute('value', str);
         document.body.appendChild(node);
       });
