@@ -29,7 +29,7 @@ Otherwise, sets value of `key` to `value` and saves in cookie.
 
 If `days` presented, sets the cache data to expire in `days`.
 
-$ch.store.cache(`key`[, `value`])
+$ch.store.cache(`key`[, `value`, `expire`])
 ---------------------------------
 
 If no parameters provided, returns all cached data in the form of an object.
@@ -37,4 +37,6 @@ If no parameters provided, returns all cached data in the form of an object.
 If only `key` presented, returns the cached data of `key`.
 
 Otherwise, sets `key` to `value`.
+
+If `expire` presented, sets the cached data expires in `expire` days.
 
