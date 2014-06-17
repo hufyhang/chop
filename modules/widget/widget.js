@@ -50,13 +50,7 @@ $ch.define('widget', function () {
 
 
   // search and process Chop.js widget in HTML
-  var originalLoadView = $$CHOP._loadView;
-  $$CHOP._loadView = function (baseElement) {
-    if (baseElement === undefined) {
-      baseElement = document;
-    }
-
-    originalLoadView(baseElement);
+  var loadWidget = function (baseElement) {
     var widgets = baseElement.querySelectorAll('ch-widget');
     $$CHOP.each(widgets, function (element) {
       var url = element.getAttribute('src').trim();
@@ -82,6 +76,21 @@ $ch.define('widget', function () {
       url += '/' + data.join('&');
       element.innerHTML = '<iframe src="' + url + '"></iframe>';
     });
+  };
+
+  loadWidget(document);
+  var originalLoadView = $$CHOP._loadView;
+  $$CHOP._loadView = function (baseElement) {
+    var shouldLoadWidget = true;
+    if (baseElement === undefined) {
+      baseElement = document;
+      shouldLoadWidget = false;
+    }
+
+    originalLoadView(baseElement);
+    if (shouldLoadWidget) {
+      loadWidget(baseElement);
+    }
   };
 
 });
