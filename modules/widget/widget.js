@@ -10,6 +10,7 @@ $ch.define('widget', function () {
 
   $$CHOP.widget = {
     _widgets: {},
+    _tunnel: {},
     register: function (obj) {
       var that = this;
       $$CHOP.each(obj, function (name, viewFunction) {
@@ -28,11 +29,7 @@ $ch.define('widget', function () {
 
         var str = JSON.stringify(obj);
         str = encodeURIComponent(str);
-        var node = document.createElement('input');
-        node.setAttribute('id', DATA_TUNNEL + name);
-        node.setAttribute('type', 'hide');
-        node.setAttribute('value', str);
-        document.body.appendChild(node);
+        this._tunnel[name] = str;
       },
 
       get: function (widget, key) {
@@ -81,6 +78,15 @@ $ch.define('widget', function () {
       $$CHOP.each(scripts, function (script) {
         document.body.appendChild(script);
       });
+
+      $$CHOP.each($$CHOP.widget._tunnel, function (name, str) {
+        var node = document.createElement('input');
+        node.setAttribute('id', DATA_TUNNEL + name);
+        node.setAttribute('type', 'hide');
+        node.setAttribute('value', str);
+        document.body.appendChild(node);
+      });
+
     }
   });
 
