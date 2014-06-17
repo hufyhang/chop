@@ -26,6 +26,25 @@ $ch.define('utils', function () {
       return fn.bind(context);
     },
 
+    map: function (array, callback) {
+      if ($$CHOP.isArray(array) === false) {
+        throw new Error('$ch.utils.map requires an array-type parameter.');
+      }
+
+      if (typeof callback !== 'function') {
+        throw new Error('$ch.utils.map requires a function-type callback parameter.');
+      }
+
+      var result = [];
+
+      $$CHOP.each(array, function (item) {
+        var value = callback(item);
+        result.push(value);
+      });
+
+      return result;
+    },
+
     now: function () {
       return Date.parse(Date());
     },

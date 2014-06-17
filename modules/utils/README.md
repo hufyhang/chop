@@ -16,6 +16,12 @@ $ch.utils.bind(`function`, `context`)
 
 Creates and return a new function that will call `function` in `context`.
 
+$ch.utils.map(`array`, `callback`)
+----------------------------------
+
+Returns an array which is created by iterate through `array` and call `callback`
+on each of its items.
+
 $ch.utils.now()
 ---------------
 
