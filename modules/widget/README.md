@@ -54,11 +54,13 @@ $ch.wdiget.tunnel.set(`name`, `obj`)
 
 Sets `name` to `obj` through widget tunnel.
 
-$ch.wdiget.tunnel.get(`widget`[, `key`])
+$ch.wdiget.tunnel.get(`widget`[, `key`], `callback`)
 ----------------------------------------
 
-Gets data passed via widget data tunnel of `widget`. If no `key` presented,
+Gets data passed via widget data tunnel of `widget` and invokes `callback`. If no `key` presented,
      returns all passed data in the form of a JavaScript object.
+
+Callbacks will be executed when Chop.js view is loaded.
 
 HTML Directive Examples
 -----------------------

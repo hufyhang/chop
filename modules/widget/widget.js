@@ -5,6 +5,47 @@ $ch.define('widget', function () {
   $ch.require('router');
 
   var DATA_TUNNEL = '_chopjs_widget_data_tunnel_';
+  var tunnel_callbacks = [];
+
+  var originalAfterView = $$CHOP._afterLoadView;
+  $$CHOP._afterLoadView = function () {
+    originalAfterView();
+
+    var callbackObj = tunnel_callbacks.pop();
+    while(callbackObj !== undefined) {
+      var widget = callbackObj.widget;
+      var key = callbackObj.key;
+      var callback = callbackObj.callback;
+
+      if (document.getElementById(widget) === null) {
+        return undefined;
+      }
+      var name = document.getElementById(widget).getAttribute('widget');
+      var doc = document.getElementById(widget).querySelector('iframe').contentWindow.document;
+      doc = doc.getElementById(DATA_TUNNEL + name);
+      var data;
+      if (doc === null) {
+        data = undefined;
+      }
+      var value = doc.getAttribute('value');
+      if (value === null) {
+        data = undefined;
+      }
+
+      value = decodeURIComponent(value);
+      var obj = JSON.parse(value);
+      if (typeof key === 'string') {
+        data = obj[key];
+      } else {
+        data = obj;
+      }
+      callback(data);
+
+      callbackObj = tunnel_callbacks.pop();
+    }
+
+    return true;
+  };
 
   $$CHOP.widget = {};
 
@@ -32,34 +73,24 @@ $ch.define('widget', function () {
         $$CHOP.widget._tunnel[name] = str;
       },
 
-      get: function (widget, key) {
-        if (arguments.length === 0) {
-          throw new Error('$ch.widget.tunnel.get requires at least one parameter.');
+      get: function (widget, key, callback) {
+        if (arguments.length < 2) {
+          throw new Error('$ch.widget.tunnel.get requires at least two parameter.');
         }
 
-        if (document.getElementById(widget) === null) {
-          return undefined;
-        }
-        var name = document.getElementById(widget).getAttribute('widget');
-        var doc = document.getElementById(widget).querySelector('iframe').contentWindow.document;
-        doc = doc.getElementById(DATA_TUNNEL + name);
-        if (doc === null) {
-          return undefined;
-        }
-        var value = doc.getAttribute('value');
-        if (value === null) {
-          return undefined;
+        if (arguments.length === 2) {
+          callback = key;
+          key = undefined;
         }
 
-        value = decodeURIComponent(value);
-        var obj = JSON.parse(value);
-        if (typeof key === 'string') {
-          return obj[key];
-        } else {
-          return obj;
-        }
+        var obj = {
+          widget: widget,
+          key: key,
+          callback: callback
+        };
+
+        tunnel_callbacks.push(obj);
       }
-
     }
   };
 
