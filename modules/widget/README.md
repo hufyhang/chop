@@ -1,4 +1,4 @@
-chop.js service framework
+chop.js widget framework
 =========================
 
 Dependences
@@ -7,25 +7,34 @@ Dependences
 _router_ (included)
 
 
-What is a Chop.js Service?
+What is a Chop.js Widget?
 --------------------------
 
-Each visible Chop.js view element can potentially be a Chop.js service in any other
+Any visible Chop.js view element can potentially be a Chop.js widget in any other
 Web apps.
 
 APIs
 ----
 
-$ch.service.add(`name`, `viewFunction`)
+$ch.widget.register(`widgets`)
 ---------------------------------------
 
-- `name`: name of the Chop.js service.
+`widgets` is a JavaScript object in the form of:
+
+~~~
+{
+   `name1`: `viewFunction1`,
+   `name2`: `viewFunction2`
+}
+~~~
+
+- `name`: name of the Chop.js widget.
 - `viewFunction`: a function that returns a Chop.js view object.
 
 E.g.:
 
 ~~~
-$ch.require('service', false);
+$ch.require('widget', false);
 
 var makeView = function (name) {
   'use strict';
@@ -34,7 +43,7 @@ var makeView = function (name) {
   });
 };
 
-$ch.service.add('greeting', function (data) {
+$ch.widget.add('greeting', function (data) {
   'use strict';
   return makeView(data.name);
 });
@@ -44,8 +53,8 @@ HTML Directive Examples
 -----------------------
 
 ~~~
-<ch-service src="http://localhost:8000/" service="greeting">
+<ch-widget src="http://localhost:8000/" widget="greeting">
   <ch-data key="name">Chop.js Framework (Service module)</ch-data>
-</ch-service>
+</ch-widget>
 ~~~
 

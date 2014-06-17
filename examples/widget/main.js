@@ -1,6 +1,6 @@
 /* global $ch */
 $ch.require('ui');
-$ch.require('service', false);
+$ch.require('widget.min', false);
 
 var makeView = function (name) {
   'use strict';
@@ -15,7 +15,9 @@ var showInfo = function () {
   $ch.find('#container').view(view);
 };
 
-$ch.service.add('greeting', function (data) {
-  'use strict';
-  return makeView(data.name);
+$ch.widget.register({
+  'greeting': function (data) {
+    'use strict';
+    return makeView(data.name);
+  }
 });

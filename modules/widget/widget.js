@@ -1,23 +1,26 @@
 /* global $ch, $$CHOP */
-$ch.define('service', function () {
+$ch.define('widget', function () {
   'use strict';
   // bring in router module
   $ch.require('router');
 
-  $$CHOP.service = {};
+  $$CHOP.widget = {};
 
-  $$CHOP.service = {
-    _services: {},
-    add: function (name, viewFunction) {
-      this._services[name] = {
-        name: name,
-        view: viewFunction
-      };
+  $$CHOP.widget = {
+    _widgets: {},
+    register: function (obj) {
+      var that = this;
+      $$CHOP.each(obj, function (name, viewFunction) {
+        that._widgets[name] = {
+          name: name,
+          view: viewFunction
+        };
+      });
     }
   };
 
   $$CHOP.router.add({
-    '_chopjs_service/:name/:data': function (param) {
+    '_chopjs_widget/:name/:data': function (param) {
       var data = {};
       var input = param.data.split('&');
       $$CHOP.each(input, function (item) {
@@ -26,12 +29,12 @@ $ch.define('service', function () {
         data[key] = value;
       });
 
-      var service = $$CHOP.service._services[param.name];
+      var widget = $$CHOP.widget._widgets[param.name];
       var view;
-      if (service === undefined) {
-        view = $$CHOP.view({html: 'Oops! No such Chop.js service.'});
+      if (widget === undefined) {
+        view = $$CHOP.view({html: 'Oops! No such Chop.js widget.'});
       } else {
-        view = service.view(data);
+        view = widget.view(data);
       }
       var styles = document.querySelectorAll('body style');
       var scripts = document.querySelectorAll('body script');
@@ -46,18 +49,18 @@ $ch.define('service', function () {
   });
 
 
-  // search and process Chop.js service in HTML
-  var services = $$CHOP.findAll('ch-service');
-  $$CHOP.each(services, function (element) {
+  // search and process Chop.js widget in HTML
+  var widgets = $$CHOP.findAll('ch-widget');
+  $$CHOP.each(widgets, function (element) {
     element = element.el;
     var url = element.getAttribute('src').trim();
-    var name = element.getAttribute('service').trim();
+    var name = element.getAttribute('widget').trim();
     var pre;
 
     if (url.slice(-1) === '/') {
-      pre = '#/_chopjs_service/';
+      pre = '#/_chopjs_widget/';
     } else {
-      pre = '/#/_chopjs_service/';
+      pre = '/#/_chopjs_widget/';
     }
 
     url = url + pre + name;

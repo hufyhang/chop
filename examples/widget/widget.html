@@ -5,15 +5,15 @@
     <title>Chop.js Service Example - Client</title>
 </head>
 <body>
-  <h2>Below is a Chop.js service element</h2>
-  <ch-service src="http://localhost:8000/" service="greeting">
-    <ch-data key="name">Chop.js Framework (Service module)</ch-data>
-  </ch-service>
+  <h2>Below is a Chop.js widget element</h2>
+  <ch-widget src="http://localhost:8000/" widget="greeting">
+    <ch-data key="name">Chop.js Framework (Widget module)</ch-data>
+  </ch-widget>
 
   <script src="chop.min.js"></script>
   <script>
     $ch.require('ui');
-    $ch.require('service', false);
+    $ch.require('widget.min', false);
   </script>
 </body>
 </html>
