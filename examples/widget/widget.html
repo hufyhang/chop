@@ -9,7 +9,7 @@
 
   <nav ch-ui-tabs>
     <div ch-tab="Widget">
-      <ch-widget src="http://localhost:8000/" widget="greeting">
+      <ch-widget id="greeting-widget" src="http://localhost:8000/" widget="greeting">
         <ch-data key="name">Chop.js Framework (Widget module)</ch-data>
       </ch-widget>
     </div>
@@ -22,6 +22,8 @@
   <script src="chop.min.js"></script>
   <script>
     $ch.require(['ui', 'widget']);
+    var message = $ch.widget.tunnel.get('greeting-widget', 'message');
+    console.log(message);
   </script>
 </body>
 </html>
