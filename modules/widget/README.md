@@ -49,10 +49,10 @@ $ch.widget.add('greeting', function (data) {
 });
 ~~~
 
-$ch.wdiget.tunnel.set(`obj`)
+$ch.wdiget.tunnel.set(`name`, `obj`)
 ----------------------------
 
-Sets `obj` through widget tunnel.
+Sets `name` to `obj` through widget tunnel.
 
 $ch.wdiget.tunnel.get(`widget`[, `key`])
 ----------------------------------------
