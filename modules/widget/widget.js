@@ -4,7 +4,8 @@ $ch.define('widget', function () {
   // bring in router module
   $ch.require('router');
 
-  var DATA_TUNNEL = '_chopjs_widget_data_tunnel_';
+  var DATA_TUNNEL = 'chopjs:data-tunnel';
+
   $$CHOP.widget = {};
 
   $$CHOP.widget = {
@@ -18,6 +19,46 @@ $ch.define('widget', function () {
           view: viewFunction
         };
       });
+    },
+
+    tunnel: {
+      set: function (name, obj) {
+        if (arguments.length !== 2) {
+          throw new Error('$ch.widget.tunnel.set requires two parameters.');
+        }
+
+        var str = JSON.stringify(obj);
+        str = encodeURIComponent(str);
+        $$CHOP.widget._tunnel[name] = str;
+      },
+
+      get: function (widget, tunnel, key) {
+        if (arguments.length < 2) {
+          throw new Error('$ch.widget.tunnel.get requires at least two parameters.');
+        }
+
+        if (document.getElementById(widget) === null) {
+          return undefined;
+        }
+        var doc = document.getElementById(widget).querySelector('iframe').contentWindow.document;
+        doc = doc.querySelector('head meta[typeof="' + DATA_TUNNEL + '"][property="' + tunnel + '"]');
+        if (doc === null) {
+          return undefined;
+        }
+        var value = doc.getAttribute('content');
+        if (value === null) {
+          return undefined;
+        }
+
+        value = decodeURIComponent(value);
+        var obj = JSON.parse(value);
+        if (typeof key === 'string') {
+          return obj[key];
+        } else {
+          return obj;
+        }
+      }
+
     }
   };
 
@@ -49,11 +90,11 @@ $ch.define('widget', function () {
       });
 
       $$CHOP.each($$CHOP.widget._tunnel, function (name, str) {
-        var node = document.createElement('ch-widget-data-tunnel');
-        node.setAttribute('id', DATA_TUNNEL + name);
-        node.setAttribute('style', 'display: none');
-        node.setAttribute('value', str);
-        document.body.appendChild(node);
+        var node = document.createElement('meta');
+        node.setAttribute('typeof', DATA_TUNNEL);
+        node.setAttribute('property', name);
+        node.setAttribute('content', str);
+        document.head.appendChild(node);
       });
 
     }
@@ -104,6 +145,7 @@ $ch.define('widget', function () {
     }
 
     originalLoadView(baseElement);
+    loadWidget(baseElement);
     if (shouldLoadWidget) {
       loadWidget(baseElement);
     }

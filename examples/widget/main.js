@@ -17,6 +17,9 @@ var showInfo = function () {
 $ch.widget.register({
   'greeting': function (data) {
     'use strict';
+    $ch.widget.tunnel.set('information', {
+      message: 'Hello world!!!'
+    });
     return makeView(data.name);
   }
 });
