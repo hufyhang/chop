@@ -168,32 +168,6 @@ $ch.define('svg', function () {
         return this;
       },
 
-      path: function (attr, style) {
-        if (arguments.length === 0) {
-          throw new Error('Chop.js svg.path requires at least one parameter.');
-        }
-        var n = document.createElementNS(NAMESPACE, 'path');
-        var g = this.node;
-
-        $$CHOP.each(attr, function (key, value) {
-          if (key === 'g') {
-            g = value;
-          } else {
-            n.setAttribute(key, value);
-          }
-        });
-
-        if (typeof style === 'object') {
-          var styles = [];
-          $$CHOP.each(style, function (key, value) {
-            styles.push(key + ': ' + value);
-          });
-          n.setAttribute('style', styles.join(';'));
-        }
-        g.appendChild(n);
-        return this;
-      },
-
       polyline: function (attr, style) {
         if (arguments.length === 0) {
           throw new Error('Chop.js svg.polyline requires at least one parameter.');
