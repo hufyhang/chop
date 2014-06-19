@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Widget Testing Page</title>
+
+    <script type="text/template" id="map-template">
+      <ch-widget src="{{src}}" widget="{{widget}}">
+        <ch-data key="longitude">{{lon}}</ch-data>
+        <ch-data key="latitude">{{lat}}</ch-data>
+      </ch-widget>
+    </script>
+
+
+    <style type="text/css" media="screen">
+      iframe {
+        resize: both;
+        border: none;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <li ch-logo>Widget Testing Page</li>
+  </header>
+
+  <nav ch-ui-tabs>
+    <li ch-tab="Map">
+      <div ch-click="$ch.event.emit('map')" ch-ui-button>Show map</div>
+      <div id="map-div"></div>
+    </li>
+
+    <li ch-tab="Contact">
+      Tel: 00-00-000
+    </li>
+  </nav>
+
+  <script src="chop.min.js" ch-main="test.js"></script>
+</body>
+</html>
