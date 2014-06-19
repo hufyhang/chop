@@ -19,12 +19,6 @@
     </div>
   </nav>
 
-  <script src="chop.min.js"></script>
-  <script>
-    $ch.require(['ui', 'widget']);
-    $ch.widget.tunnel.fetch('greeting-widget', 'information', function (data) {
-      console.log(data);
-    });
-  </script>
+  <script src="chop.min.js" ch-main="widget.js"></script>
 </body>
 </html>
