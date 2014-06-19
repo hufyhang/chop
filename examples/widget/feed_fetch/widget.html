@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Chop.js Service Example - Client</title>
+</head>
+<body>
+  <h2>Below is a Chop.js widget element</h2>
+
+  <nav ch-ui-tabs>
+    <div ch-tab="Widget">
+      <ch-widget id="greeting-widget" src="http://localhost:8000/" widget="greeting">
+        <ch-data key="name">Chop.js Framework (Widget module)</ch-data>
+      </ch-widget>
+    </div>
+
+    <div ch-tab="Contact">
+      Tel: 000-000-000
+    </div>
+  </nav>
+
+  <script src="chop.min.js"></script>
+  <script>
+    $ch.require('ui');
+    $ch.require('widget', false);
+    $ch.widget.tunnel.fetch('greeting-widget', 'information', function (data) {
+      console.log('CHECK');
+      console.log(data);
+    });
+  </script>
+</body>
+</html>
