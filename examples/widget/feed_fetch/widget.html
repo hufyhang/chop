@@ -21,10 +21,8 @@
 
   <script src="chop.min.js"></script>
   <script>
-    $ch.require('ui');
-    $ch.require('widget', false);
+    $ch.require(['ui', 'widget']);
     $ch.widget.tunnel.fetch('greeting-widget', 'information', function (data) {
-      console.log('CHECK');
       console.log(data);
     });
   </script>

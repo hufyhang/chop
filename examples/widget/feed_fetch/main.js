@@ -1,6 +1,5 @@
 /* global $ch */
-$ch.require('ui');
-$ch.require('widget', false);
+$ch.require(['ui', 'widget']);
 
 var makeView = function (name) {
   'use strict';
