@@ -125,7 +125,13 @@ $ch.define('widget', function () {
       var w = document.body.scrollWidth;
       var href = window.location.href.split('#')[0];
       var parentDoc = window.parent.window.document;
-      var iframes = parentDoc.querySelectorAll('ch-widget[src="' + href + '"][widget="' + param.name + '"] iframe');
+      var query = 'ch-widget[src="' + href + '"][widget="' + param.name + '"] iframe';
+      if (href.match(/\/+$/) === null) {
+        query += ', ch-widget[src="' + href + '/"][widget="' + param.name + '"] iframe';
+      } else {
+        query += ', ch-widget[src="' + href.replace(/\/+$/, '') + '"][widget="' + param.name + '"] iframe';
+      }
+      var iframes = parentDoc.querySelectorAll(query);
       $$CHOP.each(iframes, function (iframe) {
         iframe.style.height = h + 'px';
         iframe.style.width = w + 'px';
