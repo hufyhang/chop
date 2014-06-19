@@ -146,7 +146,7 @@ $ch.define('node', function () {
         }
         this._node.setAttribute(key, value);
         var par = this._node.parentNode;
-        if (par !== null || par !== undefined) {
+        if (par !== null && par !== undefined) {
           $$CHOP._loadView(par);
         }
         return this;
