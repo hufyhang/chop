@@ -27,14 +27,15 @@
   </header>
 
   <nav ch-ui-tabs>
-    <li ch-tab="Map">
-      <div ch-click="$ch.event.emit('map')" ch-ui-button>Show map</div>
+    <li ch-tab="Welcome">
+      <p>Welcome to Chop.JS widget example page.</p>
+      <p>You can browse all the offical Chop.JS widgts in the above tabs.</p>
+    </li>
+
+    <li ch-tab="Map" ch-click="$ch.event.emit('map')">
       <div id="map-div"></div>
     </li>
 
-    <li ch-tab="Contact">
-      Tel: 00-00-000
-    </li>
   </nav>
 
   <script src="chop.min.js" ch-main="test.js"></script>
