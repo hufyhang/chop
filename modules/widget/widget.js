@@ -121,6 +121,16 @@ $ch.define('widget', function () {
         document.head.appendChild(node);
       });
 
+      var h = document.body.scrollHeight;
+      var w = document.body.scrollWidth;
+      var href = window.location.href.split('#')[0];
+      var parentDoc = window.parent.window.document;
+      var iframes = parentDoc.querySelectorAll('ch-widget[src="' + href + '"][widget="' + param.name + '"] iframe');
+      $$CHOP.each(iframes, function (iframe) {
+        iframe.style.height = h + 'px';
+        iframe.style.width = w + 'px';
+        iframe.style.border = 'none';
+      });
     }
   });
 
