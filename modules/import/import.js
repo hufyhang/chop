@@ -12,12 +12,20 @@ $ch.define('import', function () {
     searchImport(baseElement);
   };
 
-  var importHtml = function (url, element) {
+  var importHtml = function (url, element, query) {
     var html = $$CHOP.http({
       url: url,
       method: 'GET',
       async: false
     });
+    if (typeof query === 'string') {
+      var node = document.createElement('div');
+      node.innerHTML = html;
+      var el = node.querySelector(query);
+      if (el !== undefined || el !== null) {
+        html = el.innerHTML;
+      }
+    }
     element.innerHTML = html;
     $$CHOP._loadView(element);
   };
@@ -30,18 +38,19 @@ $ch.define('import', function () {
     var elements = baseElement.querySelectorAll('ch-import');
     $$CHOP.each(elements, function (element) {
       var url = element.getAttribute('src');
+      var query = element.getAttribute('query');
       if (url !== null) {
-        importHtml(url, element);
+        importHtml(url, element, query);
       }
     });
   };
 
-  $$CHOPEL.import = function (url) {
+  $$CHOPEL.import = function (url, query) {
     if (typeof url !== 'string') {
       throw new Error('import requires a string-type parameter.');
     }
     var el = this.el;
-    importHtml(url, el);
+    importHtml(url, el, query);
   };
 
 });
