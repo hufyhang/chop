@@ -122,7 +122,7 @@ The object `param` contains:
 - `data`: data to be sent in the form of an object
 - `done`: the callback function for async AJAX
 
-If `async` is `false`, returns the response text.
+If `async` is `false`, returns the returned AJAX object.
 
 $ch.jsonp(`url`, `callback`)
 ----------------------------

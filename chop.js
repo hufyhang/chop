@@ -765,7 +765,7 @@
       }
 
       if (!async) {
-        return ajax.responseText;
+        return ajax;
       }
     },
 
