@@ -4,6 +4,31 @@ $ch.define('connect', function () {
   $$CHOP.connect = {};
 
   $$CHOP.connect = {
+    worker: function (url, callback) {
+      if (!window.Worker) {
+        throw new Error('Worker is not supported by this browser.');
+      }
+
+      if (arguments.length !== 2) {
+        throw new Error('$ch.connect.worker requires two parameters.') ;
+      }
+
+      if (typeof url !== 'string') {
+        throw new Error('$ch.connect.worker requires a string-type URL parameter.');
+      }
+
+      if (typeof callback !== 'function') {
+        throw new Error('$ch.connect.worker requires a function-type callback parameter.');
+      }
+
+      var w = new Worker(url);
+      w.onmessage = function (evt) {
+        var data = evt.data;
+        callback(data);
+      };
+      return w;
+    },
+
     sse: function (param) {
       if (!window.EventSource) {
         throw new Error('Server-Sent Event is not supported by this browser.');

@@ -6,6 +6,21 @@ Dependences
 
 None
 
+$ch.connect.worker(`url`, `callback`)
+----------------------
+
+Returns a Worker object which referring to `url`.
+
+When received a message, calls `callback` with a `data` parameter.
+
+Example:
+
+~~~javascript
+var w = $ch.connect.worker('worker.js', function (data) {
+    console.log('Received: ' + data);
+});
+~~~
+
 $ch.connect.sse(`param`)
 ------------------------
 
