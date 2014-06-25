@@ -793,7 +793,7 @@
           url: url,
           method: 'get',
           async: false
-        });
+        }).responseText;
 
         scriptEl = document.createElement('script');
         scriptEl.setAttribute('ch-module', script);
