@@ -45,7 +45,7 @@ $ch.define('ui', function () {
   if (!hasStyle) {
     var node = document.createElement('style');
     node.className += ' chopjs-ui-style-css';
-    node.innerHTML = $$CHOP.http({url: UI_CSS, async: false});
+    node.innerHTML = $$CHOP.http({url: UI_CSS, async: false}).responseText;
     document.head.appendChild(node);
   }
 

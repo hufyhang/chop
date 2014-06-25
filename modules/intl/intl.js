@@ -32,7 +32,7 @@ $ch.define('intl', function () {
   };
 
   var parsePrefs = function (path) {
-    var doc = $$CHOP.http({url: path, async: false});
+    var doc = $$CHOP.http({url: path, async: false}).responseText;
     var obj = {};
     var lines = doc.split('\n');
     $$CHOP.each(lines, function (line) {

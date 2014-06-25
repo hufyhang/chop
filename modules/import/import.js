@@ -17,7 +17,7 @@ $ch.define('import', function () {
       url: url,
       method: 'GET',
       async: false
-    });
+    }).responseText;
     if (typeof query === 'string') {
       var node = document.createElement('div');
       node.innerHTML = html;
