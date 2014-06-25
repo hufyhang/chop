@@ -26,7 +26,7 @@ $ch.define('import', function () {
         html = el.innerHTML;
       }
     }
-    element.innerHTML = html;
+    element.innerHTML += html;
     $$CHOP._loadView(element);
   };
 
@@ -40,7 +40,7 @@ $ch.define('import', function () {
       var url = element.getAttribute('src');
       var query = element.getAttribute('query');
       if (url !== null) {
-        importHtml(url, element, query);
+        importHtml(url, element.parentNode, query);
       }
     });
   };

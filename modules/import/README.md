@@ -16,6 +16,14 @@ Imports a resource declared by `src` attribute, and puts into the parent node.
 
 If `query` attribute presented, imports the inner HTML of `query`.
 
+E.g.:
+
+~~~html
+<div>
+    <ch-import src="http://example.com/import" query="head script"/>
+</div>
+~~~
+
 APIs on Chop ELements
 =====================
 
