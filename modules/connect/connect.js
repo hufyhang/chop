@@ -26,6 +26,7 @@ $ch.define('connect', function () {
         var data = evt.data;
         callback(data);
       };
+      w.postMessage();
       return w;
     },
 
