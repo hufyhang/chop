@@ -118,6 +118,7 @@ The object `param` contains:
 - `url`: the target URL of the AJAX call
 - `method`: HTTP verb (get, post, put, delete)
 - `async`: asynchronous, default: `true` (`true` or `false`)
+- `responseType`: the response type of the AJAX request
 - `data`: data to be sent in the form of an object
 - `done`: the callback function for async AJAX
 

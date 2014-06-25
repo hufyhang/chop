@@ -714,6 +714,7 @@
 
       var url = param.url;
       var method = param.method || 'GET';
+      var responseType = param.responseType;
       method = method.toUpperCase();
       var data = param.data || {};
       var tempData = '';
@@ -737,12 +738,20 @@
         ajax = new ActiveXObject('Microsoft.XMLHTTP');
       }
       ajax.open(method, url, async);
+      if (responseType !== undefined) {
+        ajax.responseType = responseType;
+      }
       ajax.onreadystatechange = function () {
         if (ajax.readyState !== 4) {
           return;
         }
         if (async) {
-          callback({data: ajax.responseText, status: ajax.status});
+          callback({
+            data: ajax.responseText,
+            responseText: ajax.responseText,
+            response: ajax.response,
+            status: ajax.status
+          });
         }
       };
 
