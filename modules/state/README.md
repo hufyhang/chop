@@ -1,4 +1,5 @@
 chop.js state machine module
+=======================
 
 Dependencies
 ------------
