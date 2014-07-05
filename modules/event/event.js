@@ -138,6 +138,24 @@ $ch.define('event', function () {
       return this;
     },
 
+    once: function (fn, context) {
+      var result;
+      var run;
+
+      return function () {
+        if (run) {
+          return result;
+        }
+
+        result = fn.apply(context || this, arguments);
+
+        // set to null to allow garbage collection
+        run = 1;
+        fn = null;
+        return result;
+      };
+    },
+
     queue: function () {
       var q = {
         callbacks: [],

@@ -33,6 +33,11 @@ $ch.event.queue(`callback`)
 
 Creates and returns a callback queue. All function-type parameters will be added to the queue.
 
+$ch.event.once(`function`[, `context`])
+----------------------------
+
+Returns a function that will self-destruct after being invoked once. If `context` presented, sets the context of the function to `context`.
+
 APIs of "queue"
 ===============
 
