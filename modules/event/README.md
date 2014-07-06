@@ -38,6 +38,11 @@ $ch.event.once(`function`[, `context`])
 
 Returns a function that will self-destruct after being invoked once. If `context` presented, sets the context of the function to `context`.
 
+$ch.event.nextTick(`fn`)
+----------------------
+
+Delays the execution of `fn` until next event loop idle.
+
 APIs of "queue"
 ===============
 
