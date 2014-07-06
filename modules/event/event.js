@@ -156,7 +156,7 @@ $ch.define('event', function () {
       };
     },
 
-    nextTick: function () {
+    nextTick: (function () {
       var canSetImmediate = typeof window !== 'undefined'
       && window.setImmediate;
       var canPost = typeof window !== 'undefined'
@@ -188,7 +188,7 @@ $ch.define('event', function () {
       return function nextTick(fn) {
         setTimeout(fn, 0);
       };
-    },
+    })(),
 
     queue: function () {
       var q = {
