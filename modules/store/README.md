@@ -32,6 +32,8 @@ If `days` presented, sets the cache data to expire in `days`.
 $ch.store.cache(`key`[, `value`, `expire`])
 ---------------------------------
 
+Temporary session cache.
+
 If no parameters provided, returns all cached data in the form of an object.
 
 If only `key` presented, returns the cached data of `key`.
