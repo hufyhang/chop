@@ -46,7 +46,7 @@ Defines/adds data sources.
 
 To use inline data source, the DOM element then has to have an ID. E.g.:
 
-~~~
+~~~html
 <div id="inline-div" ch-source>This is a inline {{data}} source.</div>
 ~~~
 
@@ -239,7 +239,7 @@ Adds `callback` to all `query` element on `event`. Multiple `query` can present.
 
 E.g.:
 
-~~~
+~~~javascript
 aViewObject.delegate('click', triggerSomething, 'button', 'div.btn');
 
 // all buttons and btn-class divs in 'aViewObject' will fire 'triggersomething'
