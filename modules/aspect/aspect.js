@@ -35,7 +35,8 @@ $ch.define('aspect', function () {
       var value;
       try {
         value = orig.apply(this, arguments);
-        return advice.call(this, value);
+        advice.call(this, value);
+        return value;
       } catch (err) {
         value = err;
         advice.call(this, value);
@@ -49,7 +50,8 @@ $ch.define('aspect', function () {
      var orig = obj[method];
      obj[method] = function () {
       var value = orig.apply(this, arguments);
-      return advice.call(this, value);
+      advice.call(this, value);
+      return value;
     };
    },
 
