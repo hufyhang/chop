@@ -35,10 +35,12 @@ $ch.define('aspect', function () {
       var value;
       try {
         value = orig.apply(this, arguments);
+        return advice.call(this, value);
       } catch (err) {
         value = err;
+        advice.call(this, value);
+        throw err;
       }
-      return advice.call(this, value);
      };
     },
 
@@ -55,15 +57,14 @@ $ch.define('aspect', function () {
     threeParams.apply(this, arguments);
     var orig = obj[method];
      obj[method] = function () {
-      var value;
       try {
-        value = orig.apply(this, arguments);
+        return orig.apply(this, arguments);
       } catch (err) {
         var args = Array.prototype.slice.call(arguments, 0);
         args.unshift(err);
         advice.apply(this, args);
+        throw err;
       }
-      return value;
      };
    },
 
