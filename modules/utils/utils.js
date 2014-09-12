@@ -99,8 +99,6 @@ $ch.define('utils', function () {
         to = Number.parseInt(to, 10);
       }
 
-      to = to + 1;
-
       return Math.floor(Math.random() * to) + from;
     },
 
