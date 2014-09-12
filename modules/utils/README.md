@@ -42,7 +42,7 @@ Returns current time value.
 $ch.utils.random(`from`, `to`)
 ------------------------------
 
-Returns a random integer number between `from` and `to`.
+Returns a random integer number between `from` and `to - 1`.
 
 $ch.utils.isString, isArray, isObject, isNumber, isNull, isUndefined, isNaN, isBoolean, isFunction
 --------------------------------------------------------------------------------------------------
