@@ -21,7 +21,6 @@ $ch.define('intl', function () {
         element.innerHTML = value;
       }
     });
-    $$CHOP._bindSources(baseElement);
   };
 
   $$CHOP._loadView = function (baseElement) {
