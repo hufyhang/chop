@@ -829,6 +829,7 @@
       }
 
       var singleSrc = false;
+      var origSrcs = srcs;
       if (!_isArray(srcs)) {
         srcs = [srcs];
         singleSrc = true;
@@ -837,10 +838,10 @@
       this._useModule(srcs, useLoader, callback);
 
       if (singleSrc) {
-        return this.module(srcs);
+        return this.module(origSrcs);
       } else {
         var result = {};
-        this.each(srcs, function (src) {
+        this.each(origSrcs, function (src) {
           result[src] = this.module(src);
         });
         return result;
