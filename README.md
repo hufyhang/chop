@@ -152,7 +152,7 @@ Returns the returned data of `module`.
 $ch.require(`module`, `useLoader`, `function`)
 ---------------------------------
 
-Requires/loads a chop.js module.
+Requires/loads a chop.js module, and returns the returned value of `module`.
 
 - `module`: chop.js module name. If multiple modules, then in the form of an array.
 - `useLoader`: [__Optional__] either `true` or `false` to define if to use

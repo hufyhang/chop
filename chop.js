@@ -828,11 +828,23 @@
         useLoader = true;
       }
 
+      var singleSrc = false;
       if (!_isArray(srcs)) {
         srcs = [srcs];
+        singleSrc = true;
       }
 
       this._useModule(srcs, useLoader, callback);
+
+      if (singleSrc) {
+        return this.module(srcs);
+      } else {
+        var result = {};
+        this.each(srcs, function (src) {
+          result[src] = this.module(src);
+        });
+        return result;
+      }
     },
 
     module: function (mod) {
