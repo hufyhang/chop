@@ -33,13 +33,16 @@ $ch.define('aspect', function () {
      var orig = obj[method];
      obj[method] = function () {
       var value;
+      var args = Array.prototype.slice.call(arguments, 0);
       try {
         value = orig.apply(this, arguments);
-        advice.call(this, value);
+        args.unshift(value);
+        advice.apply(this, args);
         return value;
       } catch (err) {
         value = err;
-        advice.call(this, value);
+        args.unshift(value);
+        advice.apply(this, args);
         throw err;
       }
      };
@@ -50,7 +53,9 @@ $ch.define('aspect', function () {
      var orig = obj[method];
      obj[method] = function () {
       var value = orig.apply(this, arguments);
-      advice.call(this, value);
+      var args = Array.prototype.slice.call(arguments, 0);
+      args.unshift(value);
+      advice.apply(this, args);
       return value;
     };
    },

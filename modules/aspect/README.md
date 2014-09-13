@@ -38,7 +38,7 @@ var test = function (name, age) {
     return '[' + age + ']';
 };
 
-$ch.aspect.after(this, "test", function (data) {
+$ch.aspect.after(this, "test", function (data, name, age) {
     console.log('Process returned: ' + data)
 });
 ~~~
@@ -59,7 +59,7 @@ var test = function (name, age) {
     return '[' + age + ']';
 };
 
-$ch.aspect.afterReturn(this, "test", function (data) {
+$ch.aspect.afterReturn(this, "test", function (data, name) {
     console.log('Process returned: ' + data)
 });
 ~~~
@@ -80,7 +80,7 @@ var test = function (name, age) {
     return '[' + age + ']';
 };
 
-$ch.aspect.afterThrow(this, "test", function (err) {
+$ch.aspect.afterThrow(this, "test", function (err, name) {
     console.log('Test has thrown: ' + err.message);
 });
 ~~~
