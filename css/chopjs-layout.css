@@ -58,7 +58,7 @@ html {
   .ch-xs-12 {
     display: inline-block;
     width: 100%; } }
-@media screen and (min-width: 768px) and (max-width: 991px) {
+@media screen and (min-width: 768px) {
   .ch-sm-0 {
     display: none; }
 
@@ -109,7 +109,7 @@ html {
   .ch-sm-12 {
     display: inline-block;
     width: 100%; } }
-@media screen and (min-width: 992px) and (max-width: 1199px) {
+@media screen and (min-width: 992px) {
   .ch-md-0 {
     display: none; }
 

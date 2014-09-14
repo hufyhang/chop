@@ -44,7 +44,7 @@ html {
 }
 
 // for tablets
-@media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+@media screen and (min-width: $screen-sm-min) {
   .ch-sm-0 { display: none; }
   .ch-sm-1 { @include col-width(1); }
   .ch-sm-2 { @include col-width(2); }
@@ -61,7 +61,7 @@ html {
 }
 
 // for desktops
-@media screen and (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+@media screen and (min-width: $screen-md-min) {
   .ch-md-0 { display: none; }
   .ch-md-1 { @include col-width(1); }
   .ch-md-2 { @include col-width(2); }
