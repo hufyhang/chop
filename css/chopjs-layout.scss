@@ -1,0 +1,95 @@
+// chop.js layout responsive design module style
+$screen-xs-max: 767px;
+
+$screen-sm-min: 768px;
+$screen-sm-max: 991px;
+
+$screen-md-min: 992px;
+$screen-md-max: 1199px;
+
+$screen-lg-min: 1200px;
+
+@mixin col-width($num) {
+  display: inline-block;
+  width: 100% * (13 - $num) / 12;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.ch-row {
+  width: 100%;
+}
+
+// for phones
+@media screen and (max-width: $screen-xs-max) {
+  .ch-xs-0 { display: none; }
+  .ch-xs-1 { @include col-width(1); }
+  .ch-xs-2 { @include col-width(2); }
+  .ch-xs-3 { @include col-width(3); }
+  .ch-xs-4 { @include col-width(4); }
+  .ch-xs-5 { @include col-width(5); }
+  .ch-xs-6 { @include col-width(6); }
+  .ch-xs-7 { @include col-width(7); }
+  .ch-xs-8 { @include col-width(8); }
+  .ch-xs-9 { @include col-width(9); }
+  .ch-xs-10 { @include col-width(10); }
+  .ch-xs-11 { @include col-width(11); }
+  .ch-xs-12 { @include col-width(12); }
+}
+
+// for tablets
+@media screen and (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+  .ch-sm-0 { display: none; }
+  .ch-sm-1 { @include col-width(1); }
+  .ch-sm-2 { @include col-width(2); }
+  .ch-sm-3 { @include col-width(3); }
+  .ch-sm-4 { @include col-width(4); }
+  .ch-sm-5 { @include col-width(5); }
+  .ch-sm-6 { @include col-width(6); }
+  .ch-sm-7 { @include col-width(7); }
+  .ch-sm-8 { @include col-width(8); }
+  .ch-sm-9 { @include col-width(9); }
+  .ch-sm-10 { @include col-width(10); }
+  .ch-sm-11 { @include col-width(11); }
+  .ch-sm-12 { @include col-width(12); }
+}
+
+// for desktops
+@media screen and (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+  .ch-md-0 { display: none; }
+  .ch-md-1 { @include col-width(1); }
+  .ch-md-2 { @include col-width(2); }
+  .ch-md-3 { @include col-width(3); }
+  .ch-md-4 { @include col-width(4); }
+  .ch-md-5 { @include col-width(5); }
+  .ch-md-6 { @include col-width(6); }
+  .ch-md-7 { @include col-width(7); }
+  .ch-md-8 { @include col-width(8); }
+  .ch-md-9 { @include col-width(9); }
+  .ch-md-10 { @include col-width(10); }
+  .ch-md-11 { @include col-width(11); }
+  .ch-md-12 { @include col-width(12); }
+}
+
+// for large desktops
+@media screen and (min-width: $screen-lg-min) {
+  .ch-lg-0 { display: none; }
+  .ch-lg-1 { @include col-width(1); }
+  .ch-lg-2 { @include col-width(2); }
+  .ch-lg-3 { @include col-width(3); }
+  .ch-lg-4 { @include col-width(4); }
+  .ch-lg-5 { @include col-width(5); }
+  .ch-lg-6 { @include col-width(6); }
+  .ch-lg-7 { @include col-width(7); }
+  .ch-lg-8 { @include col-width(8); }
+  .ch-lg-9 { @include col-width(9); }
+  .ch-lg-10 { @include col-width(10); }
+  .ch-lg-11 { @include col-width(11); }
+  .ch-lg-12 { @include col-width(12); }
+}
