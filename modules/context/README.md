@@ -25,7 +25,8 @@ Web browser information in the form of:
   {
     name: 'browser name (e.g. Chrome)',
     fullVersion: 'browser full version (e.g 37.0.2062.122)',
-    majorVersion: 'browser major version (e.g. 37)'
+    majorVersion: 'browser major version (e.g. 37)',
+    isMobile: false
   };
 ~~~
 
