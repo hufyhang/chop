@@ -792,7 +792,7 @@
       if (!hasScriptInHead) {
         var url = this._path + script + '.js';
         if (useLoader === true) {
-          if (script.indexOf('-') === -1) {
+          if (script.indexOf('/') === -1) {
             url = MODULE_LOADER + script ;
           }
         }
