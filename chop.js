@@ -715,6 +715,7 @@
       var url = param.url;
       var method = param.method || 'GET';
       var responseType = param.responseType;
+      var headers = param.header;
       method = method.toUpperCase();
       var data = param.data || {};
       var tempData = '';
@@ -754,6 +755,13 @@
           });
         }
       };
+
+      var hasHeadersToSet = headers !== undefined && headers.length !== 0;
+      if (hasHeadersToSet) {
+        this.each(headers, function (header, value) {
+          ajax.setRequestHeader(header, value);
+        });
+      }
 
       var hasDataToSend = method &&
           method.toUpperCase() !== 'GET' && data.length !== 0;

@@ -4,6 +4,51 @@ $ch.define('utils', function () {
   $$CHOP.utils = {};
 
   $$CHOP.utils = {
+    sort: function (target, by, desc) {
+      if (arguments.length === 0) {
+        throw new Error('$ch.utils.sort requires at least one parameter.');
+      }
+
+      if (typeof by === 'boolean') {
+        desc = by;
+        by = undefined;
+      }
+      else if (typeof by !== 'string' && by !== undefined) {
+        throw new Error('$ch.utils.sort requires a string type parameter for sort-by.');
+      }
+
+      if (desc === undefined) {
+        desc = false;
+      }
+
+      if (!$$CHOP._isArray(target)) {
+        throw new Error('$ch.utils.sort can only sort array-type objects.');
+      }
+
+      var result = target;
+      if (target.length !== 0) {
+        if (typeof target[0] === 'number') {
+          result = result.sort(function (a, b) {
+            return a - b;
+          });
+        }
+        else if (typeof target[0] === 'object') {
+          result = result.sort(function (a, b) {
+            return a[by] < b[by] ? false : true;
+          });
+        }
+        else {
+          result = result.sort();
+        }
+
+        if (desc === true) {
+          result.reverse();
+        }
+      }
+
+      return result;
+    },
+
     extend: function(destination, source) {
       if (arguments.length !== 2) {
         throw new Error('$ch.utils.extend requires two parameters');

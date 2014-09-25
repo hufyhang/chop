@@ -16,6 +16,14 @@ $ch.utils.bind(`function`, `context`)
 
 Creates and return a new function that will call `function` in `context`.
 
+$ch.utils.sort(`target`[, `by`, `descending`])
+--------------------------------------
+
+Sorts `target` array and returns the sorted result.
+
+- `by`: the key to be sorted by when sorting array of objects.
+- `descending`: `false` by default.
+
 $ch.utils.map(`array`, `callback`)
 ----------------------------------
 
