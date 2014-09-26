@@ -5,8 +5,8 @@ $ch.define('directive', function () {
   $$CHOP.directive = {};
   $$CHOP.directive = {
 
-    add: function (tag, template) {
-      if (arguments.length !== 2) {
+    add: function (tag, template, callback) {
+      if (arguments.length < 2) {
         throw new Error('$ch.directive.add requires two parameters.');
       }
       if (typeof tag !== 'string') {
@@ -22,6 +22,11 @@ $ch.define('directive', function () {
       var prototype = Object.create(HTMLElement.prototype);
       prototype.createdCallback = function() {
         var shadow = this.createShadowRoot();
+
+        if (callback !== undefined) {
+          callback.apply(this, [this, shadow]);
+        }
+
         shadow.appendChild(template.content.cloneNode(true));
       };
       document.registerElement(tag, {
