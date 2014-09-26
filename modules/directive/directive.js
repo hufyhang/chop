@@ -1,6 +1,7 @@
 /* global $ch, $$CHOP, $$CHOPEL */
 $ch.define('directive', function () {
   'use strict';
+  $ch.require('event');
 
   $$CHOP.directive = {};
   $$CHOP.directive = {
@@ -20,15 +21,19 @@ $ch.define('directive', function () {
       }
 
       var prototype = Object.create(HTMLElement.prototype);
+
       prototype.createdCallback = function() {
         var shadow = this.createShadowRoot();
+        shadow.appendChild(template.content.cloneNode(true));
 
         if (callback !== undefined) {
-          callback.apply(this, [this, shadow]);
+          var that = this;
+          $ch.event.nextTick(function () {
+            callback.apply(that, [that, shadow]);
+          });
         }
-
-        shadow.appendChild(template.content.cloneNode(true));
       };
+
       document.registerElement(tag, {
         prototype: prototype
       });
