@@ -779,24 +779,30 @@
     },
 
     define: function (name, callback) {
-      this.modules[name] = callback();
+      var originalPath = this._path;
+      this._path = this._currentPath.replace(/\/\w+$/, '/');
+
+      var result = callback();
+      this.modules[name] = result;
+
+      this._path = originalPath;
+      return result;
     },
 
-    _useModule: function (srcs, useLoader, callback) {
-      var tempSrcs = srcs;
-      var script = tempSrcs.shift();
-      var scriptEl;
-      var that = this;
+    _loaded: {},
+    _currentPath: '',
+    _useModule: function (src, useLoader) {
+      var url = this._path + src + '.js';
+      this._currentPath = this._path + src;
 
-      var hasScriptInHead = document.querySelector('script[ch-module="' +
-                                                   script + '"]');
-      if (!hasScriptInHead) {
-        var url = this._path + script + '.js';
-        if (useLoader === true) {
-          if (script.indexOf('/') === -1) {
-            url = MODULE_LOADER + script ;
-          }
+      if (useLoader === true) {
+        if (src.indexOf('/') === -1) {
+          url = MODULE_LOADER + src ;
         }
+      }
+
+      var hasScriptLoaded = Object.keys(this._loaded).indexOf(url) !== -1;
+      if (!hasScriptLoaded) {
         // synchronously download script
         var text = this.http({
           url: url,
@@ -804,57 +810,37 @@
           async: false
         }).responseText;
 
-        scriptEl = document.createElement('script');
-        scriptEl.setAttribute('ch-module', script);
-        scriptEl.text = text;
-        document.head.appendChild(scriptEl);
-        that._executeModule(tempSrcs, useLoader, callback);
+        var result = eval(text);
+        this._loaded[url] = result;
+        return result;
       } else {
-        this._executeModule(tempSrcs, useLoader, callback);
+        return this._loaded[url];
       }
     },
 
-    _executeModule: function (srcs, useLoader, callback) {
-      if (srcs.length > 0) {
-        this._useModule(srcs, useLoader, callback);
-      } else {
-        if (typeof callback === 'function') {
-          callback(chop);
-        }
-      }
-    },
-
-    require: function (srcs, useLoader, callback) {
+    require: function (srcs, useLoader) {
       if (!srcs) {
         return false;
       }
 
-      if (callback === undefined && typeof useLoader === 'function') {
-        callback = useLoader;
-      }
-
-      if (typeof useLoader === 'function' || useLoader === undefined) {
+      if (useLoader === undefined) {
         useLoader = true;
       }
 
-      var singleSrc = false;
-      var origSrcs = srcs;
-      if (!_isArray(srcs)) {
-        srcs = [srcs];
-        singleSrc = true;
+      if (typeof srcs === 'string') {
+        return this._useModule(srcs, useLoader);
       }
-
-      this._useModule(srcs, useLoader, callback);
-
-      if (singleSrc) {
-        return this.module(origSrcs);
-      } else {
+      else if (this._isArray(srcs)) {
         var result = {};
-        this.each(origSrcs, function (src) {
-          result[src] = this.module(src);
+        var that = this;
+        this.each(srcs, function (src) {
+          result[src] = that._useModule(src, useLoader);
         });
+
         return result;
       }
+
+      return false;
     },
 
     module: function (mod) {
