@@ -10,10 +10,14 @@ $ch.define('google-maps/maps', function () {
   }).responseText;
 
   var loadMap = function (lat, lng, com, shadow) {
-    var api = $ch.node('script').attr('src',
-                          'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
-                          'callback=initializeGoogleMaps');
-    $ch.find('body').node().appendNode(api);
+    var api = document.createElement('script');
+    api.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
+                      'callback=initializeGoogleMaps');
+    shadow.appendChild(api);
+    // var api = $ch.node('script').attr('src',
+    //                       'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
+    //                       'callback=initializeGoogleMaps');
+    // $ch.find('body').node().appendNode(api);
 
     window.initializeGoogleMaps = function () {
       var mapOptions = {

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leaflet Map</title>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./chop.min.js" ch-main="main.js"></script>
+</head>
+<body ch-init="query='';">
+ <div class="map-container">
+  <leaflet-map zoom="10">
+    <map-tile src="http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png">
+      Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>
+    </map-tile>
+
+    <map-marker lat="53.479324" lng="-2.248485">Hi there!</map-marker>
+    <map-marker lat="53.479324" lng="-2.148485">Hi there! :-)</map-marker>
+  </leaflet-map>
+</div>
+
+</body>
+</html>

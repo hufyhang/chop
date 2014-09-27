@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Google Maps</title>
-  <script src="//cdn.jsdelivr.net/chop/0.1.2/chop.min.js" ch-main="main.js"></script>
-
+  <script src="./chop.min.js" ch-main="main.js"></script>
   <style>
     google-maps {
-     position: absolute;
-     left: 0;
-     top: 0;
-     width: 100%;
-     height: 100%;
-   }
+       position: absolute;
+       left: 0;
+       top: 0;
+       width: 100%;
+       height: 100%;
+     }
   </style>
 </head>
 <body>
-  <google-maps>
+  <google-maps zoom="10">
     <map-marker lat="-25.363882" lng="131.044922">Australia</map-marker>
     <map-marker lat="53.479300" lng="-2.248485">Manchester</map-marker>
     <map-marker lat="53.479300" lng="-2.148000">Somewhere</map-marker>
