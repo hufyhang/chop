@@ -469,11 +469,33 @@
       return html;
     },
 
+    _events: [],
     _addEvent: function (baseElement, attr, evt) {
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
+
         var callback = elements[index].getAttribute(attr);
         callback = callback.replace(/\$\$event/g, 'arguments[0]');
+
+        // check is the element has already added the same event callback
+        var counter = -1;
+        this.each(this._events, function (e, ii) {
+          if (e.node === elements[index]) {
+            counter = ii;
+          }
+        });
+
+        if (counter !== -1 && this._events[counter].callback.indexOf(callback) !== -1) {
+          continue;
+        }
+        if (counter !== -1) {
+          this._events[counter].callback.push(callback);
+        } else {
+          this._events.push({
+            node: elements[index],
+            callback: [callback]
+          });
+        }
 
         var founds = callback.match(/{{[^{]{1,}}}/g);
         if (founds) {
