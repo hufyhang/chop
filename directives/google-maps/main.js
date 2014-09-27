@@ -1,0 +1,1 @@
+$ch.require('google-maps/maps');
