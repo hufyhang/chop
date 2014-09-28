@@ -10,7 +10,7 @@
 </head>
 <body ch-init="query='';">
   <div id="search-panel" class="ch-row">
-  <input class="ch-xs-10 ch-sm-7" type="text" placeholder="Query..." ch-source="query" ch-keyup="if ($$event.keyCode === 13) {$ch.event.emit('search');}" autofocus />
+  <input class="ch-xs-10 ch-sm-7" type="text" placeholder="Search" ch-source="query" ch-keyup="if ($$event.keyCode === 13) {$ch.event.emit('search');}" autofocus />
   <div id="query-btn" class="ch-xs-10 ch-sm-1" ch-click="$ch.event.emit('search');" ch-ui-button><i class="fa fa-search"></i></div>
   </div>
 
