@@ -186,6 +186,11 @@ html(`html`)
 
 Sets inner HTML into `html`. If no `html` provided, returns inner HTML.
 
+content(`html`)
+----------------
+
+Sets text content to `html`. If no `html` presented, returns text content.
+
 append(`html`)
 --------------
 
