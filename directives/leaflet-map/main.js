@@ -5,9 +5,9 @@ $ch.require(['layout', 'ui', 'event', 'string', 'context']);
 var checkBrowser = function () {
   'use strict';
 
-  var b = $ch.context.browser;
-  if (b.name !== 'Chrome' || b.isMoble === true) {
-    alert('This website can only be visited via Google Chrome (desktop version).');
+  var container = document.createElement('div');
+  if (container.createShadowRoot === undefined) {
+    alert('Your browser doesn\'t support Shadow DOM');
   }
 };
 
