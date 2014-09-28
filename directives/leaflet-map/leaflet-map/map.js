@@ -3,6 +3,7 @@ $ch.define('leaflet-map/map', function () {
   'use strict';
 
   $ch.require(['node', 'directive', 'context', 'event', 'import']);
+
   var _map;
   var _markers = [];
 

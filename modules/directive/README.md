@@ -11,6 +11,14 @@ Browser requirements
 
 With support of Shadow DOM.
 
+For the browsers do not support Web Components, consider to load Polymer Platform.js in `<head></head>`
+
+E.g.:
+
+~~~html
+<script src="//cdnjs.cloudflare.com/ajax/libs/polymer/0.3.4/platform.js"></script>
+~~~
+
 $ch.directive.add(`tag`, `template`[, `callback`])
 ------------------------------------
 
