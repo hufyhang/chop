@@ -137,6 +137,15 @@
       }
     },
 
+    content: function (data) {
+      if (data === undefined) {
+        return this.el.textContent;
+      } else {
+        this.el.textContent = data;
+        return this;
+      }
+    },
+
     append: function (html) {
       if (html !== undefined) {
         this.el.innerHTML = this.el.innerHTML + html;
