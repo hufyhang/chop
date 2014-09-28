@@ -1,4 +1,4 @@
-/* global $ch, $$CHOP, $$CHOPEL */
+/* global $ch, $$CHOP */
 $ch.define('directive', function () {
   'use strict';
   $ch.require('event');
