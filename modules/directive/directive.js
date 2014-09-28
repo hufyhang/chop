@@ -5,7 +5,7 @@ $ch.define('directive', function () {
 
   $$CHOP.directive = {};
   $$CHOP.directive = {
-
+    updateEvents: [],
     add: function (tag, template, callback) {
       if (arguments.length < 2) {
         throw new Error('$ch.directive.add requires two parameters.');
@@ -26,12 +26,29 @@ $ch.define('directive', function () {
         var shadow = this.createShadowRoot();
         shadow.appendChild(template.content.cloneNode(true));
 
+        var onCreated, onUpdate;
         if (callback !== undefined) {
           var that = this;
+          if (typeof callback === 'function') {
+            onCreated = callback;
+            onUpdate = function () {return;};
+          } else {
+            onCreated = callback.onCreated || function () {return;};
+            onUpdate = callback.onUpdated || function () {return;};
+          }
+
           $ch.event.nextTick(function () {
-            callback.apply(that, [that, shadow]);
+            onCreated.apply(that, [that, shadow]);
           });
+        } else {
+          onUpdate = function () {return;};
         }
+
+        $$CHOP.directive.updateEvents.push({
+          el: this,
+          shadow: shadow,
+          onUpdate: onUpdate
+        });
       };
 
       document.registerElement(tag, {
@@ -39,15 +56,29 @@ $ch.define('directive', function () {
       });
       return this;
     },
-  };
 
-  $$CHOPEL.content = function (data) {
-    if (data === undefined) {
-      return $$CHOPEL.el.textContent;
-    } else {
-      $$CHOPEL.el.textContent = data;
-      return this;
+    update: function (el, data) {
+      if (arguments.length !== 2) {
+        throw new Error('$ch.directive.update requires two parameters.');
+      }
+
+      if (el === undefined) {
+        throw new Error('No such element in the current DOM.');
+      }
+
+      el.innerHTML = data;
+      var callback, shadow;
+      $$CHOP.each(this.updateEvents, function (item) {
+        if (item.el === el) {
+          callback = item.onUpdate;
+          shadow = item.shadow;
+        }
+      });
+
+      if (callback !== undefined) {
+        callback(data, el, shadow);
+      }
     }
-  };
 
+  };
 });
