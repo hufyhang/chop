@@ -6,6 +6,8 @@ $ch.define('leaflet-map/map', function () {
   var _map;
   var _markers = [];
 
+  var _hasHerePin = false;
+
   var template = $ch.http({
     url: 'leaflet-map/template.html',
     async: false
@@ -14,23 +16,47 @@ $ch.define('leaflet-map/map', function () {
   var MAP_TILE = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   var ATTRIBUTION = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
 
-  var loadMarkers = function (com) {
+  var loadMarkers = function (lat, lng, com) {
     // clean all markers first
     while (_markers.length !== 0) {
       var marker = _markers.pop();
       _map.removeLayer(marker);
     }
 
+    // check if need to draw i'm here pin
+    if (!_hasHerePin) {
+      var pin = L.icon({
+        iconUrl: 'leaflet-map/here.png',
+        iconSize: [50, 50]
+      });
+
+      L.marker([lat, lng], {icon: pin}).addTo(_map)
+      .bindPopup('<b>Here I am.</b>');
+
+      _hasHerePin = true;
+    }
+
     var markers = $ch.findAll('map-marker', com);
+    var first;
     $ch.each(markers, function (marker) {
       var lat = marker.attr('lat');
       var lng = marker.attr('lng');
       var info = marker.html();
+
+      if (first === undefined) {
+        first = {
+          lat: lat,
+          lng: lng
+        };
+      }
+
       var m = new L.Marker([lat, lng]);
       _map.addLayer(m);
       m.bindPopup(info);
       _markers.push(m);
     });
+
+    _map.setView([first.lat, first.lng], 13);
   };
 
   var loadMap = function (lat, lng, zoom, maxZoom, com, shadow) {
@@ -59,7 +85,7 @@ $ch.define('leaflet-map/map', function () {
       }).addTo(_map);
 
       // now load markers
-      loadMarkers(com);
+      loadMarkers(lat, lng, com);
     };
 
   };
