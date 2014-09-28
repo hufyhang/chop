@@ -37,7 +37,7 @@ $ch.directive.add('my-tag', template, {
 
 Please refer to the corresponding example for usage.
 
-$ch.directive.update(`chopEl`, `html`)
+$ch.directive.update(`id`, `html`)
 ----------------------------------
 
-Updates the inner HTML of `chopEl` (the custom element) to `html`.
+Updates the inner HTML of `id` (the custom element) to `html`.

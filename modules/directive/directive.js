@@ -5,7 +5,7 @@ $ch.define('directive', function () {
 
   $$CHOP.directive = {};
   $$CHOP.directive = {
-    updateEvents: [],
+    updateEvents: {},
     add: function (tag, template, callback) {
       if (arguments.length < 2) {
         throw new Error('$ch.directive.add requires two parameters.');
@@ -44,11 +44,14 @@ $ch.define('directive', function () {
           onUpdate = function () {return;};
         }
 
-        $$CHOP.directive.updateEvents.push({
-          el: this,
-          shadow: shadow,
-          onUpdate: onUpdate
-        });
+        var id = this.getAttribute('id');
+        if (id !== null) {
+          $$CHOP.directive.updateEvents[id] = {
+            el: this,
+            shadow: shadow,
+            onUpdate: onUpdate
+          };
+        }
       };
 
       document.registerElement(tag, {
@@ -57,27 +60,18 @@ $ch.define('directive', function () {
       return this;
     },
 
-    update: function (el, data) {
+    update: function (id, data) {
       if (arguments.length !== 2) {
         throw new Error('$ch.directive.update requires two parameters.');
       }
 
-      if (el === undefined) {
-        throw new Error('No such element in the current DOM.');
+      var entity = this.updateEvents[id];
+      if (entity === undefined) {
+        throw new Error('No onUpdated events registered for "' + id + '".');
       }
 
-      el.innerHTML = data;
-      var callback, shadow;
-      $$CHOP.each(this.updateEvents, function (item) {
-        if (item.el === el) {
-          callback = item.onUpdate;
-          shadow = item.shadow;
-        }
-      });
-
-      if (callback !== undefined) {
-        callback(data, el, shadow);
-      }
+      entity.el.innerHTML = data;
+      entity.onUpdate(data, entity.el, entity.shadow);
     }
 
   };
