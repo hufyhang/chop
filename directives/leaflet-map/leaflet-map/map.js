@@ -3,6 +3,8 @@ $ch.define('leaflet-map/map', function () {
   'use strict';
 
   $ch.require(['node', 'directive', 'context', 'event', 'import']);
+  var _map;
+  var _markers = [];
 
   var template = $ch.http({
     url: 'leaflet-map/template.html',
@@ -11,6 +13,25 @@ $ch.define('leaflet-map/map', function () {
 
   var MAP_TILE = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   var ATTRIBUTION = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
+
+  var loadMarkers = function (com) {
+    // clean all markers first
+    while (_markers.length !== 0) {
+      var marker = _markers.pop();
+      _map.removeLayer(marker);
+    }
+
+    var markers = $ch.findAll('map-marker', com);
+    $ch.each(markers, function (marker) {
+      var lat = marker.attr('lat');
+      var lng = marker.attr('lng');
+      var info = marker.html();
+      var m = new L.Marker([lat, lng]);
+      _map.addLayer(m);
+      m.bindPopup(info);
+      _markers.push(m);
+    });
+  };
 
   var loadMap = function (lat, lng, zoom, maxZoom, com, shadow) {
     $ch.find('style#map-style', shadow).import('leaflet-map/style.css');
@@ -21,7 +42,7 @@ $ch.define('leaflet-map/map', function () {
 
     $ch.find('script#leaflet-map-js').el.onload = function () {
 
-      var map = L.map($ch.find('#map', shadow).el).setView([lat, lng], zoom);
+      _map = L.map($ch.find('#map', shadow).el).setView([lat, lng], zoom);
       var tileEl = $ch.find('map-tile', com);
       var tile, attribution;
       if (tileEl === undefined) {
@@ -35,22 +56,15 @@ $ch.define('leaflet-map/map', function () {
       L.tileLayer(tile, {
         attribution: attribution,
         maxZoom: maxZoom
-      }).addTo(map);
+      }).addTo(_map);
 
       // now load markers
-      var markers = $ch.findAll('map-marker', com);
-      $ch.each(markers, function (marker) {
-        var lat = marker.attr('lat');
-        var lng = marker.attr('lng');
-        var info = marker.html();
-        L.marker([lat, lng]).addTo(map)
-        .bindPopup(info);
-      });
+      loadMarkers(com);
     };
 
   };
 
-  $ch.directive.add('leaflet-map', template, function (element, shadow) {
+  var onCreated = function (element, shadow) {
     var lat = element.getAttribute('lat');
     var lng = element.getAttribute('lng');
 
@@ -72,5 +86,14 @@ $ch.define('leaflet-map/map', function () {
       lng = parseFloat(lng);
       loadMap(lat, lng, zoom, maxZoom, element, shadow);
     }
+  };
+
+  var onUpdated = function (html, element) {
+    loadMarkers(element);
+  };
+
+  $ch.directive.add('leaflet-map', template, {
+    onCreated: onCreated,
+    onUpdated: onUpdated
   });
 });
