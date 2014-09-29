@@ -158,10 +158,10 @@ Requires/loads a chop.js module, and returns the returned value of `module`.
 - `useLoader`: [__Optional__] either `true` or `false` to define if to use
 Chop.js online module loader. Default: `true`.
 
-$ch.load(`src`)
+$ch.read(`src`)
 ---------------
 
-Loads and returns the content of local resource `src`.
+Reads and returns the content of local resource `src`.
 
 $ch.each(`obj`, `callback`)
 ------------------------

@@ -809,7 +809,7 @@
       }
     },
 
-    load: function (src) {
+    read: function (src) {
       if (src === undefined) {
         return undefined;
       }
