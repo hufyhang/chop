@@ -18,15 +18,18 @@ $ch.define('import', function () {
       method: 'GET',
       async: false
     }).responseText;
+    var frag = document.createDocumentFragment();
     if (typeof query === 'string') {
-      var node = document.createElement('div');
+      var node = document.createElement('html');
       node.innerHTML = html;
-      var el = node.querySelector(query);
-      if (el !== undefined || el !== null) {
-        html = el.innerHTML;
+      var els = $$CHOP.findAll(query, node);
+      if (els !== undefined && els !== null) {
+        $$CHOP.each(els, function (e) {
+          frag.appendChild(e.el);
+        });
       }
     }
-    element.innerHTML += html;
+    element.appendChild(frag);
     $$CHOP._loadView(element);
   };
 
