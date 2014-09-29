@@ -809,6 +809,23 @@
       }
     },
 
+    load: function (src) {
+      if (src === undefined) {
+        return undefined;
+      }
+
+      var originalPath = this._path;
+      this._path = this._currentPath.replace(/\/\w+$/, '/');
+
+      var data = this.http({
+        url: this._path + src,
+        async: false
+      }).responseText;
+
+      this._path = originalPath;
+      return data;
+    },
+
     define: function (name, callback) {
       var originalPath = this._path;
       this._path = this._currentPath.replace(/\/\w+$/, '/');
