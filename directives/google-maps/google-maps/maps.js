@@ -4,7 +4,7 @@ $ch.define('google-maps/maps', function () {
 
   $ch.require(['directive', 'node', 'context']);
 
-  var template = $ch.load('template.html');
+  var template = $ch.read('template.html');
 
   var loadMap = function (lat, lng, com, shadow) {
     var api = document.createElement('script');

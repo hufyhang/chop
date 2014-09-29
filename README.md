@@ -29,6 +29,11 @@ ch-init
 
 Initializes data sources. E.g. ch-init="list = []; msg = {from: 'a', to: 'b'}"
 
+ch-require
+----------
+
+Loads Chop.js modules. E.g.: `ch-require="event; string; local/module"`
+
 ch-view
 -------
 

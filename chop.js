@@ -687,6 +687,27 @@
       chop._loadInit();
       chop._addInlineTemplate();
 
+      // load requires first
+      var requires = document.querySelector('script[ch-require]');
+      if (requires !== null) {
+        requires = requires.getAttribute('ch-require');
+        requires = requires.split(/;/g);
+
+        // trim all
+        requires = requires.map(function (item) {
+          return item.trim();
+        });
+
+        var reqs = [];
+        this.each(requires, function (r) {
+          if (r !== '') {
+            reqs.push(r);
+          }
+        });
+
+        this.require(reqs);
+      }
+
       var element = document.querySelector('script[ch-main]');
       if (element === null) {
         chop._loadView();
