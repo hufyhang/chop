@@ -830,21 +830,43 @@
       }
     },
 
-    read: function (src) {
-      if (src === undefined) {
-        return undefined;
+    readFile: function (src, callback) {
+      if (arguments.length === 0) {
+        throw new Error('$ch.readFile requires at least one parameter.');
+      }
+
+      if (typeof src !== 'string') {
+        throw new Error('$ch.readFile requires a string type parameter.');
       }
 
       var originalPath = this._path;
       this._path = this._currentPath.replace(/\/\w+$/, '/');
 
-      var data = this.http({
-        url: this._path + src,
-        async: false
-      }).responseText;
+      var url = this._path + src;
 
       this._path = originalPath;
-      return data;
+
+      if (callback === undefined) {
+        var data = this.http({
+          url: url,
+          async: false
+        }).responseText;
+
+        return data;
+      } else if (typeof callback === 'function') {
+        this.http({
+          url: url,
+          done: function (res) {
+            if (res.status === 200 || res.status === 304) {
+              callback(res.data);
+            } else {
+              throw new Error('$ch.readFile received error code: ' + res.status);
+            }
+          }
+        });
+      } else {
+        throw new Error('$ch.readFile requires a function type pamameter for callback.');
+      }
     },
 
     define: function (name, callback) {

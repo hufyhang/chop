@@ -9,7 +9,7 @@ $ch.define('leaflet-map/map', function () {
 
   var _hasHerePin = false;
 
-  var template = $ch.read('./template.html');
+  var template = $ch.readFile('./template.html');
 
   var MAP_TILE = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   var ATTRIBUTION = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';

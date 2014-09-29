@@ -4,7 +4,7 @@ $ch.define('gangnam-style/main', function () {
 
   $ch.require('directive');
 
-  var template = $ch.read('template.html');
+  var template = $ch.readFile('template.html');
 
   $ch.directive.add('gangnam-style', template, function (com, shadow) {
     var audio = new Audio();
