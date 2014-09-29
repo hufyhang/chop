@@ -894,6 +894,7 @@
     _currentPath: '',
     _useModule: function (src, useLoader) {
       var url = this._path + src + '.js';
+      var originalCurrentPath = this._currentPath;
       this._currentPath = this._path + src;
 
       if (useLoader === true) {
@@ -902,6 +903,7 @@
         }
       }
 
+      var result;
       var hasScriptLoaded = Object.keys(this._loaded).indexOf(url) !== -1;
       if (!hasScriptLoaded) {
         // synchronously download script
@@ -911,12 +913,14 @@
           async: false
         }).responseText;
 
-        var result = eval(text);
+        result = eval(text);
         this._loaded[url] = result;
-        return result;
       } else {
-        return this._loaded[url];
+        result = this._loaded[url];
       }
+
+      this._currentPath = originalCurrentPath;
+      return result;
     },
 
     require: function (srcs, useLoader) {
