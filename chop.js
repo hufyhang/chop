@@ -858,7 +858,7 @@
           url: url,
           done: function (res) {
             if (res.status === 200 || res.status === 304) {
-              callback(res.data);
+              callback(res.responseText);
             } else {
               throw new Error('$ch.readFile received error code: ' + res.status);
             }
