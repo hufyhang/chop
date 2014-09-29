@@ -4,20 +4,13 @@ $ch.define('google-maps/maps', function () {
 
   $ch.require(['directive', 'node', 'context']);
 
-  var template = $ch.http({
-    url: 'google-maps/template.html',
-    async: false
-  }).responseText;
+  var template = $ch.load('template.html');
 
   var loadMap = function (lat, lng, com, shadow) {
     var api = document.createElement('script');
     api.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
                       'callback=initializeGoogleMaps');
     shadow.appendChild(api);
-    // var api = $ch.node('script').attr('src',
-    //                       'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
-    //                       'callback=initializeGoogleMaps');
-    // $ch.find('body').node().appendNode(api);
 
     window.initializeGoogleMaps = function () {
       var mapOptions = {
