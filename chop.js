@@ -801,7 +801,8 @@
         }
         if (async) {
           var o;
-          if (responseType === '' || responseType === 'text') {
+          if (responseType === undefined || responseType === null ||
+              responseType === '' || responseType === 'text') {
             o = {
              data: ajax.responseText,
              responseText: ajax.responseText,

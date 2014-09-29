@@ -10,6 +10,7 @@ $ch.define('leaflet-map/map', function () {
   var _hasHerePin = false;
 
   var template = $ch.readFile('./template.html');
+  var css = $ch.readFile('./style.css');
 
   var MAP_TILE = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   var ATTRIBUTION = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
@@ -58,7 +59,7 @@ $ch.define('leaflet-map/map', function () {
   };
 
   var loadMap = function (lat, lng, zoom, maxZoom, com, shadow) {
-    $ch.find('style#map-style', shadow).import('leaflet-map/style.css');
+    $ch.find('style#map-style', shadow).html(css);
 
     var js = $ch.node('script').attr('id', 'leaflet-map-js').attr('src',
                        'http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js');
