@@ -800,12 +800,22 @@
           return;
         }
         if (async) {
-          callback({
-            data: ajax.responseText,
-            responseText: ajax.responseText,
-            response: ajax.response,
-            status: ajax.status
-          });
+          var o;
+          if (responseType === '' || responseType === 'text') {
+            o = {
+             data: ajax.responseText,
+             responseText: ajax.responseText,
+             response: ajax.response,
+             status: ajax.status
+           };
+          } else {
+            o = {
+              response: ajax.response,
+              status: ajax.status
+            };
+          }
+
+          callback(o);
         }
       };
 
