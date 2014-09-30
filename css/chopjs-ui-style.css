@@ -111,7 +111,7 @@ input:focus, textarea:focus, .chopjs-ui-input:focus {
 input, textarea, .chopjs-ui-input {
   display: inline-block;
   padding: 3px 0px;
-  font-size: 16px;
+  font-size: 20px;
   color: #555555;
   background-color: transparent;
   background-image: none;
@@ -127,7 +127,7 @@ input:focus, textarea:focus, .chopjs-ui-input:focus {
 }
 
 input:disabled, textarea:disabled, .chopjs-ui-input:disabled {
-  border-bottom: dotted 1px black;
+  border-bottom: dashed 1px black;
 }
 
 select, .chopjs-ui-select {
