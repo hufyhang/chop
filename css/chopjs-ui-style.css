@@ -107,9 +107,9 @@ input:focus, textarea:focus, .chopjs-ui-input:focus {
 }
 */
 
-input, textarea, .chopjs-ui-input, select, .chopjs-ui-select {
+input, textarea, .chopjs-ui-input {
   display: inline-block;
-  padding: 8px 0px;
+  padding: 3px 0px;
   font-size: 16px;
   color: #555555;
   background-color: transparent;
@@ -119,30 +119,30 @@ input, textarea, .chopjs-ui-input, select, .chopjs-ui-select {
 
   border: none;
   border-bottom: solid 1px black;
-  transition: border 0.3s;
+  transition: border 1s;
 }
 
-input:focus, textarea:focus, .chopjs-ui-input:focus, select:focus, .chopjs-ui-select:focus {
+input:focus, textarea:focus, .chopjs-ui-input:focus {
   border-bottom: solid 2px navy;
 }
 
-/*select, .chopjs-ui-select {
+select, .chopjs-ui-select {
   padding: 8px 12px;
   font-size: 14px;
   color: #555555;
   background-color: #ffffff;
   background-image: none;
   border: 1px solid #cccccc;
-  border-radius: 4px;
+  border-radius: 3px;
   outline: 0;
 }
-*/
-/*select:focus, .chopjs-ui-select:focus {
+
+select:focus, .chopjs-ui-select:focus {
   border-color: #66afe9;
   border-width: 2px;
 }
 
-*/
+
 .chopjs-ui-select-drop {
   height: 3em;
 }
