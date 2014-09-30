@@ -54,10 +54,10 @@ hr {
   min-width: 170px;
   text-transform: uppercase;
 
-  -webkit-transition: all 1s ease-in-out;
-  -moz-transition: all 1s ease-in-out;
-  -o-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
+  -webkit-transition: box-shadow 1s;
+  -moz-transition: box-shadow 1s;
+  -o-transition: box-shadow 1s;
+  transition: box-shadow 1s;
 
   font-family: Arial, sans-serif;
   display: inline-block;
