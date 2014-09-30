@@ -87,7 +87,7 @@ hr {
   border-color: #2077b2;
 }
 */
-input, textarea, .chopjs-ui-input {
+/*input, textarea, .chopjs-ui-input {
   display: inline-block;
   padding: 8px 12px;
   font-size: 14px;
@@ -105,8 +105,28 @@ input:focus, textarea:focus, .chopjs-ui-input:focus {
   border-width: 2px;
   box-shadow: #66afe9 0px 0px 20px;
 }
+*/
 
-select, .chopjs-ui-select {
+input, textarea, .chopjs-ui-input, select, .chopjs-ui-select {
+  display: inline-block;
+  padding: 8px 0px;
+  font-size: 16px;
+  color: #555555;
+  background-color: transparent;
+  background-image: none;
+  font-family: Arial, sans-serif;
+  outline: 0;
+
+  border: none;
+  border-bottom: solid 1px black;
+  transition: border 0.3s;
+}
+
+input:focus, textarea:focus, .chopjs-ui-input:focus, select:focus, .chopjs-ui-select:focus {
+  border-bottom: solid 2px navy;
+}
+
+/*select, .chopjs-ui-select {
   padding: 8px 12px;
   font-size: 14px;
   color: #555555;
@@ -116,12 +136,13 @@ select, .chopjs-ui-select {
   border-radius: 4px;
   outline: 0;
 }
-
-select:focus, .chopjs-ui-select:focus {
+*/
+/*select:focus, .chopjs-ui-select:focus {
   border-color: #66afe9;
   border-width: 2px;
 }
 
+*/
 .chopjs-ui-select-drop {
   height: 3em;
 }
