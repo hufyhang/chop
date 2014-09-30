@@ -11,6 +11,7 @@ $screen-lg-min: 1200px;
 
 @mixin col-width($num) {
   display: inline-block;
+  margin-top: 10px;
   width: 100% * ($num / 12);
 }
 
@@ -35,6 +36,18 @@ html {
   flex-flow: row wrap;
 
   width: 100%;
+}
+
+.ch-align-center {
+  justify-content: center;
+}
+
+.ch-align-left {
+  justify-content: flex-start;
+}
+
+.ch-align-right {
+  text-justify: flex-end;
 }
 
 // for phones
