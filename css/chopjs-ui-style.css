@@ -50,11 +50,14 @@ hr {
 }
 
 .chopjs-ui-button {
+  box-shadow: 0px 6px 10px #dddddd;
+  min-width: 170px;
+
   font-family: Arial, sans-serif;
   display: inline-block;
   color: #ffffff;
-  background-color: #3498db;
-  border-color: #3498db;
+  background-color: #4285f4;
+  border-color: #4285f4;
   margin-bottom: 0;
   font-weight: normal;
   text-align: center;
@@ -73,13 +76,16 @@ hr {
   user-select: none;
 }
 
+.chopjs-ui-button:active {
+  box-shadow: 0px 9px 20px #bdbdbd;
+}
 
-.chopjs-ui-button:hover {
+/*.chopjs-ui-button:hover {
   color: #ffffff;
   background-color: #2383c4;
   border-color: #2077b2;
 }
-
+*/
 input, textarea, .chopjs-ui-input {
   display: inline-block;
   padding: 8px 12px;
@@ -192,13 +198,13 @@ select:focus, .chopjs-ui-select:focus {
 }
 
 .chopjs-ui-color-information {
-  color: #3498db;
+  color: #4285f4;
 }
 
 .chopjs-ui-tabs {
    display: inline-block;
    border: none;
-   border-bottom: 2px solid #3498db;
+   border-bottom: 2px solid #4285f4;
    color: rgb(24, 188, 156);
    width: 100%;
 }
@@ -217,7 +223,7 @@ select:focus, .chopjs-ui-select:focus {
 .chopjs-ui-tabs .chopjs-ui-active {
   border-bottom: none;
   color: #ffffff;
-  background-color: #3498db;
+  background-color: #4285f4;
   cursor: default;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -228,7 +234,7 @@ select:focus, .chopjs-ui-select:focus {
 .chopjs-ui-tabs .chopjs-ui-active:hover {
   border-bottom: none;
   color: #ffffff;
-  background-color: #3498db;
+  background-color: #4285f4;
   cursor: default;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -253,7 +259,7 @@ select:focus, .chopjs-ui-select:focus {
   background-color: #ffffff;
   padding: 10px 10px;
   box-shadow: rgb(197, 197, 197) 0px 5px 10px;
-  border-top: 5px solid #3498db;
+  border-top: 5px solid #4285f4;
   margin: 10px 10px 10px 10px;
 }
 
