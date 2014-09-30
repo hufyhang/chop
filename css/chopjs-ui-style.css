@@ -81,6 +81,7 @@ hr {
   box-shadow: 0px 9px 20px #bdbdbd;
 }
 
+
 /*.chopjs-ui-button:hover {
   color: #ffffff;
   background-color: #2383c4;
@@ -119,11 +120,14 @@ input, textarea, .chopjs-ui-input {
 
   border: none;
   border-bottom: solid 1px black;
-  transition: border 1s;
 }
 
 input:focus, textarea:focus, .chopjs-ui-input:focus {
   border-bottom: solid 2px navy;
+}
+
+input:disabled, textarea:disabled, .chopjs-ui-input:disabled {
+  border-bottom: dotted 1px black;
 }
 
 select, .chopjs-ui-select {
