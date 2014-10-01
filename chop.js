@@ -482,34 +482,12 @@
       return html;
     },
 
-    _events: [],
     _addEvent: function (baseElement, attr, evt) {
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
 
         var callback = elements[index].getAttribute(attr);
         callback = callback.replace(/\$\$event/g, 'arguments[0]');
-
-        // check is the element has already added the same event callback
-        var counter = -1;
-        this.each(this._events, function (e, ii) {
-          if (e.node === elements[index] && e.event === attr) {
-            counter = ii;
-          }
-        });
-
-        if (counter !== -1 && this._events[counter].callback.indexOf(callback) !== -1) {
-          continue;
-        }
-        if (counter !== -1) {
-          this._events[counter].callback.push(callback);
-        } else {
-          this._events.push({
-            node: elements[index],
-            callback: [callback],
-            event: attr
-          });
-        }
 
         var founds = callback.match(/{{[^{]{1,}}}/g);
         if (founds) {
@@ -541,7 +519,7 @@
         callback = callback.replace(/\\}/g, '}');
 
         var func = new Function (callback);
-        elements[index].addEventListener(evt, func, false);
+        elements[index][evt] = func;
       }
     },
     _registerEvents: function (baseElement) {
@@ -550,34 +528,51 @@
       }
 
       // event: click
-      this._addEvent(baseElement, 'ch-click', 'click');
+      this._addEvent(baseElement, 'ch-click', 'onclick');
       // event: dbclick
-      this._addEvent(baseElement, 'ch-dbclick', 'dbclick');
+      this._addEvent(baseElement, 'ch-dbclick', 'ondbclick');
 
       // event: keypress
-      this._addEvent(baseElement, 'ch-keypress', 'keypress');
+      this._addEvent(baseElement, 'ch-keypress', 'onkeypress');
       // event: keydown
-      this._addEvent(baseElement, 'ch-keydown', 'keydown');
+      this._addEvent(baseElement, 'ch-keydown', 'onkeydown');
       // event: keyup
-      this._addEvent(baseElement, 'ch-keyup', 'keyup');
+      this._addEvent(baseElement, 'ch-keyup', 'onkeyup');
 
       // event: change
-      this._addEvent(baseElement, 'ch-change', 'change');
+      this._addEvent(baseElement, 'ch-change', 'onchange');
 
       // event: mousedown
-      this._addEvent(baseElement, 'ch-mousedown', 'mousedown');
+      this._addEvent(baseElement, 'ch-mousedown', 'onmousedown');
       // event: mouseup
-      this._addEvent(baseElement, 'ch-mouseup', 'mouseup');
+      this._addEvent(baseElement, 'ch-mouseup', 'onmouseup');
       // event: mouseenter
-      this._addEvent(baseElement, 'ch-mouseenter', 'mouseenter');
+      this._addEvent(baseElement, 'ch-mouseenter', 'onmouseenter');
       // event: mousemove
-      this._addEvent(baseElement, 'ch-mousemove', 'mousemove');
+      this._addEvent(baseElement, 'ch-mousemove', 'onmousemove');
       // event: mouseout
-      this._addEvent(baseElement, 'ch-mouseout', 'mouseout');
+      this._addEvent(baseElement, 'ch-mouseout', 'onmouseout');
       // event: mouseover
-      this._addEvent(baseElement, 'ch-mouseover', 'mouseover');
+      this._addEvent(baseElement, 'ch-mouseover', 'onmouseover');
       // event: mouseleave
-      this._addEvent(baseElement, 'ch-mouseleave', 'mouseleave');
+      this._addEvent(baseElement, 'ch-mouseleave', 'onmouseleave');
+      // event: mousewheel
+      this._addEvent(baseElement, 'ch-mousewheel', 'onmousewheel');
+      // event: drag
+      this._addEvent(baseElement, 'ch-drag', 'ondrag');
+      // event: dragenter
+      this._addEvent(baseElement, 'ch-dragenter', 'ondragenter');
+      // event: dragend
+      this._addEvent(baseElement, 'ch-dragend', 'ondragend');
+      // event: dragstart
+      this._addEvent(baseElement, 'ch-dragstart', 'ondragstart');
+      // event: dragover
+      this._addEvent(baseElement, 'ch-dragover', 'ondragover');
+      // event: drop
+      this._addEvent(baseElement, 'ch-drop', 'ondrop');
+
+
+
     },
 
     _inlineTemplates: {},
