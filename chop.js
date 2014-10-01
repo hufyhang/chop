@@ -12,6 +12,10 @@
   var root = window;
   var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
 
+  var DISPLAY_ELEMENT = document.createElement('style');
+  DISPLAY_ELEMENT.innerHTML = '* {display: none}';
+  root.document.querySelector('head').appendChild(DISPLAY_ELEMENT);
+
   // bind sizzle
   document.querySelector = function (query) {
     if (arguments.length !== 1) {
@@ -727,6 +731,7 @@
     },
 
     _afterLoadView: function () {
+      DISPLAY_ELEMENT.remove();
       return true;
     },
     _loadView: function (baseElement) {
