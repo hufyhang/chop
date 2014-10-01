@@ -493,7 +493,7 @@
         // check is the element has already added the same event callback
         var counter = -1;
         this.each(this._events, function (e, ii) {
-          if (e.node === elements[index]) {
+          if (e.node === elements[index] && e.event === attr) {
             counter = ii;
           }
         });
@@ -506,7 +506,8 @@
         } else {
           this._events.push({
             node: elements[index],
-            callback: [callback]
+            callback: [callback],
+            event: attr
           });
         }
 
@@ -540,7 +541,7 @@
         callback = callback.replace(/\\}/g, '}');
 
         var func = new Function (callback);
-        elements[index].addEventListener(evt, func);
+        elements[index].addEventListener(evt, func, false);
       }
     },
     _registerEvents: function (baseElement) {
