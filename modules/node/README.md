@@ -19,6 +19,11 @@ child()
 
 Returns all Chop.js child element of the current Chop.js element.
 
+remove()
+--------
+
+Removes this Chop.js node from DOM.
+
 appendNode(`node`)
 ------------
 

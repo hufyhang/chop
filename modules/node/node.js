@@ -33,6 +33,11 @@ $ch.define('node', function () {
         return n;
       },
 
+      remove: function () {
+        this._node.remove();
+        return this;
+      },
+
       contains: function (node) {
         if (arguments.length === 0) {
           throw new Error('.contains requires a chop.js node parameter.');
