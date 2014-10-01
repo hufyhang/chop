@@ -173,6 +173,14 @@
       }
     },
 
+    hasAttr: function (key) {
+      if (typeof key !== 'string') {
+        throw new Error('.hasAttr requires a string type parameter.');
+      }
+
+      return this.el.hasAttribute(key);
+    },
+
     removeAttr: function (key) {
       if (chop.isArray(key)) {
         chop.each(key, function (attr) {
