@@ -216,6 +216,11 @@ attr(`key`, `value`)
 
 Sets attribute `key` to `value`. If no parameters, returns all attributes.
 
+hasAttr(`key`)
+----------------
+
+Checks if the element has attribute `key`.
+
 removeAttr(`key`)
 --------------------
 
