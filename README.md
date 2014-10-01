@@ -39,7 +39,7 @@ ch-view
 
 Sets chop.js view.
 
-ch-keypress, ch-keydown, ch-click, ch-dbclick, ch-change, ch-mouseover, ch-mouseenter, ch-mouseout, ch-mouseleave, ch-mousemove, ch-mouseup, ch-mousedown
+ch-keypress, ch-keydown, ch-click, ch-dbclick, ch-change, ch-mouseover, ch-mouseenter, ch-mouseout, ch-mouseleave, ch-mousemove, ch-mouseup, ch-mousedown, ch-mousewheel, ch-drag, ch-dragstart, ch-dragend, ch-dragover, ch-dragenter, ch-drop
 --------------------------------------------
 
 Adds event listener. Use `$$event` for event parameter. To access "data source", use `{{sourceName}}`. Filter can also be used in data-source expression, e.g. `{{users | filter: superUserFilter}}`.
