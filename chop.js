@@ -1082,8 +1082,9 @@
 
       var shouldAdd = true;
       for (var index = 0, len = source.els.length; index !== len; ++index) {
-        var sid = source.els[index].id;
-        if (sid === element.id) {
+        // var sid = source.els[index].id;
+        // if (sid === element.id) {
+        if (source.els[index] === element) {
           shouldAdd = false;
           break;
         }
