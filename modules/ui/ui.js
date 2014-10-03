@@ -17,6 +17,11 @@ $ch.define('ui', function () {
       e.button();
     });
 
+    els = $$CHOP.findAll('[ch-ui-video-background]', context);
+    $$CHOP.each(els, function (e) {
+      e.videoBackground();
+    });
+
     els = $$CHOP.findAll('[ch-ui-select]', context);
     $$CHOP.each(els, function (e) {
       e.selectbox();
@@ -60,6 +65,12 @@ $ch.define('ui', function () {
     return this;
   };
 //}}}
+
+  // video background
+  $$CHOPEL.videoBackground = function () {
+    this.el.className += 'chopjs-ui-video-background';
+    return this;
+  };
 
   // colorful//{{{
   $$CHOPEL.normal = function () {

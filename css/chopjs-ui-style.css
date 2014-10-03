@@ -304,3 +304,13 @@ select:focus, .chopjs-ui-select:focus {
   color: rgb(209, 209, 209);
   margin-top: 10px;
 }
+
+.chopjs-ui-video-background {
+  z-index: -999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+

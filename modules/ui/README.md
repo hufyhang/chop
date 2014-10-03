@@ -18,6 +18,11 @@ Shows the element.
 
 Hides the element.
 
+.videoBackground()
+------------------
+
+Converts the video element into video background.
+
 .button(`callback`)
 -------------------
 
