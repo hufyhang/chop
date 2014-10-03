@@ -1,3 +1,4 @@
+/* jshint multistr:true */
 /*
 
   chop.js
@@ -13,7 +14,7 @@
   var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
 
   var DISPLAY_ELEMENT = document.createElement('style');
-  DISPLAY_ELEMENT.innerHTML = '* {display: none}';
+  DISPLAY_ELEMENT.innerHTML = 'html body * {display: none}';
   root.document.querySelector('head').appendChild(DISPLAY_ELEMENT);
 
   // bind sizzle
