@@ -47,6 +47,11 @@ $ch.utils.now()
 
 Returns current time value.
 
+$ch.utils.fromNow(`date`)
+-----------------------
+
+Returns how long ago the `date` is in human-readable string.
+
 $ch.utils.random(`from`, `to`)
 ------------------------------
 
