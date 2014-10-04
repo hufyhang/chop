@@ -13,9 +13,9 @@
   var root = window;
   var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
 
-  var DISPLAY_ELEMENT = document.createElement('style');
-  DISPLAY_ELEMENT.innerHTML = 'html body * {display: none}';
-  root.document.querySelector('head').appendChild(DISPLAY_ELEMENT);
+  // var DISPLAY_ELEMENT = document.createElement('style');
+  // DISPLAY_ELEMENT.innerHTML = 'html body * {display: none}';
+  // root.document.querySelector('head').appendChild(DISPLAY_ELEMENT);
 
   // bind sizzle
   document.querySelector = function (query) {
@@ -736,7 +736,7 @@
     },
 
     _afterLoadView: function () {
-      DISPLAY_ELEMENT.remove();
+      // DISPLAY_ELEMENT.remove();
       return true;
     },
     _loadView: function (baseElement) {
