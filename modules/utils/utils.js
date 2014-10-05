@@ -165,10 +165,10 @@ $ch.define('utils', function () {
       }
 
       if (typeof from === 'string') {
-        from = Number.parseInt(from, 10);
+        from = parseInt(from, 10);
       }
       if (typeof to === 'string') {
-        to = Number.parseInt(to, 10);
+        to = parseInt(to, 10);
       }
 
       return Math.floor(Math.random() * to) + from;
@@ -237,7 +237,7 @@ $ch.define('utils', function () {
       }
 
       if (typeof obj === 'string') {
-        obj = Number.parseFloat(obj);
+        obj = parseFloat(obj);
       }
       return Number.isNaN(obj);
     },
