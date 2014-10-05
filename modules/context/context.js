@@ -13,12 +13,14 @@ $ch.define('context', function () {
     return window.navigator.userAgent;
   };
 
-  var geolocation = function (callback) {
+  var geolocation = function (callback, error, options) {
     if (navigator.geolocation) {
+      error = error || function () {};
+      options = options || {};
       navigator.geolocation.getCurrentPosition(function (position) {
         var coords = position.coords;
         callback(coords);
-      });
+      }, error, options);
 
     } else {
       throw new Error('Geolocation is not supported by this browser.');
@@ -107,11 +109,11 @@ $ch.define('context', function () {
   $$CHOP.context = {
     language: userAgentLanguage(),
     userAgent: userAgent(),
-    geolocation: function (callback) {
+    geolocation: function (callback, error, options) {
       if (callback === undefined) {
         throw new Error('$ch.context.geolocation requires a callback parameter.');
       }
-      geolocation(callback);
+      geolocation(callback, error, options);
     },
 
     browser: getBrowser()
