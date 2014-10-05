@@ -38,8 +38,12 @@ Major browser name list:
 - Opera
 - Internet Explorer
 
-$ch.context.geolocation(`callback`)
+$ch.context.geolocation(`callback`[, `error`, `options`])
 -----------------------------------
 
 Gets geolocation information and passes the data to `callback`.
+
+`error`: the error callback function.
+
+`options`: geolocation options.
 
