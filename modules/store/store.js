@@ -115,7 +115,7 @@ $ch.define('store', function () {
 
         if (arguments.length === 3) {
           if (expDay !== undefined) {
-            expDay = Number.parseFloat(expDay, 10);
+            expDay = parseFloat(expDay, 10);
           }
 
           var d = new Date();
