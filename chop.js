@@ -11,8 +11,8 @@
 (function (window, undefined) {
   'use strict';
   var root = window;
-  // var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
-  var MODULE_LOADER = 'https://cdn.rawgit.com/hufyhang/chop/master/modules/';
+  var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
+  // var MODULE_LOADER = 'https://cdn.rawgit.com/hufyhang/chop/master/modules/';
 
   // var DISPLAY_ELEMENT = document.createElement('style');
   // DISPLAY_ELEMENT.innerHTML = 'html body * {display: none}';
@@ -941,8 +941,8 @@
 
       if (useLoader === true) {
         if (src.indexOf('/') === -1) {
-          // url = MODULE_LOADER + src;
-          url = MODULE_LOADER + src + '/' + src + '.min.js';
+          url = MODULE_LOADER + src;
+          // url = MODULE_LOADER + src + '/' + src + '.min.js';
         }
       }
 
