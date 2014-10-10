@@ -770,6 +770,32 @@
       chop._afterLoadView();
     },
 
+    _encodeHttpData: function (key, item) {
+      var result = '';
+      var that = this;
+      if (this._isArray(item)) {
+        this.each(item, function (value, index) {
+          if (typeof value === 'object') {
+            result += that._encodeHttpData(key + '[' + index + ']', value);
+          } else {
+            result += key + '[' + index + ']=' + value + '&';
+          }
+        });
+      }
+      else if (typeof item === 'object') {
+        this.each(item, function (k, value) {
+          if (typeof value === 'object') {
+            result += that._encodeHttpData(key + '[' + k + ']', value);
+          } else {
+            result += key + '[' + k + ']=' + value + '&';
+          }
+        });
+      } else {
+        result += key + '=' + item + '&';
+      }
+      return result;
+    },
+
     http: function (param) {
       if (!param.url) {
         throw new Error('URL parameter not found for $ch.http.');
@@ -779,14 +805,14 @@
       var method = param.method || 'GET';
       var responseType = param.responseType;
       var headers = param.header;
+      var mimeType = param.mimeType;
       method = method.toUpperCase();
       var data = param.data || {};
       var tempData = '';
-      for (var item in data) {
-        if (data.hasOwnProperty(item)) {
-          tempData += item + '=' + data[item] + '&';
-        }
-      }
+      var that = this;
+      this.each(data, function (key, value) {
+        tempData += that._encodeHttpData(key, value);
+      });
       data = tempData.slice(0, -1);
 
       var callback = param.done || function () {return false;};
@@ -830,6 +856,10 @@
         }
       };
 
+      if (mimeType !== undefined) {
+        ajax.overrideMimeType(mimeType);
+      }
+
       var hasHeadersToSet = headers !== undefined && headers.length !== 0;
       if (hasHeadersToSet) {
         this.each(headers, function (header, value) {
@@ -840,7 +870,7 @@
       var hasDataToSend = method &&
           method.toUpperCase() !== 'GET' && data.length !== 0;
       if (hasDataToSend) {
-        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
         ajax.send(data);
       } else {
         ajax.send();
