@@ -2,7 +2,8 @@
 $ch.define('layout', function () {
   'use strict';
 
-  var CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-layout';
+  // var CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-layout';
+  var CSS = 'https://cdn.rawgit.com/hufyhang/chop/master/css/chopjs-layout.css';
 
   var hasStyle = $$CHOP.find('.chopjs-layout-css') !== undefined;
   if (!hasStyle) {

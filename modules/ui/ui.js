@@ -1,7 +1,8 @@
 /* global $ch, $$CHOP, $$CHOPEL */
 $ch.define('ui', function () {
   'use strict';
-  var UI_CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-ui-style';
+  // var UI_CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-ui-style';
+  var UI_CSS = 'https://cdn.rawgit.com/hufyhang/chop/master/css/chopjs-ui-style.css';
 
   var originalLoadView = $$CHOP._loadView;
   $$CHOP._loadView = function (baseElement) {
