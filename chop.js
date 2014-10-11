@@ -798,6 +798,21 @@
     },
 
     _httpCache: [],
+    _appendHttpCache: function (shouldCache, obj) {
+      if (shouldCache) {
+        this._httpCache.push({
+          url: obj.url,
+          method: obj.method,
+          headers: obj.headers,
+          async: obj.async,
+          responseType: obj.responseType,
+          mimeType: obj.mimeType,
+          data: obj.data,
+          response: obj.response
+        });
+      }
+
+    },
 
     http: function (param) {
       if (!param.url) {
@@ -833,8 +848,7 @@
 
         loadedCache = cache.url === url && cache.method === method
         && cache.headers === headers && cache.responseType === responseType
-        && cache.mimeType === mimeType && cache.async === async
-        && cache.data === data;
+        && cache.mimeType === mimeType && cache.data === data;
 
         if (loadedCache) {
           cacheData = cache.response;
@@ -884,18 +898,16 @@
             };
           }
 
-          if (httpCache) {
-            that._httpCache.push({
-              url: url,
-              method: method,
-              headers: headers,
-              async: async,
-              responseType: responseType,
-              mimeType: mimeType,
-              data: data,
-              response: o
-            });
-          }
+          that._appendHttpCache(httpCache, {
+            url: url,
+            method: method,
+            headers: headers,
+            async: async,
+            responseType: responseType,
+            mimeType: mimeType,
+            data: data,
+            response: o
+          });
 
           callback(o);
         }
@@ -922,6 +934,17 @@
       }
 
       if (!async) {
+        this._appendHttpCache(httpCache, {
+          url: url,
+          method: method,
+          headers: headers,
+          async: async,
+          responseType: responseType,
+          mimeType: mimeType,
+          data: data,
+          response: ajax
+        });
+
         return ajax;
       }
     },

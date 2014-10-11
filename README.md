@@ -127,7 +127,7 @@ The object `param` contains:
 - `responseType`: the response type of the AJAX request
 - `data`: data to be sent in the form of an object
 - `done`: the callback function for async AJAX
-- `httpCache`: indicates if the AJAX request should be cached. Default `false`
+- `cache`: indicates if the AJAX request should be cached. Default `false`
 
 If `async` is `false`, returns the returned AJAX object.
 
