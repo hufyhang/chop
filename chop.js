@@ -797,6 +797,8 @@
       return result;
     },
 
+    _httpCache: [],
+
     http: function (param) {
       if (!param.url) {
         throw new Error('URL parameter not found for $ch.http.');
@@ -810,6 +812,7 @@
       method = method.toUpperCase();
       var data = param.data || {};
       var tempData = '';
+      var httpCache = param.cache || false;
       var that = this;
       this.each(data, function (key, value) {
         tempData += that._encodeHttpData(key, value);
@@ -821,6 +824,34 @@
         param.async = true;
       }
       var async = param.async;
+
+      // check if should load from HTTP cache
+      var loadedCache = false;
+      var cacheData;
+      for (var index = 0; index !== this._httpCache.length; ++index) {
+        var cache = this._httpCache[index];
+
+        loadedCache = cache.url === url && cache.method === method
+        && cache.headers === headers && cache.responseType === responseType
+        && cache.mimeType === mimeType && cache.async === async
+        && cache.data === data;
+
+        if (loadedCache) {
+          cacheData = cache.response;
+          break;
+        }
+      }
+
+      // if loaded from HTTP cache, return
+      if (loadedCache) {
+        if (async === true) {
+          callback(cacheData);
+          return;
+        } else {
+          return cacheData;
+        }
+      }
+
 
       var ajax;
       if (window.XMLHttpRequest) {
@@ -851,6 +882,19 @@
               response: ajax.response,
               status: ajax.status
             };
+          }
+
+          if (httpCache) {
+            that._httpCache.push({
+              url: url,
+              method: method,
+              headers: headers,
+              async: async,
+              responseType: responseType,
+              mimeType: mimeType,
+              data: data,
+              response: o
+            });
           }
 
           callback(o);
