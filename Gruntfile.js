@@ -1,6 +1,9 @@
 module.exports = function (grunt) {
   'use strict';
 
+  require('time-grunt')(grunt);
+  require('load-grunt-tasks')(grunt);
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
@@ -80,17 +83,28 @@ module.exports = function (grunt) {
         src: ['*.css'],
         dest: 'dist/css/'
       }
+    },
+
+    notify_hooks: {
+      options: {
+        enabled: true,
+        title: 'ChopJS Build'
+      }
+    },
+
+    notify: {
+      build_done: {
+        options: {
+          title: 'ChopJS Build',
+          message: '<%= pkg.name %> build finished successfully.'
+        },
+      }
     }
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-sass');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-newer');
+  grunt.task.run('notify_hooks');
   grunt.registerTask('serve', ['watch']);
-  grunt.registerTask('build', ['uglify', 'sass', 'copy', 'cssmin']);
+  grunt.registerTask('build', ['uglify', 'sass', 'copy', 'cssmin', 'notify:build_done']);
 
 };
