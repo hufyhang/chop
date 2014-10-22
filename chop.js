@@ -240,16 +240,24 @@
       return this;
     },
 
-    animate: function (style, duration, callback) {
+    animate: function (style, options, callback) {
       if (typeof style === 'object') {
         var buf = [];
-        if (typeof duration === 'number') {
-          buf.push('transition: ' + duration + 'ms;');
-          buf.push('-webkit-transition: ' + duration + 'ms;');
-          buf.push('-ms-transition: ' + duration + 'ms;');
-          buf.push('-moz-transition: ' + duration + 'ms;');
-          this.el.style.cssText += buf.join('');
+        var duration, easing;
+        if (typeof options === 'number') {
+          duration = options;
+          easing = '';
         }
+        else if (typeof options === 'object') {
+         duration = options.duration;
+         easing = options.easing;
+        }
+
+        buf.push('transition: all ' + duration + 'ms ' + easing + ';');
+        buf.push('-webkit-transition: all ' + duration + 'ms ' + easing + ';');
+        buf.push('-ms-transition: all ' + duration + 'ms ' + easing + ';');
+        buf.push('-moz-transition: all ' + duration + 'ms ' + easing + ';');
+        this.el.style.cssText += buf.join('');
 
         buf = [];
         chop.each(style, function (key, value) {

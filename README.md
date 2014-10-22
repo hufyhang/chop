@@ -272,10 +272,14 @@ toggleClass(`class`)
 
 Toggles `class`.
 
-animate(`style`, `duration`[, `callback`])
+animate(`style`, `options`[, `callback`])
 ------------------
 
-Performs animation for `duration` ms according to `style` (in the form of an object). If `callback` presented, fire `callback` when animation is finished.
+Performs animation `style` (in the form of an object) according to `options`. 
+
+`options` can either be the form of `{duration: duration, easing: easing}`, or just duration in ms.
+
+If `callback` presented, fire `callback` when animation is finished.
 
 val(`value`)
 ------------
