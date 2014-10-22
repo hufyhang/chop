@@ -159,6 +159,29 @@
       return this;
     },
 
+    prepend: function (html) {
+      if (typeof html === 'string') {
+        this.el.innerHTML = html + this.el.innerHTML;
+      }
+      return this;
+    },
+
+    appendChild: function (element) {
+      if (element !== undefined) {
+        this.el.appendChild(element);
+      }
+      return this;
+    },
+
+    prependChild: function (element) {
+      var parent = this.el.parentNode;
+      if (element !== undefined && parent !== undefined) {
+        parent.insertBefore(element, this.el);
+
+      }
+      return this;
+    },
+
     attr: function (key, value) {
       if (arguments.length === 0) {
         return this.el.attributes;
@@ -1232,6 +1255,7 @@
           element.addEventListener(eventType, function () {
             var source = that.sources[this.getAttribute('ch-source')];
             source.data = this.value;
+            // that.source(this.getAttribute('ch-source'), this.value);
             source.els.forEach(function (item) {
               var valueContainer;
               tagName = item.tagName.toUpperCase();

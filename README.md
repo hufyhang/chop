@@ -207,6 +207,21 @@ append(`html`)
 
 Appends `html`.
 
+prepend(`html`)
+---------------
+
+Prepends `html`.
+
+appendChild(`HTMLElement`)
+-------------------
+
+Appends `HTMLElement` as child.
+
+prependChild(`HTMLElement`)
+-----------------------
+
+Prepends `HTMLElement` as child.
+
 val(`value`)
 ------------
 
