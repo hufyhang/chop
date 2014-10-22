@@ -222,6 +222,41 @@ prependChild(`HTMLElement`)
 
 Prepends `HTMLElement` as child.
 
+scrollTop(`value`)
+-------------------
+
+If no `value` presented, set the element's scrollTop to `value`. Otherwise, returns current scrollTop.
+
+scrollLeft(`value`)
+-------------------
+
+If no `value` presented, set the element's scrollLeft to `value`. Otherwise, returns current scrollLeft.
+
+offset()
+---------
+
+Returns the offset properties of the element in the form of:
+
+~~~javascript
+{
+    left: offsetLeft,
+    top: offsetTop,
+    width: offsetWidth,
+    height: offsetHeight,
+    parent: offsetParent
+}
+~~~
+
+get(`property`)
+----------------
+
+Returns `property` value of the element.
+
+set(`property`, `value`)
+----------------
+
+Sets `property` of the element to `value`.
+
 val(`value`)
 ------------
 

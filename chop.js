@@ -182,6 +182,54 @@
       return this;
     },
 
+    scrollTop: function (val) {
+      if (typeof val === 'number') {
+        this.el.scrollTop = val;
+        return this;
+      } else {
+        return this.el.scrollTop;
+      }
+    },
+
+    scrollLeft: function (val) {
+      if (typeof val === 'number') {
+        this.el.scrollLeft = val;
+        return this;
+      } else {
+        return this.el.scrollLeft;
+      }
+    },
+
+    offset: function () {
+      return {
+        left: this.el.offsetLeft,
+        top: this.el.offsetTop,
+        width: this.el.offsetWidth,
+        height: this.el.offsetHeight,
+        parent: this.el.offsetParent
+      };
+    },
+
+    get: function (item) {
+      if (typeof item !== 'string') {
+        throw new Error('ChopJS Element "get" expects a string-type parameter.');
+      }
+      return this.el[item];
+    },
+
+    set: function (item, value) {
+      if (typeof item !== 'string') {
+        throw new Error('ChopJS Element "set" expects a string-type parameter to indicate property.');
+      }
+
+      if (value === undefined) {
+        throw new Error('ChopJS Element "set" does not accept "undefined" as the property value.');
+      }
+
+      this.el[item] = value;
+      return this;
+    },
+
     attr: function (key, value) {
       if (arguments.length === 0) {
         return this.el.attributes;
