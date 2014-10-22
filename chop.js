@@ -240,6 +240,31 @@
       return this;
     },
 
+    animate: function (style, duration, callback) {
+      if (typeof style === 'object') {
+        var buf = [];
+        if (typeof duration === 'number') {
+          buf.push('transition: ' + duration + 'ms;');
+          buf.push('-webkit-transition: ' + duration + 'ms;');
+          buf.push('-ms-transition: ' + duration + 'ms;');
+          buf.push('-moz-transition: ' + duration + 'ms;');
+          this.el.style.cssText += buf.join('');
+        }
+
+        buf = [];
+        chop.each(style, function (key, value) {
+          buf.push(key + ': ' + value + ';');
+        });
+
+        this.el.style.cssText += buf.join('');
+        if (typeof callback === 'function') {
+          window.setTimeout(callback, duration);
+        }
+      }
+
+      return this;
+    },
+
     get: function (item) {
       if (typeof item !== 'string') {
         throw new Error('ChopJS Element "get" expects a string-type parameter.');

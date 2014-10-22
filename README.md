@@ -272,6 +272,11 @@ toggleClass(`class`)
 
 Toggles `class`.
 
+animate(`style`, `duration`[, `callback`])
+------------------
+
+Performs animation for `duration` ms according to `style` (in the form of an object). If `callback` presented, fire `callback` when animation is finished.
+
 val(`value`)
 ------------
 
