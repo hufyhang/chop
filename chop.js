@@ -210,6 +210,36 @@
       };
     },
 
+    addClass: function (cls) {
+      if (typeof cls === 'string') {
+        this.el.className += ' ' + cls;
+      }
+      return this;
+    },
+
+    removeClass: function (cls) {
+      if (typeof cls === 'string') {
+        var reg = new RegExp('\\ ?' + cls + '\\ ?', 'g');
+        this.el.className = this.el.className.replace(reg, '');
+      }
+      return this;
+    },
+
+    toggleClass: function (cls) {
+      if (typeof cls === 'string') {
+        var reg = new RegExp('\\ ?' + cls + '\\ ?', 'g');
+        var hasClass = this.el.className.match(reg) !== null;
+
+        if (hasClass) {
+          this.removeClass(cls);
+        } else {
+          this.addClass(cls);
+        }
+
+      }
+      return this;
+    },
+
     get: function (item) {
       if (typeof item !== 'string') {
         throw new Error('ChopJS Element "get" expects a string-type parameter.');

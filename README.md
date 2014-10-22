@@ -257,6 +257,21 @@ set(`property`, `value`)
 
 Sets `property` of the element to `value`.
 
+addClass(`class`)
+-----------------
+
+Adds `class`.
+
+removeClass(`class`)
+-------------------
+
+Removes `class`.
+
+toggleClass(`class`)
+-----------------
+
+Toggles `class`.
+
 val(`value`)
 ------------
 
