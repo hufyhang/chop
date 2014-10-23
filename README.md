@@ -113,14 +113,15 @@ Use `type='text/template'` to define a template in `script` elements. Use `{{som
 
 `data` should be in the form of an object.
 
-$ch.http(`param`)
+$ch.http(`url`, `param`)
 ---------------
 
 Performs an AJAX request.
 
+`url`: the target URL of the AJAX call.
+
 The object `param` contains:
 
-- `url`: the target URL of the AJAX call
 - `method`: HTTP verb (get, post, put, delete)
 - `header`: HTTP request headers to be set in the form of an object (e.g. {'header1': 'value1', 'header2': 'value2'})
 - `async`: asynchronous, default: `true` (`true` or `false`)

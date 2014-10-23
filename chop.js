@@ -948,12 +948,22 @@
 
     },
 
-    http: function (param) {
-      if (!param.url) {
-        throw new Error('URL parameter not found for $ch.http.');
+    http: function (u, param) {
+      var url;
+      if (arguments.length === 1) {
+        param = u;
+        url = '';
+
+        if (!param.url) {
+          throw new Error('URL parameter not found for $ch.http.');
+        } else {
+          url = param.url;
+        }
+      }
+      else {
+        url = u;
       }
 
-      var url = param.url;
       var method = param.method || 'GET';
       var responseType = param.responseType;
       var headers = param.header;
