@@ -1011,8 +1011,13 @@
       }
 
 
+      var isIE8 = false;
       var ajax;
-      if (window.XMLHttpRequest) {
+      if (window.XDomainRequest) {
+        ajax = new window.XDomainRequest();
+        isIE8 = true;
+      }
+      else if (window.XMLHttpRequest) {
         ajax = new XMLHttpRequest();
       } else {
         ajax = new ActiveXObject('Microsoft.XMLHTTP');
@@ -1021,20 +1026,20 @@
       if (responseType !== undefined) {
         ajax.responseType = responseType;
       }
-      ajax.onreadystatechange = function () {
-        if (ajax.readyState !== 4) {
-          return;
-        }
-        if (async) {
+
+      if (isIE8) {
+        // setttings for IE8 XDomainRequest
+        ajax.onload = function () {
+         if (async) {
           var o;
           if (responseType === undefined || responseType === null ||
               responseType === '' || responseType === 'text') {
             o = {
-             data: ajax.responseText,
-             responseText: ajax.responseText,
-             response: ajax.response,
-             status: ajax.status
-           };
+              data: ajax.responseText,
+              responseText: ajax.responseText,
+              response: ajax.response,
+              status: ajax.status
+            };
           } else {
             o = {
               response: ajax.response,
@@ -1055,7 +1060,49 @@
 
           callback(o);
         }
+
       };
+
+      } else {
+        // setttings for XMLHttpRequest
+        ajax.onreadystatechange = function () {
+          if (ajax.readyState !== 4) {
+            return;
+          }
+          if (async) {
+            var o;
+            if (responseType === undefined || responseType === null ||
+                responseType === '' || responseType === 'text') {
+              o = {
+                data: ajax.responseText,
+                responseText: ajax.responseText,
+                response: ajax.response,
+                status: ajax.status
+              };
+            } else {
+              o = {
+                response: ajax.response,
+                status: ajax.status
+              };
+            }
+
+            that._appendHttpCache(httpCache, {
+              url: url,
+              method: method,
+              headers: headers,
+              async: async,
+              responseType: responseType,
+              mimeType: mimeType,
+              data: data,
+              response: o
+            });
+
+            callback(o);
+          }
+        };
+
+      }
+
 
       if (mimeType !== undefined) {
         ajax.overrideMimeType(mimeType);
