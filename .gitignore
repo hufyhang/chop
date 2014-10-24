@@ -1,6 +1,7 @@
 ###### SASS #####
 **/.sass-cache
 **/.sass-cache/*
+.sass-cache
 
 ###### NPM ######
 node_modules/

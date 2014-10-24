@@ -60,7 +60,7 @@ html {
 
 // for phones
 @media screen and (max-width: $screen-xs-max) {
-  .ch-xs-0 { display: none; }
+  .ch-xs-0 { display: none !important; }
   .ch-xs-1 { @include col-width(1); }
   .ch-xs-2 { @include col-width(2); }
   .ch-xs-3 { @include col-width(3); }
@@ -77,7 +77,7 @@ html {
 
 // for tablets
 @media screen and (min-width: $screen-sm-min) {
-  .ch-sm-0 { display: none; }
+  .ch-sm-0 { display: none !important; }
   .ch-sm-1 { @include col-width(1); }
   .ch-sm-2 { @include col-width(2); }
   .ch-sm-3 { @include col-width(3); }
@@ -94,7 +94,7 @@ html {
 
 // for desktops
 @media screen and (min-width: $screen-md-min) {
-  .ch-md-0 { display: none; }
+  .ch-md-0 { display: none !important; }
   .ch-md-1 { @include col-width(1); }
   .ch-md-2 { @include col-width(2); }
   .ch-md-3 { @include col-width(3); }
@@ -111,7 +111,7 @@ html {
 
 // for large desktops
 @media screen and (min-width: $screen-lg-min) {
-  .ch-lg-0 { display: none; }
+  .ch-lg-0 { display: none !important; }
   .ch-lg-1 { @include col-width(1); }
   .ch-lg-2 { @include col-width(2); }
   .ch-lg-3 { @include col-width(3); }
