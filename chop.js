@@ -14,9 +14,8 @@
   // var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
   var MODULE_LOADER = 'https://cdn.jsdelivr.net/';
 
-  // var DISPLAY_ELEMENT = document.createElement('style');
-  // DISPLAY_ELEMENT.innerHTML = 'html body * {display: none}';
-  // root.document.querySelector('head').appendChild(DISPLAY_ELEMENT);
+  // hide everything until ChopJS is completely initialized.
+  document.querySelector('html').style.cssText += 'display: none';
 
   // bind sizzle
   document.querySelector = function (query) {
@@ -871,7 +870,10 @@
     },
 
     _afterLoadView: function () {
-      // DISPLAY_ELEMENT.remove();
+      // now show everything
+      var htmlCss = document.querySelector('html').style.cssText;
+      var reg = new RegExp('\ ?display:\ ?none;?\ ?', 'g');
+      document.querySelector('html').style.cssText = htmlCss.replace(reg, '');
       return true;
     },
     _loadView: function (baseElement) {
