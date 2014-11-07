@@ -49,26 +49,25 @@ $ch.define('directive', function () {
         } else {
           this.appendChild(template.content.cloneNode(true));
 
-          // use DocumentFragment as ShadowRoot
-          shadowRoot = document.createDocumentFragment();
-          var nodes = template.content.cloneNode(true);
-          nodes = Array.prototype.slice.apply(nodes);
-          nodes.forEach(function (node) {
-            shadowRoot.appendChild(node);
-          });
+          // use this as ShadowRoot
+          shadowRoot = this;
 
           // now sets all styles in ShadowRoot to only apply on the custom element
-          var styles = this.querySelectorAll('style');
-          for (var i = 0; i !== styles.length; ++i) {
-            var content = styles[i].innerHTML;
-            // match all CSS rules
-            var rules = content.match(/\w.*?{\n?.+?\n?}/g) || [];
-            content = '';
-            rules.forEach(function (rule) {
-              content += tag + ' ' + rule;
-            });
-            styles[i].innerHTML = content;
-          }
+          // var styles = this.querySelectorAll('style');
+          // for (var i = 0; i !== styles.length; ++i) {
+          //   var content = styles[i].innerHTML;
+          //   // match all CSS rules
+          //   var rules = content.match(/\w.*?{\n?.+?\n?}/g) || [];
+          //   content = '';
+          //   rules.forEach(function (rule) {
+          //     console.log(rule);
+          //     // only process the rules that does not start with @
+          //     if (rule.trim()[0] !== '@') {
+          //       content += tag + ' ' + rule;
+          //     }
+          //   });
+          //   styles[i].innerHTML = content;
+          // }
         }
 
         customCreated.apply(this, [this, shadowRoot]);
