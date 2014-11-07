@@ -50,6 +50,12 @@ module.exports = function (grunt) {
         files: {
           'dist/modules/rdfa/rdfa.min.js': ['modules/rdfa/rdfa.js', 'modules/rdfa/rdfa_processor.min.js']
         }
+      },
+
+      module_directive: {
+        files: {
+          'dist/modules/directive/directive.min.js': ['modules/directive/directive.js', 'modules/directive/shim.js']
+        }
       }
     },
 
