@@ -4,7 +4,9 @@ chop.js directive module
 Dependencies
 ------------
 
-`event` - automatically included.
+<!-- `event` - automatically included. -->
+
+None
 
 Browser requirements
 ---------------------
@@ -34,8 +36,17 @@ Or, if `callback` is an object:
 
 ~~~javascript
 $ch.directive.add('my-tag', template, {
-        onCreated: function (element, shadow) {
-            // onCreated...
+        onCreated: function () {
+            // an instance of the element is created
+        },
+        onAttached: function () {
+            // an instance was inserted into the document
+        },
+        onDetached: function () {
+            // an instance was removed from the document
+        },
+        onAttribute: function (attrName, oldVal, newVal) {
+            // an attribute was added, removed, or updated
         },
         onUpdated:  function (content, element, shadow) {
             // onUpdated by $ch.directive.update(...)

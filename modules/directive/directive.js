@@ -1,7 +1,7 @@
 /* global $ch, $$CHOP */
 $ch.define('directive', function () {
   'use strict';
-  $ch.require('event');
+  // $ch.require('event');
 
   $$CHOP.directive = {};
   $$CHOP.directive = {
@@ -22,37 +22,48 @@ $ch.define('directive', function () {
 
       var prototype = Object.create(HTMLElement.prototype);
 
-      prototype.createdCallback = function() {
-        var shadow = this.createShadowRoot();
-        shadow.appendChild(template.content.cloneNode(true));
+      var onCreated, onUpdated, onAttribute, onAttached, onDetached;
+      var that = this;
+      if (typeof callback === 'function') {
+        onCreated = callback;
+        onUpdated = function () {return;};
+        onAttribute = function () {return;};
+        onAttached = function () {return;};
+        onDetached = function() {return;};
+      } else {
+        onCreated = callback.onCreated || function () {return;};
+        onUpdated = callback.onUpdated || function () {return;};
+        onAttribute = callback.onAttribute || function () {return;};
+        onAttached = callback.onAttached || function () {return;};
+        onDetached = callback.onDetached || function () {return;};
+      }
 
-        var onCreated, onUpdate;
-        if (callback !== undefined) {
-          var that = this;
-          if (typeof callback === 'function') {
-            onCreated = callback;
-            onUpdate = function () {return;};
-          } else {
-            onCreated = callback.onCreated || function () {return;};
-            onUpdate = callback.onUpdated || function () {return;};
-          }
+      var customCreated = onCreated;
 
-          $ch.event.nextTick(function () {
-            onCreated.apply(that, [that, shadow]);
-          });
+      onCreated = function () {
+        if (this.createShadowRoot) {
+          var shadow = this.createShadowRoot();
+          shadow.appendChild(template.content.cloneNode(true));
         } else {
-          onUpdate = function () {return;};
+          this.appendChild(template.content.cloneNode(true));
         }
+
+        customCreated.apply(this);
 
         var id = this.getAttribute('id');
         if (id !== null) {
           $$CHOP.directive.updateEvents[id] = {
             el: this,
             shadow: shadow,
-            onUpdate: onUpdate
+            onUpdate: onUpdated
           };
         }
       };
+
+      prototype.createdCallback = onCreated;
+      prototype.attachedCallback = onAttached;
+      prototype.detachedCallback = onDetached;
+      prototype.attributeChangedCallback = onAttribute;
 
       document.registerElement(tag, {
         prototype: prototype
