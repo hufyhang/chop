@@ -1210,8 +1210,72 @@
       return result;
     },
 
+    _executeRequireCallback: function (srcs, loadingBuffer, callback) {
+      var buffer = [];
+      srcs.forEach(function (src) {
+        buffer.push(loadingBuffer[src]);
+      });
+      callback.apply(this, buffer);
+    },
+
     _loaded: {},
     _currentPath: '',
+    _useModuleAsync: function (srcs, useLoader, callback) {
+      var loadingBuffer = {};
+      var loadingCounter = 0;
+      var loadingTarget = 0;
+      if (typeof srcs === 'string') {
+        srcs = [srcs];
+      }
+      loadingTarget = srcs.length;
+      var that = this;
+
+      srcs.forEach(function (src) {
+        var url = that._path + src + '.js';
+        var originalCurrentPath = that._currentPath;
+        that._currentPath = that._path + src;
+
+        if (useLoader === true) {
+          if (src.indexOf('/') === -1) {
+            // url = MODULE_LOADER + src;
+            url = MODULE_LOADER + 'chopjs-' + src + '/latest/' + src + '.min.js';
+          }
+        }
+
+        var result;
+        var hasScriptLoaded = Object.keys(that._loaded).indexOf(url) !== -1;
+        if (!hasScriptLoaded) {
+          // asynchronously download script
+          that.http({
+            url: url,
+            method: 'get',
+            done: function (res) {
+              if (res.status === 200 || res.status === 304) {
+                result = eval(res.responseText);
+                that._loaded[url] = result;
+                loadingBuffer[src] = result;
+                ++loadingCounter;
+                if (loadingCounter === loadingTarget) {
+                  that._executeRequireCallback(srcs, loadingBuffer, callback);
+                }
+              } else {
+                throw new Error('ChopJS cannot load "' + src + '".');
+              }
+            }
+          });
+
+        } else {
+          loadingBuffer[src] = that._loaded[url];
+          ++loadingCounter;
+          if (loadingCounter === loadingTarget) {
+            that._executeRequireCallback(srcs, loadingBuffer, callback);
+          }
+        }
+
+        that._currentPath = originalCurrentPath;
+      });
+    },
+
     _useModule: function (src, useLoader) {
       var url = this._path + src + '.js';
       var originalCurrentPath = this._currentPath;
@@ -1244,26 +1308,32 @@
       return result;
     },
 
-    require: function (srcs, useLoader) {
+    require: function (srcs, useLoader, callback) {
       if (!srcs) {
         return false;
       }
 
-      if (useLoader === undefined) {
+      if (typeof useLoader !== 'boolean') {
+        callback = useLoader;
         useLoader = true;
       }
 
-      if (typeof srcs === 'string') {
-        return this._useModule(srcs, useLoader);
-      }
-      else if (this._isArray(srcs)) {
-        var result = {};
-        var that = this;
-        this.each(srcs, function (src) {
-          result[src] = that._useModule(src, useLoader);
-        });
+      // check if should be a synchonous require
+      if (callback === undefined) {
+        if (typeof srcs === 'string') {
+          return this._useModule(srcs, useLoader);
+        }
+        else if (this._isArray(srcs)) {
+          var result = {};
+          var that = this;
+          this.each(srcs, function (src) {
+            result[src] = that._useModule(src, useLoader);
+          });
 
-        return result;
+          return result;
+        }
+      } else { // asynchorouse require
+        this._useModuleAsync(srcs, useLoader, callback);
       }
 
       return false;
