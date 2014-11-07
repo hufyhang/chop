@@ -172,6 +172,13 @@ $ch.define('ui', function () {
   $$CHOPEL.button = function (callback) {
     this.el.className += ' chopjs-ui-button';
 
+    this.el.addEventListener('click', function (e) {
+      var element = e.target || e.srcElement;
+      var ink = document.createElement('span');
+      ink.className += ' chopjs-ui-ink';
+      element.appendChild(ink);
+    });
+
     if (callback !== undefined) {
       this.on('click', callback);
     }
