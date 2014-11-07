@@ -12,7 +12,7 @@
   'use strict';
   var root = window;
   // var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
-  var MODULE_LOADER = 'https://cdn.jsdelivr.net/';
+  var MODULE_LOADER = 'http://cdn.jsdelivr.net/g/';
 
   // bind sizzle
   document.querySelector = function (query) {
@@ -1253,7 +1253,8 @@
         if (useLoader === true) {
           if (src.indexOf('/') === -1) {
             // url = MODULE_LOADER + src;
-            url = MODULE_LOADER + 'chopjs-' + src + '/latest/' + src + '.min.js';
+            // url = MODULE_LOADER + 'chopjs-' + src + '/latest/' + src + '.min.js';
+            url = MODULE_LOADER + 'chopjs-' + src;
           }
         }
 
@@ -1299,7 +1300,8 @@
       if (useLoader === true) {
         if (src.indexOf('/') === -1) {
           // url = MODULE_LOADER + src;
-          url = MODULE_LOADER + 'chopjs-' + src + '/latest/' + src + '.min.js';
+          // url = MODULE_LOADER + 'chopjs-' + src + '/latest/' + src + '.min.js';
+          url = MODULE_LOADER + 'chopjs-' + src;
         }
       }
 
