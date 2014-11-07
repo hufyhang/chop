@@ -80,7 +80,7 @@ $ch.define('utils', function () {
       }
 
       var result = [];
-      for (var index = 0; index !== number; ++index) {
+      for (var index = 0; index < number; ++index) {
         result.push(array[index]);
       }
       return result;
@@ -96,7 +96,7 @@ $ch.define('utils', function () {
 
       var result = [];
       for (var index = array.length - number, len = array.length;
-           index !== len; ++index) {
+           index < len; ++index) {
         result.push(array[index]);
       }
       return result;
