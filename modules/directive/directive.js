@@ -41,14 +41,37 @@ $ch.define('directive', function () {
       var customCreated = onCreated;
 
       onCreated = function () {
+        var shadowRoot;
         if (this.createShadowRoot) {
           var shadow = this.createShadowRoot();
           shadow.appendChild(template.content.cloneNode(true));
+          shadowRoot = shadow;
         } else {
           this.appendChild(template.content.cloneNode(true));
+
+          // use DocumentFragment as ShadowRoot
+          shadowRoot = document.createDocumentFragment();
+          var nodes = template.content.cloneNode(true);
+          nodes = Array.prototype.slice.apply(nodes);
+          nodes.forEach(function (node) {
+            shadowRoot.appendChild(node);
+          });
+
+          // now sets all styles in ShadowRoot to only apply on the custom element
+          var styles = this.querySelectorAll('style');
+          for (var i = 0; i !== styles.length; ++i) {
+            var content = styles[i].innerHTML;
+            // match all CSS rules
+            var rules = content.match(/\w.*?{\n?.+?\n?}/g) || [];
+            content = '';
+            rules.forEach(function (rule) {
+              content += tag + ' ' + rule;
+            });
+            styles[i].innerHTML = content;
+          }
         }
 
-        customCreated.apply(this);
+        customCreated.apply(this, [this, shadowRoot]);
 
         var id = this.getAttribute('id');
         if (id !== null) {

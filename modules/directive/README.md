@@ -36,7 +36,7 @@ Or, if `callback` is an object:
 
 ~~~javascript
 $ch.directive.add('my-tag', template, {
-        onCreated: function () {
+        onCreated: function (host, shadowRoot) {
             // an instance of the element is created
         },
         onAttached: function () {
