@@ -88,6 +88,13 @@ $ch.chopEl(`DOMElement`)
 Converts a DOM element into Chop.js element object, and returns the Chop.js
 element object.
 
+`DOMElement` can be either a DOM element or an element string.
+
+$ch.element(`args`)
+-------------------
+
+Alias function to `$ch.chopEl`.
+
 $ch.source(`source`, `data`)
 ----------------------------
 

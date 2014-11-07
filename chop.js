@@ -14,9 +14,6 @@
   // var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
   var MODULE_LOADER = 'https://cdn.jsdelivr.net/';
 
-  // hide everything until ChopJS is completely initialized.
-  document.querySelector('html').style.cssText += 'display: none';
-
   // bind sizzle
   document.querySelector = function (query) {
     if (arguments.length !== 1) {
@@ -167,7 +164,13 @@
 
     appendChild: function (element) {
       if (element !== undefined) {
-        this.el.appendChild(element);
+        var type = Object.prototype.toString.call(element);
+        // if is ChopEl
+        if (type === '[object Object]') {
+          this.el.appendChild(element.el);
+        } else {
+          this.el.appendChild(element);
+        }
       }
       return this;
     },
@@ -175,8 +178,13 @@
     prependChild: function (element) {
       var parent = this.el.parentNode;
       if (element !== undefined && parent !== undefined) {
-        parent.insertBefore(element, this.el);
-
+        var type = Object.prototype.toString.call(element);
+        // if is ChopEl
+        if (type === '[object Object]') {
+          parent.insertBefore(element.el, this.el);
+        } else {
+          parent.insertBefore(element, this.el);
+        }
       }
       return this;
     },
@@ -534,12 +542,22 @@
       return -1;
     },
 
+    element: function () {
+      return this.chopEl.apply(this, arguments);
+    },
+
     chopEl: function (htmlElement) {
       if (htmlElement === undefined) {
         return undefined;
       }
 
       var elt;
+
+      if (typeof htmlElement === 'string') {
+        var el = document.createElement(htmlElement);
+        return this.chopEl(el);
+      }
+
       var elementIndex = this.indexOfElement(htmlElement);
       if (elementIndex === -1) {
         elt = Object.create(chopEl);
@@ -1538,6 +1556,9 @@
   root.$$CHOPVIEW = chopView;
 
   root.onload = function () {
+    // hide everything until ChopJS is completely initialized.
+    document.querySelector('html').style.cssText += 'display: none';
+
     chop._loadMain();
   };
 }(window));
