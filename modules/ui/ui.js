@@ -11,6 +11,17 @@ $ch.define('ui', function () {
     }
 
     var context = baseElement;
+    renderUI(context);
+
+    originalLoadView(baseElement);
+  };
+
+  function renderUI(baseElement) {
+    if (baseElement === undefined || baseElement === null) {
+      baseElement = document;
+    }
+
+    var context = baseElement;
 
     // load from directives
     var els = $$CHOP.findAll('[ch-ui-button]', context);
@@ -43,8 +54,7 @@ $ch.define('ui', function () {
       e.tile();
     });
 
-    originalLoadView(baseElement);
-  };
+  }
 
 
   var hasStyle = $$CHOP.find('.chopjs-ui-style-css') !== undefined;
@@ -360,5 +370,8 @@ $ch.define('ui', function () {
     return this;
   };
 //}}}
+
+  // render UI
+  renderUI();
 
 });
