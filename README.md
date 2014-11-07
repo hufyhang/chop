@@ -148,12 +148,13 @@ Performs a JSONP request.
 
 `callback` is a function and takes a data parameter refers to the loaded JSON.
 
-$ch.define(`name`, `function`)
+$ch.define(`name`[, `require`], `function`)
 ------------------------------
 
 Defines a chop.js module.
 
 - `name`: the name of the module. __Has to be same with filename, but without extension name (i.e. `.js`)__
+- `require`: [__optional__] the modules to be synchronously required.
 - `function`: the function of the module. The return value will be stored in `$ch.module.module_name`.
 
 Each customized module _HAS TO BE_ packed in a module folder.

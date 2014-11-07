@@ -1199,11 +1199,26 @@
       }
     },
 
-    define: function (name, callback) {
+    define: function (name, modules, callback) {
       var originalPath = this._path;
       this._path = this._currentPath.replace(/\/\w+$/, '/');
 
-      var result = callback();
+      if (typeof modules === 'function') {
+        callback = modules;
+        modules = [];
+      }
+
+      if (typeof modules === 'string') {
+        modules = [modules];
+      }
+
+      var buffer = [];
+      var that = this;
+      modules.forEach(function (md) {
+        buffer.push(that.require(md));
+      });
+
+      var result = callback.apply(this, buffer);
       this.modules[name] = result;
 
       this._path = originalPath;
