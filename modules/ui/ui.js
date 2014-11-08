@@ -2,7 +2,10 @@
 $ch.define('ui', function () {
   'use strict';
   // var UI_CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-ui-style';
-  var UI_CSS = 'https://cdn.jsdelivr.net/chopjs-ui/latest/chopjs-ui-style.css';
+  // var UI_CSS = 'https://cdn.jsdelivr.net/chopjs-ui/latest/chopjs-ui-style.css';
+  var UI_CSS = 'https://cdn.jsdelivr.net/chopjs-ui/' + $$CHOP.MODULE_VERSION.ui
+             + '/chopjs-ui-style.css';
+
 
   var originalLoadView = $$CHOP._loadView;
   $$CHOP._loadView = function (baseElement) {

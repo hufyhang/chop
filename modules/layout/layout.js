@@ -3,7 +3,9 @@ $ch.define('layout', function () {
   'use strict';
 
   // var CSS = 'http://feifeihang.info/chop/style.php?q=chopjs-layout';
-  var CSS = 'https://cdn.jsdelivr.net/chopjs-layout/latest/chopjs-layout.css';
+  // var CSS = 'https://cdn.jsdelivr.net/chopjs-layout/latest/chopjs-layout.css';
+  var CSS = 'https://cdn.jsdelivr.net/chopjs-layout/' + $$CHOP.MODULE_VERSION.layout
+             + '/chopjs-layout.css';
 
   var hasStyle = $$CHOP.find('.chopjs-layout-css') !== undefined;
   if (!hasStyle) {

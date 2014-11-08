@@ -12,7 +12,34 @@
   'use strict';
   var root = window;
   // var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
-  var MODULE_LOADER = 'http://cdn.jsdelivr.net/g/';
+  var MODULE_LOADER = 'http://cdn.jsdelivr.net/';
+
+  var MODULE_VERSION = {
+    'aspect'    : '0.1',
+    'connect'   : '0.1',
+    'context'   : '0.1',
+    'crypto'    : '0.1',
+    'directive' : '0.2.1',
+    'event'     : '0.1',
+    'import'    : '0.1',
+    'intl'      : '0.1',
+    'layout'    : '0.3',
+    'math'      : '0.1',
+    'model'     : '0.1',
+    'node'      : '0.1',
+    'promise'   : '0.1',
+    'rdfa'      : '0.1',
+    'regex'     : '0.1',
+    'router'    : '0.2',
+    'state'     : '0.1',
+    'store'     : '0.1',
+    'string'    : '0.1',
+    'svg'       : '0.1',
+    'ui'        : '0.2.1',
+    'utils'     : '0.2',
+    'widget'    : '0.1',
+    'xml'       : '0.1'
+  };
 
   // bind sizzle
   document.querySelector = function (query) {
@@ -555,6 +582,7 @@
 
   // chop//{{{
   var chop = {
+    MODULE_VERSION: MODULE_VERSION,
     _path: '',
     els: [],
     _chopEls: [],
@@ -1286,8 +1314,8 @@
         if (useLoader === true) {
           if (src.indexOf('/') === -1) {
             // url = MODULE_LOADER + src;
-            // url = MODULE_LOADER + 'chopjs-' + src + '/latest/' + src + '.min.js';
-            url = MODULE_LOADER + 'chopjs-' + src;
+            url = MODULE_LOADER + 'chopjs-' + src +
+              '/' + that.MODULE_VERSION[src] + '/' + src + '.min.js';
           }
         }
 
@@ -1333,8 +1361,9 @@
       if (useLoader === true) {
         if (src.indexOf('/') === -1) {
           // url = MODULE_LOADER + src;
-          // url = MODULE_LOADER + 'chopjs-' + src + '/latest/' + src + '.min.js';
-          url = MODULE_LOADER + 'chopjs-' + src;
+          url = MODULE_LOADER + 'chopjs-' + src +
+          '/' + this.MODULE_VERSION[src] + '/' + src + '.min.js';
+
         }
       }
 
