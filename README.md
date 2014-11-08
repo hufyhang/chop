@@ -169,7 +169,7 @@ $ch.require(`module`, `useLoader`[, `callback`])
 
 Requires/loads a chop.js module, and returns the returned value of `module`.
 
-- `module`: chop.js module name. If multiple modules, then in the form of an array.
+- `module`: chop.js module name. If multiple modules, then in the form of an array. If a particular version is needed, Use `@` to indicate. e.g. `$ch.require(['ui@0.2', 'layout'])`.
 - `useLoader`: [__Optional__] either `true` or `false` to define if to use
 Chop.js online module loader. Default: `true`.
 

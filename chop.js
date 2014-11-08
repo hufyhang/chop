@@ -1313,9 +1313,12 @@
 
         if (useLoader === true) {
           if (src.indexOf('/') === -1) {
+            var tokens = src.split('@');
+            src = tokens[0];
+            var version = tokens.length === 2 ? tokens[1] : that.MODULE_VERSION[src];
             // url = MODULE_LOADER + src;
             url = MODULE_LOADER + 'chopjs-' + src +
-              '/' + that.MODULE_VERSION[src] + '/' + src + '.min.js';
+              '/' + version + '/' + src + '.min.js';
           }
         }
 
@@ -1360,9 +1363,12 @@
 
       if (useLoader === true) {
         if (src.indexOf('/') === -1) {
+         var tokens = src.split('@');
+         src = tokens[0];
+         var version = tokens.length === 2 ? tokens[1] : this.MODULE_VERSION[src];
           // url = MODULE_LOADER + src;
           url = MODULE_LOADER + 'chopjs-' + src +
-          '/' + this.MODULE_VERSION[src] + '/' + src + '.min.js';
+          '/' + version + '/' + src + '.min.js';
 
         }
       }
