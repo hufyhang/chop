@@ -247,9 +247,33 @@
       return this;
     },
 
+    _animateStep: 10,
+    animateAttr: function (element, attrs, duration, step) {
+      var shouldSet = true;
+      if (step === undefined) {
+        step = 0;
+      }
+      var keys = Object.keys(attrs);
+      var that = this;
+      step += this._animateStep;
+      if (step >= duration) {
+        shouldSet = false;
+      }
+      keys.forEach(function (k) {
+        element[k] += attrs[k];
+      });
+      if (shouldSet) {
+        setTimeout(function () {
+          that.animateAttr(element, attrs, duration, step);
+        }, that._animateStep);
+      }
+    },
+
     animate: function (style, options, callback) {
       if (typeof style === 'object') {
         var buf = [];
+        var attrs = {};
+        var that = this;
         var duration, easing;
         if (typeof options === 'number') {
           duration = options;
@@ -268,10 +292,19 @@
 
         buf = [];
         chop.each(style, function (key, value) {
-          buf.push(key + ': ' + value + ';');
+          if (that.el[key] !== undefined && typeof value === 'number') {
+            attrs[key] = (value - that.el[key]) / duration * that._animateStep;
+          } else {
+            buf.push(key + ': ' + value + ';');
+          }
         });
 
         this.el.style.cssText += buf.join('');
+        var keys = Object.keys(attrs);
+        if (keys.length !== 0) {
+          this.animateAttr(this.el, attrs, duration);
+        }
+
         if (typeof callback === 'function') {
           window.setTimeout(callback, duration);
         }
