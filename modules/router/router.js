@@ -52,9 +52,12 @@ $ch.define('router', function () {
       }
 
       if (this.getFragment() !== '' && deepLinked === false) {
-        isDeepLinking = true;
-      }
+        // isDeepLinking = true;
 
+        // isDeepLinking = false;
+        $$CHOP.router.navigate();
+
+      }
       return true;
     },
     remove: function(re) {
@@ -143,5 +146,4 @@ $ch.define('router', function () {
       return this;
     }
   };
-
 });
