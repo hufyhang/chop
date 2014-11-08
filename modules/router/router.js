@@ -12,6 +12,10 @@ $ch.define('router', function () {
 
   $$CHOP._afterLoadView = function () {
     afterLoadView();
+    checkDeepLinking();
+  };
+
+  var checkDeepLinking = function () {
     if (isDeepLinking) {
       isDeepLinking = false;
       $$CHOP.router.navigate();
@@ -52,12 +56,9 @@ $ch.define('router', function () {
       }
 
       if (this.getFragment() !== '' && deepLinked === false) {
-        // isDeepLinking = true;
-
-        // isDeepLinking = false;
-        $$CHOP.router.navigate();
-
+        isDeepLinking = true;
       }
+      checkDeepLinking();
       return true;
     },
     remove: function(re) {
