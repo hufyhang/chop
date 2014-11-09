@@ -1315,7 +1315,9 @@
           if (src.indexOf('/') === -1) {
             var tokens = src.split('@');
             src = tokens[0];
-            var version = tokens.length === 2 ? tokens[1] : that.MODULE_VERSION[src];
+            var version = tokens.length === 2
+                ? tokens[1]
+                : that.MODULE_VERSION[src] || 'latest';
             // url = MODULE_LOADER + src;
             url = MODULE_LOADER + 'chopjs-' + src +
               '/' + version + '/' + src + '.min.js';
@@ -1365,7 +1367,9 @@
         if (src.indexOf('/') === -1) {
          var tokens = src.split('@');
          src = tokens[0];
-         var version = tokens.length === 2 ? tokens[1] : this.MODULE_VERSION[src];
+         var version = tokens.length === 2
+              ? tokens[1]
+              : this.MODULE_VERSION[src] || 'latest';
           // url = MODULE_LOADER + src;
           url = MODULE_LOADER + 'chopjs-' + src +
           '/' + version + '/' + src + '.min.js';
