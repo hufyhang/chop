@@ -6,11 +6,7 @@ A Super Light-Weight JavaScript Framework
 Browser support
 ===============
 
-- IE: 8+
-- Chrome: 30+
-- Firefox: 4+
-- Safari: 5+
-- Opera: 11+
+ChopJS supports most major modern browsers, however, for Internet Explorer, only IE9+ is supported.
 
 Usage
 =====
