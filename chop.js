@@ -14,6 +14,7 @@
   // var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
   var MODULE_LOADER = 'http://cdn.jsdelivr.net/';
 
+  // module versions: define the versions of each official module to be shipped with ChopJS
   var MODULE_VERSION = {
     'aspect'    : '0.1',
     'connect'   : '0.1',

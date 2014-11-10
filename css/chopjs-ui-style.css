@@ -1,4 +1,6 @@
 /* Chop.js Framework UI module CSS */
+@import url('http://fonts.googleapis.com/css?family=Open+Sans:400,300');
+
 *, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

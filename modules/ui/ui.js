@@ -6,9 +6,6 @@ $ch.define('ui', function () {
   var UI_CSS = 'https://cdn.jsdelivr.net/chopjs-ui/' + $$CHOP.MODULE_VERSION.ui
              + '/chopjs-ui-style.css';
 
-  var GOOGLE_FONT = 'http://fonts.googleapis.com/css?family=Open+Sans:400,300';
-
-
   var originalLoadView = $$CHOP._loadView;
   $$CHOP._loadView = function (baseElement) {
     if (baseElement === undefined || baseElement === null) {
@@ -60,13 +57,6 @@ $ch.define('ui', function () {
     });
 
   }
-
-  // add Open Sans font from Google
-  var font = document.createElement('link');
-  font.setAttribute('rel', 'stylesheet');
-  font.setAttribute('type', 'text/css');
-  font.setAttribute('href', GOOGLE_FONT);
-  document.head.appendChild(font);
 
   // add ChopJS UI CSS
   var hasStyle = $$CHOP.find('.chopjs-ui-style-css') !== undefined;
