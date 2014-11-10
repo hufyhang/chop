@@ -1,6 +1,9 @@
 chop.js widget framework
 =========================
 
+THIS IS AN EXPERIMENTAL MODULE
+-------------------------------
+
 Dependences
 -----------
 
