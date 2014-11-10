@@ -1,5 +1,5 @@
 /* global $ch */
-$ch.require(['ui', 'router', 'event', 'my-addon']);
+$ch.require(['ui', 'router', 'event', './my-addon']);
 
 $ch.find('#name-input').input().focus();
 $ch.find('#age-input').input();
