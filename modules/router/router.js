@@ -88,60 +88,64 @@ $ch.define('router', function () {
         window.location.href.match(/#(.*)$/);
         window.location.href = window.location.href.replace(/#(.*)$/, '') + '#' + path;
       }
-      var re = this.getFragment(path);
-      var params = {};
+      else {
 
-      var keys = Object.keys(this.routes);
-      for (var index = 0, l = keys.length; index !== l; ++index) {
-        var exp = keys[index];
-        exp = exp.replace(/:\w+/g, '.+');
-        var regex = new RegExp('^' + exp + '$');
+        var re = this.getFragment(path);
+        var params = {};
 
-        // find matched routing pattern
-        var matchedUrl = re.match(regex);
-        if (matchedUrl !== null) {
-          var routePath = keys[index];
-          var order = [];
+        var keys = Object.keys(this.routes);
+        for (var index = 0, l = keys.length; index !== l; ++index) {
+          var exp = keys[index];
+          exp = exp.replace(/:\w+/g, '.+');
+          var regex = new RegExp('^' + exp + '$');
 
-          var founds = routePath.match(/:\w+/g);
-          if (founds !== null) {
-            var i, len;
-            var parts = routePath.split('/');
-            // extract param patterns and order from routing setup
-            for (i = 0, len = founds.length; i !== len; ++i) {
-              var found = founds[i];
-              var pos = parts.indexOf(found);
-              var name = found.replace(/:/, '');
-              if (pos !== -1 && params[name] === undefined) {
-                order.push(pos);
-                params[name] = '';
+          // find matched routing pattern
+          var matchedUrl = re.match(regex);
+          if (matchedUrl !== null) {
+            var routePath = keys[index];
+            var order = [];
+
+            var founds = routePath.match(/:\w+/g);
+            if (founds !== null) {
+              var i, len;
+              var parts = routePath.split('/');
+              // extract param patterns and order from routing setup
+              for (i = 0, len = founds.length; i !== len; ++i) {
+                var found = founds[i];
+                var pos = parts.indexOf(found);
+                var name = found.replace(/:/, '');
+                if (pos !== -1 && params[name] === undefined) {
+                  order.push(pos);
+                  params[name] = '';
+                }
+              }
+
+              // now extract url params according to fetched param order
+              parts = re.split('/');
+              var keyNames = Object.keys(params);
+              for (i = 0, len = order.length; i !== len; ++i) {
+                var number = order[i];
+                params[keyNames[i]] = parts[number];
               }
             }
+          }
+        }
 
-            // now extract url params according to fetched param order
-            parts = re.split('/');
-            var keyNames = Object.keys(params);
-            for (i = 0, len = order.length; i !== len; ++i) {
-              var number = order[i];
-              params[keyNames[i]] = parts[number];
+        // finally, find and fire coresponding callback function
+        keys = Object.keys(this.routes);
+        for (var ii = 0; ii !== keys.length; ++ii) {
+          var pattern = keys[ii];
+          var original = keys[ii];
+          if (pattern !== undefined) {
+            pattern = pattern.replace(/\//g, '\\\/');
+            pattern = pattern.replace(/:\w+/g, '.+');
+            var regexp = new RegExp(pattern);
+            if (re.match(regexp) !== null) {
+              this.routes[original](params);
             }
           }
         }
-      }
 
-      // finally, find and fire coresponding callback function
-      keys = Object.keys(this.routes);
-      for (var ii = 0; ii !== keys.length; ++ii) {
-        var pattern = keys[ii];
-        var original = keys[ii];
-        if (pattern !== undefined) {
-          pattern = pattern.replace(/\//g, '\\\/');
-          pattern = pattern.replace(/:\w+/g, '.+');
-          var regexp = new RegExp(pattern);
-          if (re.match(regexp) !== null) {
-            this.routes[original](params);
-          }
-        }
       }
 
       return this;
