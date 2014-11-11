@@ -275,6 +275,14 @@
       return this;
     },
 
+    submit: function () {
+      if (this.el.submit) {
+        this.el.submit();
+      } else {
+        return false;
+      }
+    },
+
     _animateStep: 10,
     animateAttr: function (element, attrs, duration, step) {
       var shouldSet = true;

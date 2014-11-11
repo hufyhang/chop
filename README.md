@@ -282,6 +282,11 @@ toggleClass(`class`)
 
 Toggles `class`.
 
+submit()
+--------------
+
+Submits the form element, otherwise returns `false`.
+
 animate(`style`, `options`[, `callback`])
 ------------------
 
