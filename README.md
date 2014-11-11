@@ -17,6 +17,11 @@ Put the following code at the bottom of `body` tag:
 
 - The `ch-main` attribute indicates the entry point/script of the web page.
 
+ChopJS Modules
+==============
+
+See [module page](https://github.com/hufyhang/chop/tree/master/modules)
+
 APIs - HTML attributes
 ===========
 
