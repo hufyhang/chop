@@ -204,14 +204,14 @@
     },
 
     prependChild: function (element) {
-      var parent = this.el.parentNode;
+      var parent = this.el;
       if (element !== undefined && parent !== undefined) {
         var type = Object.prototype.toString.call(element);
         // if is ChopEl
         if (type === '[object Object]') {
-          parent.insertBefore(element.el, this.el);
+          parent.insertBefore(element.el, parent.firstElementChild);
         } else {
-          parent.insertBefore(element, this.el);
+          parent.insertBefore(element, parent.firstElementChild);
         }
       }
       return this;
