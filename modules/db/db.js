@@ -21,7 +21,7 @@ $ch.define('db', function () {
   // WebSQL
   // -------
   // WebSQL constructor takes `name`, `version`, `description`,
-  // and `size in MB` as parameters.
+  // and `size` as parameters.
   function WebSQL(name, version, desc, size) {
     // If browser doesn't support WebSQL, throw error.
     if (!openDatabase) {
@@ -77,7 +77,7 @@ $ch.define('db', function () {
       }
 
       // Create a WebSQL callback object.
-      var callback = new WebSQLCallback();
+      var callback = new WebSQLCallback(this);
 
       // Start WebSQL transaction.
       this.db.transaction(function (tx) {
@@ -110,13 +110,20 @@ $ch.define('db', function () {
   };
 
   // WebSQL Callback
-  function WebSQLCallback() {
+  function WebSQLCallback(websql) {
+    this.websql = websql;
     this.errorCb = function () {return;};
     this.successCb = function () {return;};
   }
 
   // Attach `done` method to WebSQL Callback prototype.
   WebSQLCallback.prototype = {
+    // Alias of ChopJS WebSQL `query` metdh.
+    // Put here to enable chainable operation.
+    query: function () {
+      return this.websql.query.apply(this.websql, arguments);
+    } ,
+
     // `done` takes a success callback and
     // an optional error callback as parameters.
     done: function (success, error) {
@@ -126,6 +133,9 @@ $ch.define('db', function () {
       if (error) {
         this.errorCb = error;
       }
+
+      // Return `this` to enable chainable operation.
+      return this;
     }
   };
 
