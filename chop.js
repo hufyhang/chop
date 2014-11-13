@@ -20,6 +20,7 @@
     'connect'   : '0.1',
     'context'   : '0.1',
     'crypto'    : '0.1',
+    'db'        : '0.1',
     'directive' : '0.2.1',
     'event'     : '0.1',
     'import'    : '0.1',
