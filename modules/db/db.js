@@ -37,11 +37,16 @@ $ch.define('db', function () {
     // Set WebSQL information.
     this.dbName = name;
     this.dbVersion = version || '1.0';
-    this.dbDesc = desc || 'A WebSQL database manupulated via ChopJS';
+    this.dbDesc = desc || 'A WebSQL database manipulated via ChopJS';
     this.dbSize = size || WEBSQL_SIZE;
-    // If `version` is a number, makes it into a string.
+    // If `version` is a number, make it into a string.
     if (typeof this.dbVersion === 'number') {
       this.dbVersion = this.dbVersion + '';
+    }
+
+    // If `size` is a string, make it into a number (integer).
+    if (typeof this.dbSize === 'string') {
+      this.dbSize = parseInt(this.dbSize, 10);
     }
 
     // Now open the WebSQL database
