@@ -54,67 +54,73 @@ $ch.define('db', function () {
   WebSQL.prototype = {
 
     // Let's call `executeSql` method `query` for short.
-    // Also, `query` should either take an object-type
-    // or an array of objects as parameter.
-    // Below is an example of an acceptable parameter.
-    // ~~~javascript
-    // {'SELECT * FROM ?': {
-    //      data: ['foo'],
-    //      done: function (tx, error, rows) {
-    //        if (error) {
-    //          console.log(error.message);
-    //        }
-    //        console.log(rows[0].bar);
-    //      }
-    //    }
-    // }
-    // ~~~
-    query: function (param) {
+    // `query` takes a SQL string and an optional data array as parameters.
+    query: function (sql, data) {
       // If no parameter presented, throw an error.
       if (arguments.length === 0) {
         throw new Error('ChopJS WebSQL query requires a parameter.');
       }
 
-      // If parameter is not an array, make it be.
-      if (!$$CHOP._isArray(param)) {
-        param = [param];
+      // If the type of `sql` is not string, throw an error.
+      if (typeof sql !== 'string') {
+        throw new Error('ChopJS WebSQL query requires a string-type SQL parameter.');
       }
+
+      // If no `data` presented, make it an empty array.
+      if (!data) {
+        data = [];
+      }
+
+      // Create a WebSQL callback object.
+      var callback = new WebSQLCallback();
 
       // Start WebSQL transaction.
       this.db.transaction(function (tx) {
-        // Now iterate through all queries.
-        $$CHOP.each(param, function (q) {
-          // Get the query by `Object.keys`
-          var sql = Object.keys(q)[0];
-          // Get query data. If not provided, set it to empty array.
-          var data = q[sql].data || [];
-          // Get query callback. If not provided, set to empty return function.
-          var done = q[sql].done || function () {return;};
-          // Error callback.
-          var errorCb = function (tx, error) {
-            // Call `done` and pass `error`.
-            done.apply(this, [tx, error]);
-          };
+        // Error callback.
+        var errorCb = function (tx, error) {
+          // Invoke error callback.
+          callback.errorCb.apply(this, [tx, error]);
+        };
 
-          // Success callback.
-          var successCb = function (tx, result) {
-            // Convert query results into an array.
-            var results = [];
-            var len = result.rows.length;
-            for (var i = 0; i !== len; ++i) {
-              results.push(result.rows.item(i));
-            }
+        // Success callback.
+        var successCb = function (tx, result) {
+          // Convert query results into an array.
+          var results = [];
+          var len = result.rows.length;
+          for (var i = 0; i !== len; ++i) {
+            results.push(result.rows.item(i));
+          }
 
-            // Call `done`.
-            // Pass `undefined` for no errors.
-            done.apply(this, [tx, undefined, results]);
-          };
+          // Invoke success callback.
+          callback.successCb.apply(this, [tx, results]);
+        };
 
-          // Execute SQL now.
-          tx.executeSql(sql, data, successCb, errorCb);
-        });
+        // Execute SQL now.
+        tx.executeSql(sql, data, successCb, errorCb);
       });
 
+      // Return WebSQL Callback object to allow `done` invocation.
+      return callback;
+    }
+  };
+
+  // WebSQL Callback
+  function WebSQLCallback() {
+    this.errorCb = function () {return;};
+    this.successCb = function () {return;};
+  }
+
+  // Attach `done` method to WebSQL Callback prototype.
+  WebSQLCallback.prototype = {
+    // `done` takes a success callback and
+    // an optional error callback as parameters.
+    done: function (success, error) {
+      if (success) {
+        this.successCb = success;
+      }
+      if (error) {
+        this.errorCb = error;
+      }
     }
   };
 
