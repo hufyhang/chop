@@ -28,10 +28,11 @@ $ch.define('db', function () {
       throw new Error('WebSQL is not supported by the browser.');
     }
 
-    // It is not good if there is no parameters presented.
+    // It is not good if there is no parameters presented,
+    // i.e. `name` is `undefined` here.
     // In that case, throw an error.
-    if (arguments.length === 0) {
-      throw new Error('$ch.db.websql requires at least one parameter.');
+    if (name === undefined) {
+      throw new Error('$ch.db.websql requires at least a string-type database name parameter.');
     }
 
     // Set WebSQL information.
