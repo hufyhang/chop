@@ -91,6 +91,15 @@ module.exports = function (grunt) {
       }
     },
 
+    docco: {
+      docs: {
+        src: ['chop.js', 'modules/**/*.js'],
+        options: {
+          output: 'docs/'
+        }
+      }
+    },
+
     notify_hooks: {
       options: {
         enabled: true,
@@ -112,5 +121,6 @@ module.exports = function (grunt) {
   grunt.task.run('notify_hooks');
   grunt.registerTask('serve', ['watch']);
   grunt.registerTask('build', ['uglify', 'sass', 'copy', 'cssmin', 'notify:build_done']);
+  grunt.registerTask('docs', ['docco']);
 
 };
