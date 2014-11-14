@@ -1,20 +1,27 @@
+//  ChopJS
+//  ==========
+// ~~~txt
+//  Licensed under the MIT license
+//  Copyright (c) Feifei Hang, 2014
+//  https://github.com/hufyhang/chop
+// ~~~
+
+// Allow multi-line strings in JSHint.
 /* jshint multistr:true */
-/*
-
-  chop.js
-  Licensed under the MIT license
-  Copyright (c) Feifei Hang, 2014
-  https://github.com/hufyhang/chop
-
-*/
+// JSHint global varaibles.
+/* global Sizzle */
 
 (function (window, undefined) {
   'use strict';
+
+  // Set `root` to `window`.
+  // ChopJS namespace is gonna be attached to `root`.
   var root = window;
-  // var MODULE_LOADER = 'http://feifeihang.info/chop/loader.php?module=';
+
+  // Use [jsDelivr](http://jsdelivr.com) as module CDN.
   var MODULE_LOADER = 'http://cdn.jsdelivr.net/';
 
-  // module versions: define the versions of each official module to be shipped with ChopJS
+  // Define the versions of each official module to be shipped with ChopJS.
   var MODULE_VERSION = {
     'aspect'    : '0.1',
     'connect'   : '0.1',
@@ -43,7 +50,9 @@
     'xml'       : '0.1'
   };
 
-  // bind sizzle
+  // Use [Sizzle](http://sizzlejs.com/) as CSS selector engine to ensure
+  // `querySelector` and `querySelectorAll` are available even in those
+  // browsers which do no support CSS selector.
   document.querySelector = function (query) {
     if (arguments.length !== 1) {
       throw new Error ('$ch.find requires one query parameter.');
@@ -64,6 +73,7 @@
     return Sizzle(query);
   };
 
+  // Attach `querySelector` to `Element` prototype to enable selecting in context.
   Element.prototype.querySelector = function (query) {
     if (arguments.length !== 1) {
       throw new Error ('$ch.find requires one query parameter.');
@@ -77,6 +87,7 @@
     return el;
   };
 
+  // Attach `querySelectorAll` to `Element` prototype.
   Element.prototype.querySelectorAll = function (query) {
     if (arguments.length !== 1) {
       throw new Error ('$ch.findAll requires one query parameter.');
@@ -84,11 +95,18 @@
     return Sizzle(query, this);
   };
 
-  // browser utils functions//{{{
+  // ___isArray(obj)__
+  //
+  // Returns `true`/`false` to tell if `obj` is an array.
+  // ~~~javascript
+  // $ch._isArray([1, 2, 3]); // true
+  // $ch._isArray({name: 'someone'}); // false
+  // ~~~
   var _isArray = function (value) {
     return Object.prototype.toString.call(value) === '[object Array]';
   };
 
+  // If the browser does not support `Object.create`, make it available.
   if (!Object.create) {
     Object.create = (function(){
       function F(){}
@@ -103,6 +121,7 @@
     })();
   }
 
+  // If the browser does not support `Object.keys`, make it available.
   if (!Object.keys) {
     Object.keys = function(obj) {
       var keys = [];
@@ -117,12 +136,21 @@
     };
   }
 
-//}}}
-
-  // chop.js view//{{{
+  // ChopJS View
+  // -------------
   var chopView = {
+    // `el` is to keep an reference of the DOM element.
     el: undefined,
+    // To define the HTML of the ChopJS view,
+    // assign `html` to either an HTML string or
+    // a function that returns an HTML string.
     html: '',
+    // __render()__
+    //
+    // Call to render the ChopJS view object.
+    // ~~~javascript
+    // v.render(); // v is a ChopJS View object.
+    // ~~~
     render: function () {
       var html;
       if (typeof this.html === 'function') {
@@ -139,17 +167,34 @@
       }
     }
   };
-//}}}
 
-  // chop.js html element//{{{
+  // ChopJS Element
+  // ---------------
   var chopEl = {
+    // Keep an reference to the DOM element.
     el: undefined,
     _views: [],
+    // __focus()__
+    //
+    // Call to get the ChopJS element focused.
+    // ~~~javascript
+    // var e = $ch.find('input[type=text]');
+    // e.focus();
+    // ~~~
     focus: function () {
       this.el.focus();
       return this;
     },
 
+    // __val([`value`])__
+    //
+    // If `value` is presented, set value to `value`.
+    // Otherwise, return current value.
+        // ~~~javascript
+    // var e = $ch.find('input[type=text]');
+    // e.val('Hello world!!!');
+    // return e.val(); // 'Hello world!!!'
+    // ~~~
     val: function (val) {
       if (val !== undefined) {
         this.el.value = val;
@@ -159,6 +204,15 @@
       }
     },
 
+    // __html([`html`])__
+    //
+    // If `html` is presented, set inner HTML to `html`.
+    // Otherwise, return current inner HTML.
+    // ~~~javascript
+    // var e = $ch.find('#banner');
+    // e.html('<div>Banner</div>');
+    // return e.html(); // '<div>Banner</div>'
+    // ~~~
     html: function (html) {
       if (html !== undefined) {
         this.el.innerHTML = html;
@@ -168,6 +222,15 @@
       }
     },
 
+    // __content(`data`)__
+    //
+    // If `data` is presented, set text content to `data`.
+    // Otherwise, return current text content.
+    // ~~~javascript
+    // var e = $ch.find('#banner');
+    // e.content('This is a banner.');
+    // return e.content(); // 'This is a banner.'
+    // ~~~
     content: function (data) {
       if (data === undefined) {
         return this.el.textContent;
@@ -177,6 +240,15 @@
       }
     },
 
+    // __append(`html`)__
+    //
+    // Append `html` to inner HTML.
+    // ~~~javascript
+    // var e = $ch.find('#banner');
+    // e.html('<div>Banner</div>');
+    // e.append('<div>ChopJS</div>');
+    // return e.html(); // '<div>Banner</div><div>ChopJS</div>'
+    // ~~~
     append: function (html) {
       if (html !== undefined) {
         this.el.innerHTML = this.el.innerHTML + html;
@@ -184,6 +256,15 @@
       return this;
     },
 
+    // __prepend(`html`)__
+    //
+    // Prepend `html` to inner HTML.
+    // ~~~javascript
+    // var e = $ch.find('#banner');
+    // e.html('<div>Banner</div>');
+    // e.prepend('<div>ChopJS</div>');
+    // return e.html(); // '<div>ChopJS</div><div>Banner</div>'
+    // ~~~
     prepend: function (html) {
       if (typeof html === 'string') {
         this.el.innerHTML = html + this.el.innerHTML;
@@ -191,10 +272,21 @@
       return this;
     },
 
+    // __appendChild(`element`)__
+    //
+    // Append `element` as child node.
+    // ~~~javascript
+    // var e = $ch.find('#banner');
+    // var div = document.createElement('div');
+    // e.appendChild(div);
+    // var span = $ch.element('span');
+    // e.appendChild(span);
+    // ~~~
     appendChild: function (element) {
       if (element !== undefined) {
         var type = Object.prototype.toString.call(element);
-        // if is ChopEl
+        // If `element` is a ChopJS element, append its `el`.
+        // Otherwise, just directly append `element`.
         if (type === '[object Object]') {
           this.el.appendChild(element.el);
         } else {
@@ -204,11 +296,22 @@
       return this;
     },
 
+    // __prependChild(`element`)__
+    //
+    // Prepend `element` as a child node.
+    // ~~~javascript
+    // var e = $ch.find('#banner');
+    // var div = document.createElement('div');
+    // e.prependChild(div);
+    // var span = $ch.element('span');
+    // e.prependChild(span);
+    // ~~~
     prependChild: function (element) {
       var parent = this.el;
       if (element !== undefined && parent !== undefined) {
         var type = Object.prototype.toString.call(element);
-        // if is ChopEl
+        // If `element` is a ChopJS element, prepend its `el`.
+        // Otherwise, just directly prepend `element`.
         if (type === '[object Object]') {
           parent.insertBefore(element.el, parent.firstElementChild);
         } else {
@@ -218,6 +321,15 @@
       return this;
     },
 
+    // __scrollTop(`val`)__
+    //
+    // If `val` is presented, set scroll top value to `val`.
+    // Otherwise, return current scroll top value.
+    // ~~~javascript
+    // var e = $ch.find('#banner');
+    // e.scrollTop(0);
+    // return e.scrollTop(); // 0
+    // ~~~
     scrollTop: function (val) {
       if (typeof val === 'number') {
         this.el.scrollTop = val;
@@ -227,6 +339,15 @@
       }
     },
 
+    // __scrollLeft(`val`)__
+    //
+    // If `val` is presented, set scroll left value to `val`.
+    // Otherwise, return current scroll left value.
+    // ~~~javascript
+    // var e = $ch.find('#banner');
+    // e.scrollLeft(0);
+    // return e.scrollLeft(); // 0
+    // ~~~
     scrollLeft: function (val) {
       if (typeof val === 'number') {
         this.el.scrollLeft = val;
@@ -236,6 +357,13 @@
       }
     },
 
+    // __offset()__
+    //
+    // Get all offset values, including offset left, top,
+    // width, height, and parent.
+    // ~~~javascript
+    // $ch.find('#banner').offset();
+    // ~~~
     offset: function () {
       return {
         left: this.el.offsetLeft,
@@ -246,6 +374,12 @@
       };
     },
 
+    // __addClass(`cls`)__
+    //
+    // Add class name `cls`.
+    // ~~~javascript
+    // $ch.find('#banner').addClass('highlight');
+    // ~~~
     addClass: function (cls) {
       if (typeof cls === 'string') {
         this.el.className += ' ' + cls;
@@ -253,15 +387,32 @@
       return this;
     },
 
+    // __removeClass(`cls)__
+    //
+    // Remove `cls` from class name.
+    // ~~~javascript
+    // $ch.find('#banner').removeClass('highlight');
+    // ~~~
     removeClass: function (cls) {
       if (typeof cls === 'string') {
+        // Use regex to replace all `cls` (with potential
+        //  leading and trailing whitespace) to an empty string.
         var reg = new RegExp('\\ ?' + cls + '\\ ?', 'g');
         this.el.className = this.el.className.replace(reg, '');
       }
       return this;
     },
 
+    // __toggleClass(`cls`)__
+    //
+    // Toggle class `cls`.
+    //
+    // ~~~javascript
+    // $ch.find('#banner').toggleClass('highlight');
+    // ~~~
     toggleClass: function (cls) {
+      // Same as `addClass` and `removeClass`.
+      // Just make sure to detect the existence of `cls` in class name first.
       if (typeof cls === 'string') {
         var reg = new RegExp('\\ ?' + cls + '\\ ?', 'g');
         var hasClass = this.el.className.match(reg) !== null;
@@ -276,6 +427,14 @@
       return this;
     },
 
+    // __submit()__
+    //
+    // If this ChopJS element refers to a form element,
+    // submit the form. Otherwise, return `false`.
+    //
+    // ~~~javascript
+    // $ch.find('form').submit();
+    // ~~~
     submit: function () {
       if (this.el.submit) {
         this.el.submit();
@@ -284,21 +443,38 @@
       }
     },
 
+    // Define the increasing value of each step of animation.
     _animateStep: 10,
+
+    // This API here supposes to be a private method.
     animateAttr: function (element, attrs, duration, step) {
       var shouldSet = true;
+
+      // Set `step` to 0 if it is the first this animation is being proceed.
       if (step === undefined) {
         step = 0;
       }
+
+      // Get the names of all the attributes to be transformed.
       var keys = Object.keys(attrs);
       var that = this;
+
+      // Increase the step counter.
       step += this._animateStep;
+      // If step counter is no less than `duration`,
+      // set `shouldSet` to `false` to stop the animation.
       if (step >= duration) {
         shouldSet = false;
       }
+
+      // Iterate through all attributes to be transformed,
+      // and increase the current value of each of them.
       keys.forEach(function (k) {
         element[k] += attrs[k];
       });
+
+      // If the animation should keep proceeding,
+      // set a timeout to the execution of the next step transformation.
       if (shouldSet) {
         setTimeout(function () {
           that.animateAttr(element, attrs, duration, step);
@@ -306,6 +482,21 @@
       }
     },
 
+    // __animate(`style/attr`, `options`[, `callback`])__
+    //
+    // Execute an animation on transforming the style or
+    // attributes of the ChopJS element.
+    // + `style/attr`: either CSS style (e.g. `background`)
+    // or DOM attribute (e.g. `scrollTop`) in the form of an object.
+    // + `options`: either the animation duration in milliseconds,
+    // or an object declaring the duration and CSS easing style (e.g. `ease-out`).
+    // + `callback`: a callback function to be fired once the animation is done.
+    //
+    // ~~~javascript
+    // $ch.find('#content').animate({
+    //          background: 'orange',
+    //          scrollTop: 0}, 2000);
+    // ~~~
     animate: function (style, options, callback) {
       if (typeof style === 'object') {
         var buf = [];
@@ -321,13 +512,19 @@
          easing = options.easing;
         }
 
+        // Build up the CSS transition declaration,
+        // and don't forget those prefixes.
         buf.push('transition: all ' + duration + 'ms ' + easing + ';');
         buf.push('-webkit-transition: all ' + duration + 'ms ' + easing + ';');
         buf.push('-ms-transition: all ' + duration + 'ms ' + easing + ';');
         buf.push('-moz-transition: all ' + duration + 'ms ' + easing + ';');
+        // Append the transition style to `cssText`.
         this.el.style.cssText += buf.join('');
 
         buf = [];
+        // Iterate through all `style`.
+        // For CSS styles, build up style declaration and push to `buf` buffer.
+        // For DOM element attribute, calculate the increasing rate in animation.
         chop.each(style, function (key, value) {
           if (that.el[key] !== undefined && typeof value === 'number') {
             attrs[key] = (value - that.el[key]) / duration * that._animateStep;
@@ -336,12 +533,16 @@
           }
         });
 
+        // Append all CSS styles to `cssText`.
         this.el.style.cssText += buf.join('');
+        // For DOM element attributes, invoke `animateAttr`.
         var keys = Object.keys(attrs);
         if (keys.length !== 0) {
           this.animateAttr(this.el, attrs, duration);
         }
 
+        // If `callback` is presented, postpone its execution
+        // until the animation is finished.
         if (typeof callback === 'function') {
           window.setTimeout(callback, duration);
         }
@@ -350,6 +551,13 @@
       return this;
     },
 
+    // __get(`attr`)__
+    //
+    // Get the attribute value of `attr`.
+    //
+    // ~~~javascript
+    // $ch.find('form').get('className');
+    // ~~~
     get: function (item) {
       if (typeof item !== 'string') {
         throw new Error('ChopJS Element "get" expects a string-type parameter.');
@@ -357,7 +565,16 @@
       return this.el[item];
     },
 
+    // __set(`attr`, `val`)__
+    //
+    // Set the value of attribute `attr to `val`.
+    //
+    // ~~~javascript
+    // $ch.find('form').set('action', 'http://www.example.com/submit.php');
+    // ~~~
     set: function (item, value) {
+      // Check and make sure both `item` and `value` are presented.
+      // Otherwise, we got nothing to `set`.
       if (typeof item !== 'string') {
         throw new Error('ChopJS Element "set" expects a string-type parameter to indicate property.');
       }
@@ -370,6 +587,17 @@
       return this;
     },
 
+    // __attr([`key`, `value`])__
+    //
+    // If `value` is presented, set the value of attribute `key` to `value`.
+    // If only `key` is provided, return the value of attribute `key`.
+    // Otherwise, return all attributes.
+    //
+    // ~~~javascript
+    // $ch.find('form').attr('method', 'post');
+    // $ch.find('form').attr('method');
+    // $ch.find('form').attr();
+    // ~~~
     attr: function (key, value) {
       if (arguments.length === 0) {
         return this.el.attributes;
@@ -386,6 +614,13 @@
       }
     },
 
+    // __hasAttr(`attr`)__
+    //
+    // Check if the ChopJS element has attribute `attr`.
+    //
+    // ~~~javascript
+    // $ch.find('form').hasAttr('method');
+    // ~~~
     hasAttr: function (key) {
       if (typeof key !== 'string') {
         throw new Error('.hasAttr requires a string type parameter.');
@@ -394,7 +629,17 @@
       return this.el.hasAttribute(key);
     },
 
+    // __removeAttr(`attr`)__
+    //
+    // Remove attribute `attr` from the ChopJS element.
+    //
+    // ~~~javascript
+    // $ch.find('form').removeAttr('action');
+    // $ch.find('form').removeAttr(['action', 'method']);
+    // ~~~
     removeAttr: function (key) {
+      // If `key` is an array of attributes,
+      // iterate though all the attributes and remove them.
       if (chop.isArray(key)) {
         chop.each(key, function (attr) {
           this.el.removeAttribute(attr);
@@ -407,15 +652,46 @@
       return this;
     },
 
-    on: function (evt, callback) {
-      if (arguments.length !== 2) {
-        throw new Error('$ch.on requires an event and a callback parameter.');
+    // __on(`evt`, `callback`[, `useCapture`])__
+    //
+    // Register listener on event `evt`.
+    // + `evt`: the event to be listened, e.g. 'click'.
+    // + `callback`: event callback.
+    // + `useCapture`: determine if event capture should be applied.
+    // By default, `false`.
+    //
+    // ~~~javascript
+    // $ch.find('#btn').on('click', function () {
+    //    console.log('Clicked');
+    // });
+    // ~~~
+    on: function (evt, callback, capture) {
+      if (arguments.length < 2) {
+        throw new Error('$ch.on requires at least an event and a callback parameter.');
       }
 
-      this.el.addEventListener(evt, callback);
+      if (capture === undefined) {
+        capture = false;
+      }
+
+      this.el.addEventListener(evt, callback, capture);
       return this;
     },
 
+    // __detach(`evt`, `callback`)__
+    //
+    // Remove an event listener from the ChopJS element.
+    // + `evt`: event name.
+    // + `callback`: event callback.
+    //
+    // ~~~javascript
+    // var cb = function () {
+    //    // do something
+    // };
+    // var e = $ch.find('#btn');
+    // e.on('click', cb);
+    // e.detach('click', cb);
+    // ~~~
     detach: function (evt, callback) {
       if (arguments.length !== 2) {
         throw new Error('$ch.detach requires two parameters.');
@@ -425,6 +701,19 @@
       return this;
     },
 
+    // __delegate(`evt`, `callback`, `element1`[, `element2`...])__
+    //
+    // Add event listener to all `element` inside the ChopJS element.
+    // + `evt`: event name.
+    // + `callback`: event callback.
+    // + `element`: CSS selector to element.
+    //
+    // ~~~javascript
+    // var cb = function () {
+    //    // do something
+    // };
+    // $ch.find('body').delegate('click', cb, 'div.btn', 'div#okay-btn');
+    // ~~~
     delegate: function (evt, callback) {
       if (arguments.length < 3) {
         throw new Error('$ch.delegate requires at least three parameters.');
@@ -443,6 +732,19 @@
       return this;
     },
 
+    // __click([`callback`])__
+    //
+    // If `callback` is presented, set the `click` event callback
+    // of this ChopJS element to `callback`.
+    // Otherwise, trigger `click` event.
+    //
+    // ~~~javascript
+    // $ch.find('btn').click(function () {
+    //    // do something
+    // });
+    //
+    // $ch.find('btn').click();
+    // ~~~
     click: function (callback) {
       if (callback === undefined) {
         this.el.click();
@@ -452,6 +754,15 @@
       }
     },
 
+    // __keypress(`callback`)__
+    //
+    // Set the `keypress` event callback to `callback`.
+    //
+    // ~~~javascript
+    // $ch.find('input[type=text]').keypress(function () {
+    //    // do something
+    // });
+    // ~~~
     keypress: function (callback) {
       if (callback === undefined) {
         throw new Error('$ch.keypress requires a parameter.');
@@ -461,19 +772,42 @@
       }
     },
 
+    // __change(`callback`)__
+    //
+    // Set the `change` event callback to `callback`.
+    //
+    // ~~~javascript
+    // $ch.find('select').change(function () {
+    //    // do something
+    // });
+    // ~~~
     change: function (callback) {
       if (callback === undefined) {
-        throw new Error('$ch.keypress requires a parameter.');
+        throw new Error('$ch.change requires a parameter.');
       } else {
         this.el.addEventListener('change', callback);
         return this;
       }
     },
 
+    // Make the CSS style to be DOM API friendly.
+    // E.g. for `border-radius`, make it to be `borderRadius`.
     _cssReplacer: function (match, p1) {
       p1 = p1.replace(/-/g, '');
       return p1.toUpperCase();
     },
+
+    // __css([`name`, `val`])__
+    //
+    // If both `name` and `val` is presented, set the CSS style `name` to `val`.
+    // If only `name` is provided, get current value of CSS rule `name`.
+    // Otherwise, return `cssText` of the ChopJS element.
+    //
+    // ~~~javascript
+    // $ch.find('#btn').css('color', '#fff');
+    // $ch.find('#btn').css('color'); // '#fff'
+    // $ch.find('#btn').css(); // 'color:#fff'
+    // ~~~
     css: function (key, value) {
       if (arguments.length === 0) {
         return this.el.style.cssText;
@@ -484,16 +818,28 @@
       }
 
       if (arguments.length === 2) {
+        // Make the CSS name `key` to be DOM cssText friendly.
         key = key.replace(/(-[a-z])/g, this._cssReplacer);
         this.el.style[key] = value;
         return this;
       }
     },
 
+    // __view(`v`)__
+    //
+    // Add ChopJS View element to the ChopJS element, and load the view(s).
+    // `v` can be either a ChopJS View element or an array of ChopJS View elements.
+    //
+    // ~~~javascript
+    // $ch.find('#container').view(aView);
+    // ~~~
     view: function (v) {
       if (v) {
+        // `baseElement` here is to set the context of the later view loading.
         var baseElement = this.el;
         baseElement.innerHTML = '';
+        // If `v` is an array, all its contained views
+        // need to be appended to each other.
         var isAppending = false;
         if (_isArray(v)) {
           isAppending = true;
@@ -504,6 +850,7 @@
         } else {
           this._addView(baseElement, v);
         }
+        // Now load the added views.
         chop._loadView(baseElement);
       }
       return this;
@@ -511,44 +858,77 @@
 
     _addView: function (baseElement, v, isAppending) {
       var result;
+      // If the `html` of view `v` is a function,
+      // fire the function to get its returned HTML string.
       if (typeof v.html === 'function') {
         result = v.html();
       } else {
         result = v.html;
       }
       if (result !== undefined) {
+        // If `isAppending` is `true`, append View HTMLs to each other.
         if (isAppending === true) {
           baseElement.innerHTML += result;
         } else {
           baseElement.innerHTML = result;
         }
       }
+      // Finally, push `v` to Views list of the ChopJS element.
       this._views.push(v);
     },
 
+    // __inline([`data`])__
+    //
+    // Render the inline template of the ChopJS element.
+    // If `data` is presented, render the inline template according to `data`.
+    //
+    // ~~~javascript
+    // $ch.find('#inline-div').inline();
+    // $ch.find('#inline-div').inline([{
+    //    name: 'Tom',
+    //    age: 10
+    //  }, {
+    //    name: 'Daniel',
+    //    age: 20
+    // }]);
+    // ~~~
     inline: function (source) {
+      // Keep an reference to the host DOM element.
       var element = this.el;
+      // Each inline template __MUST__ has an `id` attribute.
+      // Get the `id` value here.
       var id = element.id;
+      // If no `id` attributes found, throw an error.
       if (id === undefined || chop._inlineTemplates['#' + id] === undefined) {
         throw new Error('ID attribute is mandatory for chop.js inline template.');
       }
 
+      // Retrieve the inline template from the template buffer according to `id`.
       var template = chop._inlineTemplates['#' + id];
       var html = '';
       var founds, found, obj, i, ii;
       if (arguments.length === 0) {
         var inlineStr = element.getAttribute('ch-inline');
+        // Split `ch-inline` value by `|` for filter.
         var substr = inlineStr.split('|');
+        // Retrieve the name of the ChopJS source.
         var src = substr[0].trim();
         var filter;
         if (substr.length > 1) {
           for (var fi = 1; fi !== substr.length; ++fi) {
+            // Try to get filter name.
+            // A filter can be applied in the form of:
+            // ~~~html
+            // <div id="inline-div" ch-inline="animals | filter: canFly"></div>
+            // ~~~
             if (substr[fi].trim().match(/filter\:.+/g)) {
               filter = substr[fi].trim().replace(/filter\:\ */g, '');
             }
           }
         }
 
+        // If the inline template has an filter applied,
+        // screen the retrieved ChopJS source.
         if (filter === undefined) {
           source = chop.source(src);
         } else {
@@ -556,12 +936,20 @@
         }
 
       }
+
+      // If the source at this point of time is an array,
+      // iterate through it and apply each object it contains
+      // to template.
       if (_isArray(source)) {
         for (i = 0; i !== source.length; ++i) {
           html += template;
           obj = source[i];
+          // Find all substrings surrounded by `{{` and `}}`.
           founds = template.match(/{{[^{]{1,}}}/g);
 
+          // For each of the substrings found, remove `{{` and `}}`,
+          // and replace the placeholder between `{{` and `}}` with
+          // the corresponding data in source.
           for (ii = 0; ii !== founds.length; ++ii) {
             found = founds[ii].replace(/{/g, '');
             found = found.replace(/}/g, '');
@@ -569,11 +957,17 @@
           }
 
         }
+      // If the source at this point of time is not an array,
+      // just directly apply its contents to inline template.
       } else {
         html = template;
+        // Find all substrings surrounded by `{{` and `}}`.
         founds = template.match(/{{[^{]{1,}}}/g);
         obj = source;
 
+        // For each of the substrings found, remove `{{` and `}}`,
+        // and replace the placeholder between `{{` and `}}` with
+        // the corresponding data in source.
         for (ii = 0; ii !== founds.length; ++ii) {
           found = founds[ii].replace(/{/g, '');
           found = found.replace(/}/g, '');
@@ -581,17 +975,21 @@
         }
       }
 
+      // Use `\{` and '\}' to escape `{` and `}`.
       html = html.replace(/\\{/g, '{');
       html = html.replace(/\\}/g, '}');
+      // Update the innerHTML of the ChopJS element.
       this.el.innerHTML = html;
+      // Reload the view.
       chop._loadView(this.el);
       return this;
     },
   };
-//}}}
 
-  // chop//{{{
+  // ChopJS Core
+  // -----------
   var chop = {
+    // Keep an reference of the defined module versions.
     MODULE_VERSION: MODULE_VERSION,
     _path: '',
     els: [],
@@ -600,9 +998,19 @@
     sources: {},
     _misc: {},
 
+    // Alias of `_isArray`.
     _isArray: _isArray,
+    // __isArray(`obj`)__
+    //
+    // Check is `obj` is an array.
+    //
+    // ~~~javascript
+    // $ch.isArray({name: 'Tom', age: 10}); // false
+    // $ch.isArray([1, 2, 3]); // true
+    // ~~~
     isArray: _isArray,
 
+    // Find the index of a ChopJS element in `_chopEls` buffer.
     indexOfElement: function (element) {
       for (var index = 0, len = this._chopEls.length; index !== len; ++index) {
         var chel = this._chopEls[index];
@@ -610,36 +1018,68 @@
           return index;
         }
       }
+      // If nothing found, return -1.
       return -1;
     },
 
+    // __element(`el`)__
+    //
+    // If `el` is a string, create a ChopJS element.
+    // If `el` is a DOM element, convert it into a ChopJS element.
+    //
+    // ~~~javascript
+    // var div = document.createElement('div');
+    // div = $ch.element(div);
+    // // equals to:
+    // var div = $ch.element('div');
+    // ~~~
     element: function () {
+      // This method is actually an alias to `chopEl`.
       return this.chopEl.apply(this, arguments);
     },
 
+    // `chopEl` is now __deprecated__.
+    // Use `__element(`el`)_` instead.
     chopEl: function (htmlElement) {
+      // If no valid parameter provided, return `undefined`.
       if (htmlElement === undefined) {
         return undefined;
       }
 
       var elt;
 
+      // If `htmlElement` is a string, create a ChopJS element.
       if (typeof htmlElement === 'string') {
         var el = document.createElement(htmlElement);
         return this.chopEl(el);
       }
 
+      // Otherwise, if `htmlElement` is not exist in `_chopEls` buffer,
+      // create a ChopJS element and push it to the buffer.
       var elementIndex = this.indexOfElement(htmlElement);
       if (elementIndex === -1) {
         elt = Object.create(chopEl);
         elt.el = htmlElement;
         this._chopEls.push(elt);
+      // Otherwise, just retrieve the ChopJS element from the buffer.
       } else {
         elt = this._chopEls[elementIndex];
       }
       return elt;
     },
 
+    // __find(`selector`[, `context`])__
+    //
+    // Find an DOM element according to `selector`,
+    // and create a ChopJS element upon it.
+    // + `selector`: CSS selector to the element.
+    // + `context`: research context. By default, `document`.
+    //
+    // ~~~javascript
+    // var div = $ch.find('#my-div');
+    // var context = div;
+    // var divInContext = $ch.find('#another-div', context.el);
+    // ~~~
     find: function (query, context) {
       if (query !== undefined) {
         if (context === undefined) {
@@ -647,10 +1087,12 @@
         }
 
         var htmlElement = context.querySelector(query);
+        // If nothing found, return undefined.
         if (!htmlElement) {
           return undefined;
         }
 
+        // Otherwise, create a ChopJS element.
         var elt = this.chopEl(htmlElement);
 
         return elt;
@@ -659,6 +1101,18 @@
       }
     },
 
+    // __findAll(`selector`[, `context`])__
+    //
+    // Find all DOM elements according to `selector`,
+    // and create an array of ChopJS elements.
+    // + `selector`: CSS selector to the elements.
+    // + `context`: research context. By default, `document`.
+    //
+    // ~~~javascript
+    // var div = $ch.find('#my-div');
+    // var context = div;
+    // var divsInContext = $ch.findAll('div', context.el);
+    // ~~~
     findAll: function (query, context) {
       if (query !== undefined) {
         if (context === undefined) {
@@ -667,6 +1121,8 @@
 
         var els = context.querySelectorAll(query);
         var elts = [];
+        // Iterate through all the elements found,
+        // and create ChopJS elements.
         for (var index = 0; index !== els.length; ++index) {
           var elt = this.chopEl(els[index]);
           elts[index] = elt;
@@ -677,6 +1133,20 @@
       }
     },
 
+    // __view(`data`)__
+    //
+    // Create a ChopJS View object.
+    // `data` should be an object, which contains
+    // at least a `html` key assigned to either a
+    // HTML string or a function returns a HTML string.
+    //
+    // ~~~javascript
+    // var myView = $ch.view({
+    //    html: function () {
+    //        return $ch.find('#banner').html();
+    //    }
+    // });
+    // ~~~
     view: function (data) {
       if (arguments.length === 0) {
         throw new Error('$ch.view requires a parameter.');
@@ -689,6 +1159,16 @@
       return obj;
     },
 
+    // __tempalte(`html`, `data`)__
+    //
+    // Process a template and return the final HTML.
+    // + `html`: template HTML.
+    // + `data`: the data to be processed against.
+    //
+    // ~~~javascript
+    // var tmpl = '<div>{{name}}</div>';
+    // return $ch.template(tmpl, {name: 'ChopJS'}); // '<div>ChopJS</div>'
+    // ~~~
     template: function (html, data) {
       if (!html && !data) {
         throw new Error('invalid parameters for $ch.template.');
@@ -698,8 +1178,12 @@
         return html;
       }
 
+      // Find all placeholders wrapped by `{{` and `}}`.
       var founds = html.match(/{{[^{]{1,}}}/g);
       if (founds) {
+        // Iterate through the placeholder found,
+        // and replace their content with the
+        // corresponding data in `data`.
         founds.forEach(function (found) {
           var key = found.replace(/{/g, '');
           key = key.replace(/}/g, '');
@@ -708,32 +1192,40 @@
           }
         });
       }
-      // espace \{, \}
+
+      // Escape '\{' for '{' and '\}' for '}'.
       html = html.replace(/\\{/g, '{');
       html = html.replace(/\\}/g, '}');
       return html;
     },
 
+    // Add event listener.
     _addEvent: function (baseElement, attr, evt) {
+      // Find all elements to be registered, and iterate through them.
       var elements = baseElement.querySelectorAll('[' + attr + ']');
       for (var index = 0; index !== elements.length; ++index) {
 
+        // Retrieve the event callback from the attribute value of
+        // current element.
         var callback = elements[index].getAttribute(attr);
+        // `$$event` is used as a short hand of `arguments[0]`.
         callback = callback.replace(/\$\$event/g, 'arguments[0]');
 
+        // Find all substrings surrounded by `{{`` and `}}`,
+        // and iterate through them.
         var founds = callback.match(/{{[^{]{1,}}}/g);
         if (founds) {
           for (var i = 0; i !== founds.length; ++i) {
             var found = founds[i];
             var key = found.replace(/{/g, '');
             key = key.replace(/}/g, '');
-            // check if using pipe operations e.g. filter
+            // Check if using pipe operations e.g. filter
             var parts = key.split('|');
             if (parts.length === 1) {
               callback = callback.replace(found, '$ch.sources.' + key + '.data');
             } else {
               key = parts[0].trim();
-              // iterate pipe operations
+              // Iterate through pipe operations
               for (var ii = 1; ii !== parts.length; ++ii) {
                 var opt = parts[ii].trim();
                 var isFilter = opt.match(/filter\:.+/g) !== null;
@@ -746,7 +1238,7 @@
             }
           }
         }
-        // espace \{, \}
+        // Escape '\{' and '\}'.
         callback = callback.replace(/\\{/g, '{');
         callback = callback.replace(/\\}/g, '}');
 
@@ -754,84 +1246,90 @@
         elements[index][evt] = func;
       }
     },
+    // Register events in the context of `baseElement`.
     _registerEvents: function (baseElement) {
       if (baseElement === undefined || baseElement === null) {
         baseElement = document;
       }
 
-      // event: click
+      // Event: click
       this._addEvent(baseElement, 'ch-click', 'onclick');
-      // event: dbclick
+      // Event: dbclick
       this._addEvent(baseElement, 'ch-dbclick', 'ondbclick');
 
-      // event: keypress
+      // Event: keypress
       this._addEvent(baseElement, 'ch-keypress', 'onkeypress');
-      // event: keydown
+      // Event: keydown
       this._addEvent(baseElement, 'ch-keydown', 'onkeydown');
-      // event: keyup
+      // Event: keyup
       this._addEvent(baseElement, 'ch-keyup', 'onkeyup');
 
-      // event: change
+      // Event: change
       this._addEvent(baseElement, 'ch-change', 'onchange');
 
-      // event: mousedown
+      // Event: mousedown
       this._addEvent(baseElement, 'ch-mousedown', 'onmousedown');
-      // event: mouseup
+      // Event: mouseup
       this._addEvent(baseElement, 'ch-mouseup', 'onmouseup');
-      // event: mouseenter
+      // Event: mouseenter
       this._addEvent(baseElement, 'ch-mouseenter', 'onmouseenter');
-      // event: mousemove
+      // Event: mousemove
       this._addEvent(baseElement, 'ch-mousemove', 'onmousemove');
-      // event: mouseout
+      // Event: mouseout
       this._addEvent(baseElement, 'ch-mouseout', 'onmouseout');
-      // event: mouseover
+      // Event: mouseover
       this._addEvent(baseElement, 'ch-mouseover', 'onmouseover');
-      // event: mouseleave
+      // Event: mouseleave
       this._addEvent(baseElement, 'ch-mouseleave', 'onmouseleave');
-      // event: mousewheel
+      // Event: mousewheel
       this._addEvent(baseElement, 'ch-mousewheel', 'onmousewheel');
-      // event: drag
+      // Event: drag
       this._addEvent(baseElement, 'ch-drag', 'ondrag');
-      // event: dragenter
+      // Event: dragenter
       this._addEvent(baseElement, 'ch-dragenter', 'ondragenter');
-      // event: dragend
+      // Event: dragend
       this._addEvent(baseElement, 'ch-dragend', 'ondragend');
-      // event: dragstart
+      // Event: dragstart
       this._addEvent(baseElement, 'ch-dragstart', 'ondragstart');
-      // event: dragover
+      // Event: dragover
       this._addEvent(baseElement, 'ch-dragover', 'ondragover');
-      // event: drop
+      // Event: drop
       this._addEvent(baseElement, 'ch-drop', 'ondrop');
-
-
-
     },
 
+    // ChopJS inline template buffer.
     _inlineTemplates: {},
     _renderInline: function (baseElement) {
       if (baseElement === undefined || baseElement === null) {
         baseElement = document;
       }
+
+      // Find all inline templates indicate by `ch-inline`,
+      // and iterate through them.
       var elements = baseElement.querySelectorAll('[ch-inline]');
       var element, renderStr, source;
       var i;
       for (var index = 0; index !== elements.length; ++index) {
         element = elements[index];
+        // Only the elements come with `id` are valid.
         var id = element.getAttribute('id');
         if (id === undefined) {
           continue;
         }
 
+        // Check if the inline template is using pipe operations, e.g. filter.
         renderStr = element.getAttribute('ch-inline');
         renderStr = renderStr.replace(/{{/g, '');
         renderStr = renderStr.replace(/}}/g, '');
         var parts = renderStr.split('|');
 
+        // Get the source data.
         source = chop.source(parts[0].trim());
 
         if (parts.length > 1) {
           for (i = 1; i !== parts.length; ++i) {
             var part = parts[i].trim();
+            // If a filter is applied, screen the retrieved source data.
             var isFilter = part. match(/filter\:.+/g) !== null;
             if (isFilter) {
               part = part.replace(/filter\:\ */g, '');
@@ -840,13 +1338,19 @@
           }
         }
 
+        // The template content is the `innerHTML` of
+        // the DOM element at this time point.
         var template = element.innerHTML;
         var html = '';
         var founds, found, obj, ii;
+        // If the retrieved source data is an array,
+        // iterate through it and apply its content
+        // to the template according to data placeholders.
         if (_isArray(source)) {
           for (i = 0; i !== source.length; ++i) {
             html += template;
             obj = source[i];
+            // Get all data placeholders.
             founds = template.match(/{{[^{]{1,}}}/g);
 
             for (ii = 0; ii !== founds.length; ++ii) {
@@ -854,10 +1358,12 @@
               found = found.replace(/}/g, '');
               html = html.replace(new RegExp(founds[ii], 'g'), obj[found]);
             }
-
           }
+        // Otherwise, directly apply the retrieved source data
+        // to each data placeholders in the template.
         } else {
           html = template;
+          // Find all data placeholders.
           founds = template.match(/{{[^{]{1,}}}/g);
           obj = source;
 
@@ -868,14 +1374,18 @@
           }
 
         }
+
         html = html.replace(/\\{/g, '{');
         html = html.replace(/\\}/g, '{');
         element.innerHTML = html;
 
+        // Reload the view.
         chop._loadView(element);
       }
     },
 
+    // Add inline templates in the context of `baseElement`
+    // to inline template buffer.
     _addInlineTemplate: function (baseElement) {
       if (baseElement === undefined) {
         baseElement = document;
@@ -891,17 +1401,24 @@
       }
     },
 
+    // Execute all `ch-init` to initialized ChopJS data sources.
     _loadInit: function (baseElement) {
       if (baseElement === undefined || baseElement === null) {
         baseElement = document;
       }
+
+      // Find all `ch-init` declarations.
       var elements = baseElement.querySelectorAll('[ch-init]');
       for (var index = 0, len = elements.length; index !== len; ++index) {
         var element = elements[index];
+        // Get the value of `ch-init`.
         var str = element.getAttribute('ch-init');
         if (str === undefined) {
           return;
         }
+        // ';' is used to separate data sources in `ch-init`.
+        //
+        // E.g. `ch-init="version = '1.0'; items = [];"`
         var strs = str.trim().split(';');
         for (var i = 0, l = strs.length; i !== l; ++i) {
           var init = strs[i].trim();
@@ -915,17 +1432,18 @@
       }
     },
 
+    // Load the main file declared by `ch-main`.
     _loadMain: function () {
       chop._loadInit();
       chop._addInlineTemplate();
 
-      // load requires first
+      // Load `ch-require` first.
       var requires = document.querySelector('script[ch-require]');
       if (requires !== null) {
         requires = requires.getAttribute('ch-require');
         requires = requires.split(/;/g);
 
-        // trim all
+        // Trim all the requires module names.
         requires = requires.map(function (item) {
           return item.trim();
         });
@@ -947,6 +1465,7 @@
       }
 
       var script = element.getAttribute('ch-main');
+      // Update `_path` to the root path of the `ch-main` file.
       this._path = script.substring(0, script.lastIndexOf('/') + 1);
       if (script) {
         var scriptEl = document.createElement('script');
@@ -959,12 +1478,13 @@
     },
 
     _afterLoadView: function () {
-      // now show everything
+      // Show everything until ChopJS view is fully loaded.
       var htmlCss = document.querySelector('html').style.cssText;
       var reg = new RegExp('\ ?display:\ ?none;?\ ?', 'g');
       document.querySelector('html').style.cssText = htmlCss.replace(reg, '');
       return true;
     },
+    // Load all ChopJS View in the context of `baseElement`.
     _loadView: function (baseElement) {
       var callbackName;
       if (baseElement === undefined || baseElement === null) {
@@ -996,6 +1516,7 @@
       chop._afterLoadView();
     },
 
+    // Encode the data to be sent by `$ch.http`.
     _encodeHttpData: function (key, item) {
       var result = '';
       var that = this;
@@ -1023,6 +1544,7 @@
     },
 
     _httpCache: [],
+    // Append cached AJAX request result to `_httlCache` buffer.
     _appendHttpCache: function (shouldCache, obj) {
       if (shouldCache) {
         this._httpCache.push({
@@ -1039,6 +1561,18 @@
 
     },
 
+    // __http(`url`, `options`)__
+    //
+    // Start an AJAX call to `url`.
+    //
+    // `options` is an object and can contain:
+    // + `method`: AJAX method. e.g. 'GET', 'POST', 'PUT'.
+    // + `data`: the data to be sent in the form of an object.
+    // + `async`: `true`/`false` indicates if the AJAX call is asynchronous.
+    // + `responseType`: the response type of the AJAX call.
+    // + `header`: headers of the AJAX call.
+    // + `mimeType`: MIME type.
+    // + `cache`: `true`/`false` indicates if the result should be cached.
     http: function (u, param) {
       var url;
       if (arguments.length === 1) {
@@ -1075,7 +1609,7 @@
       }
       var async = param.async;
 
-      // check if should load from HTTP cache
+      // Check if should load from HTTP cache
       var loadedCache = false;
       var cacheData;
       for (var index = 0; index !== this._httpCache.length; ++index) {
@@ -1091,7 +1625,7 @@
         }
       }
 
-      // if loaded from HTTP cache, return
+      // If loaded from HTTP cache, return
       if (loadedCache) {
         if (async === true) {
           callback(cacheData);
@@ -1119,7 +1653,7 @@
       }
 
       if (isIE8) {
-        // setttings for IE8 XDomainRequest
+        // Setttings for IE8 XDomainRequest
         ajax.onload = function () {
          if (async) {
           var o;
@@ -1155,7 +1689,7 @@
       };
 
       } else {
-        // setttings for XMLHttpRequest
+        // Setttings for XMLHttpRequest
         ajax.onreadystatechange = function () {
           if (ajax.readyState !== 4) {
             return;
