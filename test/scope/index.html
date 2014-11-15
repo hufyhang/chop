@@ -9,11 +9,27 @@
   <body>
     <div id="mocha"></div>
     <div id="scope-container" ch-scope="information">
-      <div ch-name="message">ChopJS</div>
+      <div id="mocha-message" ch-name="message">ChopJS</div>
     </div>
 
     <div ch-scope="footer-information">
-      <div ch-name="details">Scope module</div>
+      <div id="footer-details" ch-name="details">Scope module</div>
+    </div>
+
+    <div ch-scope="myScope">
+      <div id="my-scope-message" ch-name="msg-div" ch-data>{{message}}</div>
+    </div>
+
+    <div ch-scope="Main">
+      <p id="main-msg" ch-name="msg" ch-data>Good {{timeOfDay}}, {{name}}!</p>
+
+      <div ch-scope="Child">
+        <p id="child-msg" ch-name="msg" ch-data>Good {{timeOfDay}}, {{name}}!</p>
+
+        <div ch-scope="GrandChild">
+          <p id="grandchild-msg" ch-name="msg" ch-data>Good {{timeOfDay}}, {{name}}!</p>
+        </div>
+      </div>
     </div>
 
     <!-- ChopJS & modules -->

@@ -26,6 +26,41 @@ describe('ChopJS Scope Module', function () {
 
   });
 
+  it('should support data placeholder.', function () {
+    var msg = 'This is a scope-data.';
+    var scp;
+    $ch.scope('myScope', function($$) {
+      scp = $$;
+      $$.message = msg;
+    });
+    expect($ch.find('#my-scope-message').content()).to.equal(msg);
+  });
+
+  it('should allow nested scopes.', function () {
+    $ch.scope('Main', function ($$) {
+      $$.timeOfDay = 'morning';
+      $$.name = 'Nikki';
+    });
+
+    $ch.scope('Child', function ($$) {
+      $$.timeOfDay = 'afternoon';
+      $$.name = 'Mattie';
+    });
+
+    $ch.scope('GrandChild', function ($$) {
+      $$.timeOfDay = 'evening';
+      $$.name = 'Gingerbread Baby';
+    });
+
+    var main = $ch.scope('Main').msg.content();
+    var child = $ch.scope('Child').msg.content();
+    var grandchild = $ch.scope('GrandChild').msg.content();
+    expect(main).to.not.equal(child);
+    expect(main).to.not.equal(grandchild);
+    expect(child).to.not.equal(grandchild);
+
+  });
+
   // $ch.scope
   // ---------
   describe('$ch.scope', function () {

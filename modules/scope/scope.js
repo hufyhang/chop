@@ -3,6 +3,22 @@
 
 /* global $ch, $$CHOP */
 
+//
+// Each scope element could be formed in the form of:
+//
+//       <div ch-scope="myScope">
+//          <div id="msg-div" ch-name="msg-div" ch-data>{{message}}</div>
+//       </div>
+//
+// Meantime in JavaScript:
+//
+//        $ch.scope('myScope', function ($scope) {
+//            $scope.message = 'ChopJS Scope module';
+//            $scope['msg-div'].css('font-weight', 'bold');
+//
+//        });
+
+
 $ch.define('scope', function () {
   'use strict';
 
@@ -36,7 +52,10 @@ $ch.define('scope', function () {
     }
 
     // Otherwise, define a new scope.
-    $$CHOP.scopes[name] = {};
+    $$CHOP.scopes[name] = {
+      _els: [],
+      _data_entities: []
+    };
 
     // Retrieve elements inside scope `name` from DOM.
     retriveScope(name);
@@ -45,6 +64,9 @@ $ch.define('scope', function () {
     // make everything defined in `callback` can be
     // attached to `$$CHOP.scopes[name]` scope.
     callback.call(this, $$CHOP.scopes[name]);
+
+    // Process data placeholders.
+    processPlaceholder(name);
 
     // return `$$CHOP` to enabld chainable operations.
     return $$CHOP;
@@ -70,17 +92,99 @@ $ch.define('scope', function () {
     var store = $$CHOP.scope(name);
     if (scopes !== undefined && scopes !== null) {
       scopes.forEach(function (scp) {
+        // Keep an reference of this scope.
+        var original = scp;
+        // Psuh current scope element to `$$CHOP.scopes[name]._els`.
+        if (store._els === undefined) {
+          store._els = [scp];
+        } else {
+          store._els.push(scp);
+        }
+
+        // Make a clone of the scope.
+        scp = scp.cloneNode(true);
+
+        // Clear up all the scopes unexpectedly nested.
+        var fakeScopes = scp.querySelectorAll('[ch-scope]');
+        if (fakeScopes !== null && fakeScopes !== undefined) {
+          fakeScopes.forEach(function (fake) {
+            fake.parentNode.removeChild(fake);
+          });
+        }
+
         // Find all `ch-name`.
         var names = scp.querySelectorAll('[ch-name]');
         if (names !== null && names !== undefined) {
           names.forEach(function (element) {
-            // Get name from `ch-name`.
+            // Get ID and name from `ch-name`.
             var n = element.getAttribute('ch-name');
-            store[n] = $$CHOP.element(element);
+            var id = element.getAttribute('id');
+            if (id && n) {
+              store[n] = $$CHOP.element(original.querySelector('#' + id));
+            }
           });
         }
+
+        // Find all `ch-data`.
+        var entities = scp.querySelectorAll('[ch-data]');
+        if (entities !== null && entities !== undefined) {
+          entities.forEach(function (element) {
+            // Get ID attribute for data placeholders.
+            var id = element.getAttribute('id');
+            if (id) {
+              if (store._data_entities === undefined) {
+                store._data_entities = [id];
+              } else {
+                store._data_entities.push(id);
+              }
+            }
+
+          });
+        }
+
       });
     }
+  }
+
+  // Privat method to process data placeholders.
+  //
+  // `name` here is scope's name.
+  function processPlaceholder(name) {
+    var scope = $$CHOP.scope(name);
+    // If no such scope, return.
+    if (!scope) {
+      return;
+    }
+
+    // If scope _els is not ready (i.e. is not an array), return.
+    if (scope._els === undefined || $$CHOP.isArray(scope._els) === false) {
+      return;
+    }
+
+    var ids = scope._data_entities;
+    ids.forEach(function (id) {
+      var el = document.querySelector('#' + id);
+      var html = el.innerHTML;
+
+      // Find all placeholders surrounded by `{{` and `}}`.
+      var founds = el.innerHTML.match(/{{[^{]{1,}}}/g);
+
+      // For each of the substrings found, remove `{{` and `}}`,
+      // and replace the placeholder between `{{` and `}}` with
+      // the corresponding data.
+      for (var i = 0; i !== founds.length; ++i) {
+        var found = founds[i].replace(/{/g, '');
+        found = found.replace(/}/g, '');
+        html = html.replace(new RegExp(founds[i], 'g'), scope[found]);
+      }
+
+      // Now, replace the innerHTML of
+      // the processed element with the new content.
+      el.innerHTML = html;
+
+      // Reload view on this element.
+      $$CHOP._loadView(el);
+    });
   }
 
 });
