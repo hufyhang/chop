@@ -65,6 +65,43 @@ describe('ChopJS Scope Module', function () {
     $ch.scope('bindingScope', function ($$) {
       $$.username.set(name);
     });
+
+    $ch.scope('nestedbindingScope', function ($$) {
+      $$.username.set('Nested');
+    });
+
+  });
+
+  it('should support events pub/sub.', function () {
+    var eventName = 'update';
+    var data1 = 100;
+    var data2 = 'Hello world';
+    $ch.scope('eventScope', function ($scope, $event) {
+      $scope.message.set('Event Scope');
+      $event.listen(eventName, function (time, msg) {
+        console.log(time, msg);
+        expect(time).to.equal(data1);
+        expect(msg).to.equal(data2);
+      });
+
+      $event.emit(eventName, data1, data2);
+    });
+  });
+
+  it('should handle events in nested scopes.', function () {
+    var eventName = 'update';
+    var data1 = 100100;
+    var data2 = 'Hello nested world';
+    $ch.scope('nestedEventScope', function ($scope, $event) {
+      $scope.message.set('Nested Event Scope');
+      $event.listen(eventName, function (time, msg) {
+        console.log(time, msg);
+        expect(time).to.equal(data1);
+        expect(msg).to.equal(data2);
+      });
+
+      $event.emit(eventName, data1, data2);
+    });
   });
 
   // $ch.scope

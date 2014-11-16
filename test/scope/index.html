@@ -35,6 +35,18 @@
     <div ch-scope="bindingScope">
       <input id="binding-input" type="text" ch-data="username">
       <div id="binding-message" ch-name="msg-div" ch-data>Hello, {{username}}!!!</div>
+      <div ch-scope="nestedbindingScope">
+        <input id="nested-binding-input" type="text" ch-data="username">
+        <div id="nested-binding-message" ch-name="msg-div" ch-data>Hello, {{username}}!!!</div>
+      </div>
+      <div id="done-message" ch-name="done-msg-div" ch-data>Done, {{username}}!!!</div>
+    </div>
+
+    <div ch-scope="eventScope">
+      <div id="event-scope-data" ch-data>{{message}}</div>
+      <div ch-scope="nestedEventScope">
+        <div id="nested-event-scope-data" ch-data>{{message}}</div>
+      </div>
     </div>
 
 

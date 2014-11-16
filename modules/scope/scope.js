@@ -13,7 +13,7 @@
 // Meantime in JavaScript:
 //
 //        $ch.scope('myScope', function ($scope) {
-//            $scope.message = 'ChopJS Scope module';
+//            $scope.message.set('ChopJS Scope module');
 //            $scope['msg-div'].css('font-weight', 'bold');
 //
 //        });
@@ -55,8 +55,12 @@ $ch.define('scope', function () {
     $$CHOP.scopes[name] = {
       _els: [],
       _data_entities: [],
-      _data: {}
+      _data: {},
+      _events: {}
     };
+
+    // Apply event sub/pub mechanism.
+    var eventHandler = new EventHandler($$CHOP.scopes[name]);
 
     // Retrieve elements inside scope `name` from DOM.
     retriveScope(name);
@@ -67,7 +71,7 @@ $ch.define('scope', function () {
     // Apply `$$CHOP.scopes[name]` to `callback` to
     // make everything defined in `callback` can be
     // attached to `$$CHOP.scopes[name]` scope.
-    callback.call(this, $$CHOP.scopes[name]);
+    callback.apply(this, [$$CHOP.scopes[name], eventHandler]);
 
     // Append the invocation of `retriveScope`
     // in the context of `name to `$$CHOP._loadView`.
@@ -260,9 +264,41 @@ $ch.define('scope', function () {
         //        }]
         _els: [],
         _val: undefined,
+        // __get()__
+        //
+        // Get the value of this ChopJS Scope data.
+        //
+        // For example, in HTML:
+        //
+        //        <div ch-scope="myScope">
+        //            <span id="message-span" ch-data>{{message}}</span>
+        //        </div>
+        //
+        // Meanwhile in JavaScript:
+        //
+        //        $ch.scope('myScope', function ($scope) {
+        //            var msg = $scope.message.get();
+        //        });
+        //
         get: function get() {
           return this._val;
         },
+        // __set(`val`)__
+        //
+        // Set the value of this ChopJS Scope data to `val`.
+        //
+        // For example, in HTML:
+        //
+        //        <div ch-scope="myScope">
+        //            <span id="message-span" ch-data>{{message}}</span>
+        //        </div>
+        //
+        // Meanwhile in JavaScript:
+        //
+        //        $ch.scope('myScope', function ($scope) {
+        //            $scope.message.set('Hello world!!!');
+        //        });
+        //
         set: function set(val) {
           if (arguments.length === 0) {
             return false;
@@ -313,5 +349,61 @@ $ch.define('scope', function () {
     var reg = new RegExp('{{' + holder + '}}', 'g');
     return str.replace(reg, value);
   }
+
+  // Event Handler
+  function EventHandler(scope) {
+    this.scope = scope;
+  }
+
+  // Attach `listen` and `emit` to Event Handler prototype.
+  EventHandler.prototype = {
+    // __listen(`evt`, `callback`)__
+    //
+    // Listen event `evt`. When `evt` is emitted, fire `callback`.
+    //
+    //        $ch.scope('myScope', function ($scope, $event) {
+    //            $event.listen('new message', function (from, msg) {
+    //                console.log(from, msg);
+    //            });
+    //        });
+    listen: function listen(name, callback) {
+      // If `name` is not a string or `callback` is not a functoin,
+      // throw an error.
+      if (typeof name !== 'string' || typeof callback !== 'function') {
+        throw new Error('ChopJS Scope event "listen" requires a string-type name parameter and a callback function.');
+      }
+
+      this.scope._events[name] = callback;
+      return this;
+    },
+
+    // __emit(`evt`[, `data`, `data2`...])__
+    //
+    // Emit event `evt`, and pass `data` as parameters.
+    //
+    //        $ch.scope('myScope', function ($scope, $event) {
+    //            $event.emit('new message', 'ChopJS', 'Hello world!!!');
+    //        });
+    emit: function emit(name) {
+      // If no valid parameters, throw an error.
+      if (typeof name !== 'string') {
+        throw new Error('ChopJS Scope event "emit" requires at least a string-type event name parameter.');
+      }
+
+      var callback = this.scope._events[name];
+      if (typeof callback === 'function') {
+        // Retrieve all data parameters from arguments.
+        var args = [];
+        for (var i = 1; i !== arguments.length; ++i) {
+          args.push(arguments[i]);
+        }
+
+        callback.apply(this, args);
+      }
+
+      return this;
+    }
+
+  };
 
 });
