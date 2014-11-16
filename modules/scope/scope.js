@@ -150,6 +150,7 @@ $ch.define('scope', function () {
             // Get ID attribute for data placeholders.
             var id = element.getAttribute('id');
             if (id) {
+              id = id.trim();
               if (store._data_entities === undefined) {
                 store._data_entities = [id];
               } else {
@@ -196,6 +197,7 @@ $ch.define('scope', function () {
             dataName = holders[i];
             dataName = dataName.replace(/{{/g, '');
             dataName = dataName.replace(/}}/g, '');
+            dataName = dataName.trim();
             addDateToScope(name, dataName, el, true);
           }
         }
@@ -215,6 +217,7 @@ $ch.define('scope', function () {
       if (tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT') {
         el.addEventListener(eventType, function (evt) {
           evt = evt || window.event;
+          dataName = dataName.trim();
           var target = evt.target || evt.srcElement;
           var val = target.value;
           var old = $$CHOP.scopes[name][dataName].get();
@@ -237,6 +240,8 @@ $ch.define('scope', function () {
         for (var i = 0; i !== founds.length; ++i) {
           var found = founds[i].replace(/{/g, '');
           found = found.replace(/}/g, '');
+          found = found.trim();
+          found = found.split('.')[0];
           html = html.replace(new RegExp(founds[i], 'g'), scope[found].get());
         }
 
@@ -253,6 +258,7 @@ $ch.define('scope', function () {
   function addDateToScope(scopeName, dataName, element, isInline) {
     // Keep an reference to the scope.
     var scope = $$CHOP.scope(scopeName);
+    dataName = dataName.split('.')[0];
     // First, check if this `ch-data` has already been initialized.
     if (scope._data[dataName] === undefined) {
       scope._data[dataName] = {
@@ -317,7 +323,25 @@ $ch.define('scope', function () {
               holders.forEach(function (holder) {
                 holder = holder.replace(/{/g, '');
                 holder = holder.replace(/}/g, '');
-                html = replacePlaceHolder(html, holder, scope._data[holder].get());
+                holder = holder.trim();
+
+                // If the placeholder doesn't contains `.`, just replace placeholders.
+                if (holder.indexOf('.') === -1) {
+                  html = replacePlaceHolder(html, holder, scope._data[holder].get());
+                // Otherwise, incrementally retrieve the appropriate data.
+                } else {
+                  // To this end, split `holder` by `.` fist.
+                  // Then, iterate through the tokens and
+                  // trace the final value.
+                  var parts = holder.split('.');
+                  var value = scope._data[parts[0]].get();
+                  for (var i = 1, l = parts.length; i !== l; ++i) {
+                    value = value[parts[i]];
+                  }
+
+                  // Replace placeholder with the retrieve value.
+                  html = replacePlaceHolder(html, holder, value);
+                }
               });
               // Now, update the innerHTML of this element in DOM.
               document.querySelector('#' + el._id).innerHTML = html;
@@ -333,6 +357,9 @@ $ch.define('scope', function () {
     }
 
     // Now add a new ch-data entity.
+    // If `dataName` is in the form of `something.data`,
+    // only keep the first property, i.e. `something`.
+    dataName = dataName.split('.')[0];
     var id = element.getAttribute('id');
     scope._data[dataName]._els.push({
       _isInline: isInline,
@@ -346,7 +373,8 @@ $ch.define('scope', function () {
 
   // Private method to replace data placeholders.
   function replacePlaceHolder(str, holder, value) {
-    var reg = new RegExp('{{' + holder + '}}', 'g');
+    holder = holder.trim();
+    var reg = new RegExp('{{[\\ ]*?' + holder + '[\\ ]*?}}', 'g');
     return str.replace(reg, value);
   }
 

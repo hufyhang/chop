@@ -21,7 +21,7 @@
     </div>
 
     <div ch-scope="Main">
-      <p id="main-msg" ch-name="msg" ch-data>Good {{timeOfDay}}, {{name}}!</p>
+      <p id="main-msg" ch-name="msg" ch-data>Good {{ timeOfDay }}, {{name}}!</p>
 
       <div ch-scope="Child">
         <p id="child-msg" ch-name="msg" ch-data>Good {{timeOfDay}}, {{name}}!</p>
@@ -48,6 +48,13 @@
         <div id="nested-event-scope-data" ch-data>{{message}}</div>
       </div>
     </div>
+
+    <div ch-scope="objScope">
+      <div id="obj-scope-firstname" ch-name="first" ch-data>{{person.firstname}}</div>
+      <div id="obj-scope-lastname" ch-name="last" ch-data>{{ person.lastname }}</div>
+      <div id="obj-scope-version" ch-name="ver" ch-data>{{ person.product.chopjs.version }}</div>
+    </div>
+
 
 
     <!-- ChopJS & modules -->

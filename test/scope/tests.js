@@ -104,6 +104,29 @@ describe('ChopJS Scope Module', function () {
     });
   });
 
+  it('should support object property ch-data placeholder.', function () {
+    var person = {
+      firstname: 'Bruce',
+      lastname: 'Wayne',
+      product: {
+        batwing: {
+          speed: 'fast'
+        },
+        chopjs: {
+          'test-mode': 'BDD',
+          version: 'Edge'
+        }
+      }
+    };
+
+    $ch.scope('objScope', function ($scope) {
+      $scope.person.set(person);
+      expect($scope.first.content()).to.equal(person.firstname);
+      expect($scope.last.content()).to.equal(person.lastname);
+      expect($scope.ver.content()).to.equal(person.product.chopjs.version);
+    });
+  });
+
   // $ch.scope
   // ---------
   describe('$ch.scope', function () {
