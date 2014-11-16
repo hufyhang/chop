@@ -68,6 +68,19 @@ $ch.define('scope', function () {
     // Process data placeholders.
     processPlaceholder(name);
 
+    // Append the invocation of `retriveScope`
+    // in the context of `name to `$$CHOP._loadView`.
+    var _loadView = $$CHOP._loadView;
+    $$CHOP._loadView = function (baseElement) {
+      if (baseElement === undefined || baseElement === null) {
+        baseElement = document;
+      }
+
+      retriveScope(name);
+      _loadView(baseElement);
+
+    };
+
     // return `$$CHOP` to enabld chainable operations.
     return $$CHOP;
   };
