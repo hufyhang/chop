@@ -127,6 +127,25 @@ describe('ChopJS Scope Module', function () {
     });
   });
 
+  it('should load scopes from updated HTML.', function () {
+    $ch.scope('loadScope', function ($scope) {
+      var load = function () {
+        $ch.scope('dataScope', function (scp) {
+          scp.data.set({
+            name: 'ChopJS',
+            author: 'ChopJS Author'
+          });
+        });
+      };
+
+      $scope.template = $ch.find('#template').html();
+      $scope.loadBtn.on('click', function () {
+        $scope.container.html($scope.template);
+        load();
+      });
+    });
+  });
+
   // $ch.scope
   // ---------
   describe('$ch.scope', function () {

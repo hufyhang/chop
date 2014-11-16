@@ -55,7 +55,11 @@
       <div id="obj-scope-version" ch-name="ver" ch-data>{{ person.product.chopjs.version }}</div>
     </div>
 
-
+    <div ch-scope="loadScope">
+      <h3>Load Scope</h3>
+      <button id="load-btn" ch-name="loadBtn">Load</button>
+      <div id="container" ch-name="container"></div>
+    </div>
 
     <!-- ChopJS & modules -->
     <script src="../../chop.js"></script>
@@ -68,6 +72,14 @@
     <script src="tests.js"></script>
     <script>
       mocha.run();
+    </script>
+    <script type="text/template" id="template">
+      <div ch-scope="dataScope">
+        <div id="name-id" ch-data>{{data.name}}</div>
+        <div id="author-id" ch-data>{{data.author}}</div>
+        <input id="load-scope-input" type="text" ch-data="keyword">
+        <div id="load-scope-keyword-div" ch-data>{{keyword}}</div>
+      <div ch-scope="dataScope">
     </script>
   </body>
 </html>

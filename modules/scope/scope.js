@@ -75,16 +75,16 @@ $ch.define('scope', function () {
 
     // Append the invocation of `retriveScope`
     // in the context of `name to `$$CHOP._loadView`.
-    var _loadView = $$CHOP._loadView;
-    $$CHOP._loadView = function (baseElement) {
-      if (baseElement === undefined || baseElement === null) {
-        baseElement = document;
-      }
+    // var _loadView = $$CHOP._loadView;
+    // $$CHOP._loadView = function (baseElement) {
+    //   if (baseElement === undefined || baseElement === null) {
+    //     baseElement = document;
+    //   }
 
-      retriveScope(name);
-      _loadView(baseElement);
+    //   retriveScope(name);
+    //   _loadView(baseElement);
 
-    };
+    // };
 
     // return `$$CHOP` to enabld chainable operations.
     return $$CHOP;
@@ -92,15 +92,25 @@ $ch.define('scope', function () {
 
   // Private method to retrieve all scoped elements from DOM.
   function retriveScope(baseElement, name) {
+    var hasBaseElement = true;
     if (typeof baseElement === 'string') {
+      hasBaseElement = false;
       name = baseElement;
       baseElement = document;
     }
 
     var context = baseElement;
 
-    // Find all scopes named `name`.
-    var scopes = context.querySelectorAll('[ch-scope=' + name + ']');
+    // If no `baseElement` set in parameter,
+    // find all scopes named `name`.
+    // Otherwise, make `baseElement` to be `scopes` in array.
+    var scopes;
+    if (hasBaseElement) {
+      scopes = [baseElement];
+    } else {
+      scopes = context.querySelectorAll('[ch-scope=' + name + ']');
+    }
+
     // Iterate through the scopes found,
     // and convert all `ch-name` elements into
     // ChopJS elements and attach them to the
