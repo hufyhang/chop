@@ -31,25 +31,25 @@ describe('ChopJS Scope Module', function () {
     var scp;
     $ch.scope('myScope', function($$) {
       scp = $$;
-      $$.message = msg;
+      $$.message.set(msg);
     });
     expect($ch.find('#my-scope-message').content()).to.equal(msg);
   });
 
   it('should allow nested scopes.', function () {
     $ch.scope('Main', function ($$) {
-      $$.timeOfDay = 'morning';
-      $$.name = 'Nikki';
+      $$.timeOfDay.set('morning');
+      $$.name.set('Nikki');
     });
 
     $ch.scope('Child', function ($$) {
-      $$.timeOfDay = 'afternoon';
-      $$.name = 'Mattie';
+      $$.timeOfDay.set('afternoon');
+      $$.name.set('Mattie');
     });
 
     $ch.scope('GrandChild', function ($$) {
-      $$.timeOfDay = 'evening';
-      $$.name = 'Gingerbread Baby';
+      $$.timeOfDay.set('evening');
+      $$.name.set('Gingerbread Baby');
     });
 
     var main = $ch.scope('Main').msg.content();
@@ -58,7 +58,13 @@ describe('ChopJS Scope Module', function () {
     expect(main).to.not.equal(child);
     expect(main).to.not.equal(grandchild);
     expect(child).to.not.equal(grandchild);
+  });
 
+  it('should support ch-data binding.', function () {
+    var name = 'ChopJS';
+    $ch.scope('bindingScope', function ($$) {
+      $$.username.set(name);
+    });
   });
 
   // $ch.scope

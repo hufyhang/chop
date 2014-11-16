@@ -54,19 +54,20 @@ $ch.define('scope', function () {
     // Otherwise, define a new scope.
     $$CHOP.scopes[name] = {
       _els: [],
-      _data_entities: []
+      _data_entities: [],
+      _data: {}
     };
 
     // Retrieve elements inside scope `name` from DOM.
     retriveScope(name);
 
+    // Process data placeholders.
+    processPlaceholder(name);
+
     // Apply `$$CHOP.scopes[name]` to `callback` to
     // make everything defined in `callback` can be
     // attached to `$$CHOP.scopes[name]` scope.
     callback.call(this, $$CHOP.scopes[name]);
-
-    // Process data placeholders.
-    processPlaceholder(name);
 
     // Append the invocation of `retriveScope`
     // in the context of `name to `$$CHOP._loadView`.
@@ -176,28 +177,141 @@ $ch.define('scope', function () {
 
     var ids = scope._data_entities;
     ids.forEach(function (id) {
+      var isInlineElement = true;
       var el = document.querySelector('#' + id);
-      var html = el.innerHTML;
-
-      // Find all placeholders surrounded by `{{` and `}}`.
-      var founds = el.innerHTML.match(/{{[^{]{1,}}}/g);
-
-      // For each of the substrings found, remove `{{` and `}}`,
-      // and replace the placeholder between `{{` and `}}` with
-      // the corresponding data.
-      for (var i = 0; i !== founds.length; ++i) {
-        var found = founds[i].replace(/{/g, '');
-        found = found.replace(/}/g, '');
-        html = html.replace(new RegExp(founds[i], 'g'), scope[found]);
+      var dataName = el.getAttribute('ch-data');
+      // If ch-data="xxx", directly add data.
+      if (dataName !== null && dataName !== '') {
+        isInlineElement = false;
+        addDateToScope(name, dataName, el, false);
+      // Otherwise, find all placeholders and add data.
+      } else {
+        var holders = el.innerHTML.match(/{{[^{]{1,}}}/g);
+        if (holders !== null) {
+          for (var i = 0, l = holders.length; i !== l; ++i) {
+            dataName = holders[i];
+            dataName = dataName.replace(/{{/g, '');
+            dataName = dataName.replace(/}}/g, '');
+            addDateToScope(name, dataName, el, true);
+          }
+        }
       }
 
-      // Now, replace the innerHTML of
-      // the processed element with the new content.
-      el.innerHTML = html;
+      // Add event listeners.
+      var eventType = 'keyup';
+      var type = el.getAttribute('type');
+      if (type !== null) {
+        type = type.toUpperCase();
+        if (type === 'RANGE' || el.tagName.toUpperCase() === 'SELECT') {
+          eventType = 'change';
+        }
+      }
 
-      // Reload view on this element.
-      $$CHOP._loadView(el);
+      var tagName = el.tagName.toUpperCase();
+      if (tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT') {
+        el.addEventListener(eventType, function (evt) {
+          evt = evt || window.event;
+          var target = evt.target || evt.srcElement;
+          var val = target.value;
+          var old = $$CHOP.scopes[name][dataName].get();
+          if (val !== old) {
+            $$CHOP.scopes[name][dataName].set(val);
+          }
+        }, false);
+      }
+
+      // If this is an inline ch-data, innerHTML has to be updated.
+      if (isInlineElement) {
+        var html = el.innerHTML;
+
+        // Find all placeholders surrounded by `{{` and `}}`.
+        var founds = el.innerHTML.match(/{{[^{]{1,}}}/g);
+
+        // For each of the substrings found, remove `{{` and `}}`,
+        // and replace the placeholder between `{{` and `}}` with
+        // the corresponding data.
+        for (var i = 0; i !== founds.length; ++i) {
+          var found = founds[i].replace(/{/g, '');
+          found = found.replace(/}/g, '');
+          html = html.replace(new RegExp(founds[i], 'g'), scope[found].get());
+        }
+
+        // Now, replace the innerHTML of
+        // the processed element with the new content.
+        el.innerHTML = html;
+
+        // Reload view on this element.
+        $$CHOP._loadView(el);
+      }
     });
+  }
+
+  function addDateToScope(scopeName, dataName, element, isInline) {
+    // Keep an reference to the scope.
+    var scope = $$CHOP.scope(scopeName);
+    // First, check if this `ch-data` has already been initialized.
+    if (scope._data[dataName] === undefined) {
+      scope._data[dataName] = {
+        // `_els` should be like:
+        //        [{
+        //            _isInline: 'indicates if this is an inline `ch-data` element',
+        //            _html: 'the original innerHTML',
+        //            _id: 'the ID of the element'
+        //        }]
+        _els: [],
+        _val: undefined,
+        get: function get() {
+          return this._val;
+        },
+        set: function set(val) {
+          if (arguments.length === 0) {
+            return false;
+          }
+
+          this._val = val;
+          var that = this;
+          // Iterate through `_els`, and update all the related elements.
+          this._els.forEach(function (el) {
+            // If this is an inline ch-data, update its innerHTML.
+            var isInlineElement = el._isInline;
+            if (isInlineElement) {
+              var html = el._html;
+              // Find all placeholders from `html`, and replace all of them.
+              var holders = html.match(/{{[^{]{1,}}}/g) || [];
+              holders.forEach(function (holder) {
+                holder = holder.replace(/{/g, '');
+                holder = holder.replace(/}/g, '');
+                html = replacePlaceHolder(html, holder, scope._data[holder].get());
+              });
+              // Now, update the innerHTML of this element in DOM.
+              document.querySelector('#' + el._id).innerHTML = html;
+
+            // If this is not an inline ch-data, directly update its `value`.
+            } else {
+              $$CHOP.find('#' + el._id).val(that._val);
+            }
+          });
+        }
+
+      };
+    }
+
+    // Now add a new ch-data entity.
+    var id = element.getAttribute('id');
+    scope._data[dataName]._els.push({
+      _isInline: isInline,
+      _id: id,
+      _html: element.innerHTML
+    });
+
+    // Attach an reference to `$ch.scope`.
+    $$CHOP.scopes[scopeName][dataName] = scope._data[dataName];
+  }
+
+  // Private method to replace data placeholders.
+  function replacePlaceHolder(str, holder, value) {
+    var reg = new RegExp('{{' + holder + '}}', 'g');
+    return str.replace(reg, value);
   }
 
 });

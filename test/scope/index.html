@@ -32,6 +32,12 @@
       </div>
     </div>
 
+    <div ch-scope="bindingScope">
+      <input id="binding-input" type="text" ch-data="username">
+      <div id="binding-message" ch-name="msg-div" ch-data>Hello, {{username}}!!!</div>
+    </div>
+
+
     <!-- ChopJS & modules -->
     <script src="../../chop.js"></script>
     <script src="../../sizzle.js"></script>
