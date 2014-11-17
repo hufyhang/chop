@@ -1325,7 +1325,7 @@
         var parts = renderStr.split('|');
 
         // Get the source data.
-        source = chop.source(parts[0].trim());
+        source = chop.source(parts[0].trim()) || [];
 
         if (parts.length > 1) {
           for (i = 1; i !== parts.length; ++i) {
