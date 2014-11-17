@@ -205,6 +205,7 @@ $ch.define('scope', function () {
         if (holders !== null) {
           for (var i = 0, l = holders.length; i !== l; ++i) {
             dataName = holders[i];
+            dataName = dataName.split('|')[0];
             dataName = dataName.replace(/{{/g, '');
             dataName = dataName.replace(/}}/g, '');
             dataName = dataName.trim();
@@ -250,9 +251,17 @@ $ch.define('scope', function () {
         for (var i = 0; i !== founds.length; ++i) {
           var found = founds[i].replace(/{/g, '');
           found = found.replace(/}/g, '');
-          found = found.trim();
+          var pipes = found.split('|').map(function (item) {return item.trim();});
+          found = pipes[0].trim();
           found = found.split('.')[0];
-          html = html.replace(new RegExp(founds[i], 'g'), scope[found].get());
+          found = scope[found].get();
+          // Iterate through `pipes` to apply pipe operations.
+          for (var pi = 1, li = pipes.length; pi !== li; ++pi) {
+            var pipe = pipes[pi].trim();
+            pipe = scope[pipe] || function (a) {return a;};
+            found = pipe.call(this, found);
+          }
+          html = html.replace(new RegExp(founds[i], 'g'), found);
         }
 
         // Now, replace the innerHTML of
@@ -331,22 +340,36 @@ $ch.define('scope', function () {
               // Find all placeholders from `html`, and replace all of them.
               var holders = html.match(/{{[^{]{1,}}}/g) || [];
               holders.forEach(function (holder) {
+                var pipes, pipe;
                 holder = holder.replace(/{/g, '');
                 holder = holder.replace(/}/g, '');
                 holder = holder.trim();
-
                 // If the placeholder doesn't contains `.`, just replace placeholders.
                 if (holder.indexOf('.') === -1) {
-                  html = replacePlaceHolder(html, holder, scope._data[holder].get());
+                  pipes = holder.split('|').map(function (item) {return item.trim();});
+                  var value = scope._data[pipes[0]].get();
+                  for (var i = 1, l = pipes.length; i !== l; ++i) {
+                    pipe = pipes[i].trim();
+                    pipe = scope[pipe] || function (a) {return a;};
+                    value = pipe.call(this, value);
+                  }
+                  html = replacePlaceHolder(html, holder, value);
                 // Otherwise, incrementally retrieve the appropriate data.
                 } else {
                   // To this end, split `holder` by `.` fist.
                   // Then, iterate through the tokens and
                   // trace the final value.
-                  var parts = holder.split('.');
+                  pipes = holder.split('|').map(function (item) {return item.trim();});
+                  var parts = pipes[0].split('.');
                   var value = scope._data[parts[0]].get();
                   for (var i = 1, l = parts.length; i !== l; ++i) {
                     value = value[parts[i]];
+                  }
+
+                  for (i = 1, l = pipes.length; i !== l; ++i) {
+                    pipe = pipes[i].trim();
+                    pipe = scope[pipe] || function (a) {return a;};
+                    value = pipe.call(this, value);
                   }
 
                   // Replace placeholder with the retrieve value.
@@ -384,6 +407,8 @@ $ch.define('scope', function () {
   // Private method to replace data placeholders.
   function replacePlaceHolder(str, holder, value) {
     holder = holder.trim();
+    // Escape `|` pipe.
+    holder = holder.replace(/\|/g, '\\|');
     var reg = new RegExp('{{[\\ ]*?' + holder + '[\\ ]*?}}', 'g');
     return str.replace(reg, value);
   }
