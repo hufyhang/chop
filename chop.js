@@ -1785,6 +1785,7 @@
       if (callback === undefined) {
         var data = this.http({
           url: url,
+          cache: true,
           async: false
         }).responseText;
 
@@ -1792,6 +1793,7 @@
       } else if (typeof callback === 'function') {
         this.http({
           url: url,
+          cache: true,
           done: function (res) {
             if (res.status === 200 || res.status === 304) {
               callback(res.responseText);
