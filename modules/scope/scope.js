@@ -62,6 +62,8 @@ $ch.define('scope', function () {
     // Apply event sub/pub mechanism.
     var eventHandler = new EventHandler($$CHOP.scopes[name]);
 
+    $$CHOP.scopes[name]._eventHandler = eventHandler;
+
     // Retrieve elements inside scope `name` from DOM.
     retriveScope(name);
 
@@ -171,11 +173,49 @@ $ch.define('scope', function () {
           });
         }
 
+        // Register scope events.
+        //
+        // Scope events are declared in the form of:
+        //
+        //      <input type="text" ch-event="click: clickEvent, log; keypress: handleKeypress"/>
+        //
+        // To listen scope event:
+        //
+        //      $ch.scope('myScope', function ($scope, $event) {
+        //        $event.listen('log', function (evt) {
+        //          console.log(evt.target);
+        //        });
+        //      });
+        //
+        var eventHandler = store._eventHandler;
+        var eventElements = scp.querySelectorAll('[ch-event]') || [];
+        eventElements.forEach(function (element) {
+          var id = element.getAttribute('id');
+          // Get all events first.
+          var events = element.getAttribute('ch-event') || '';
+          events = events.split(';').map(function (item) {return item.trim();});
+
+          // Split by `:` to bind correct event listener.
+          events.forEach(function (event) {
+            var parts = event.split(':').map(function (item) {return item.trim();});
+            var eventType = parts[0];
+            // Split by `,` to retrieve all event names.
+            var eventNames = parts[1].split(',').map(function (item) {return item.trim();});
+
+            // Register event listener.
+            document.querySelector('#' + id).addEventListener(eventType, function (evt) {
+              eventNames.forEach(function (evtName) {
+                eventHandler.emit(evtName, evt);
+              });
+            }, false);
+          });
+        });
+
       });
     }
   }
 
-  // Privat method to process data placeholders.
+  // Private method to process data placeholders.
   //
   // `name` here is scope's name.
   function processPlaceholder(name) {
