@@ -70,10 +70,18 @@ $ch.define('scope', function () {
     // Process data placeholders.
     processPlaceholder(name);
 
+    // Reload view and inline templates.
+    var scopes = document.querySelectorAll('[ch-scope=' + name + ']') || [];
+    scopes.forEach(function (base) {
+      $$CHOP._addInlineTemplate(base);
+      $$CHOP._loadView(base);
+    });
+
     // Apply `$$CHOP.scopes[name]` to `callback` to
     // make everything defined in `callback` can be
     // attached to `$$CHOP.scopes[name]` scope.
     callback.apply(this, [$$CHOP.scopes[name], eventHandler]);
+
 
     // Append the invocation of `retriveScope`
     // in the context of `name to `$$CHOP._loadView`.
