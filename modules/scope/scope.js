@@ -337,6 +337,27 @@ $ch.define('scope', function () {
         //        }]
         _els: [],
         _val: undefined,
+        _watch: function () {return;},
+        // __watch(`callback`)__
+        //
+        // Fire `callback` when the value of this scope data is changed.
+        //
+        //      $ch.scope('myScope', function ($scope) {
+        //          $scope.myData.watch(function (old, current) {
+        //              console.log('Old value: ', old);
+        //              console.log('Current value: ', current);
+        //          });
+        //      });
+        watch: function watch(callback) {
+          // `callback` has to be a function.
+          if (typeof callback !== 'function') {
+            throw new Error('ChopJS Scope data has to be watched by a function.');
+          }
+
+          this._watch = callback;
+          return this;
+        },
+
         // __get()__
         //
         // Get the value of this ChopJS Scope data.
@@ -377,7 +398,12 @@ $ch.define('scope', function () {
             return false;
           }
 
+          var old = this._val;
           this._val = val;
+
+          // Trigger watch callback.
+          this._watch.apply(this, [old, this._val]);
+
           var that = this;
           // Iterate through `_els`, and update all the related elements.
           this._els.forEach(function (el) {
