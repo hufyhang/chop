@@ -70,11 +70,6 @@ $ch.define('scope', function () {
     // Process data placeholders.
     processPlaceholder(name);
 
-    // Apply `$$CHOP.scopes[name]` to `callback` to
-    // make everything defined in `callback` can be
-    // attached to `$$CHOP.scopes[name]` scope.
-    callback.apply(this, [$$CHOP.scopes[name], eventHandler]);
-
     // Append the invocation of `retriveScope`
     // in the context of `name to `$$CHOP._loadView`.
     // var _loadView = $$CHOP._loadView;
@@ -88,9 +83,39 @@ $ch.define('scope', function () {
 
     // };
 
+    // Iterate through `_data` to add getter and setter.
+    $$CHOP.each($$CHOP.scopes[name]._data, function (item) {
+
+      // Define `setter` and `getter` for this Scope Data.
+      Object.defineProperty($$CHOP.scopes[name], item, {
+        enumerable: false,
+        configurable: true,
+        set: function (val) {
+          $$CHOP.scopes[name]._data[item].set(val);
+        },
+        get: function () {
+          return $$CHOP.scopes[name]._data[item].get();
+        }
+      });
+
+    });
+
+    // Reload view and inline templates.
+    var scopes = document.querySelectorAll('[ch-scope=' + name + ']') || [];
+    scopes.forEach(function (base) {
+      $$CHOP._addInlineTemplate(base);
+      $$CHOP._loadView(base);
+    });
+
+    // Apply `$$CHOP.scopes[name]` to `callback` to
+    // make everything defined in `callback` can be
+    // attached to `$$CHOP.scopes[name]` scope.
+    callback.apply(this, [$$CHOP.scopes[name], eventHandler]);
+
     // return `$$CHOP` to enabld chainable operations.
     return $$CHOP;
   };
+
 
   // Private method to retrieve all scoped elements from DOM.
   function retriveScope(baseElement, name) {
@@ -271,9 +296,9 @@ $ch.define('scope', function () {
           dataName = dataName.trim();
           var target = evt.target || evt.srcElement;
           var val = target.value;
-          var old = $$CHOP.scopes[name][dataName].get();
+          var old = $$CHOP.scopes[name]._data[dataName].get();
           if (val !== old) {
-            $$CHOP.scopes[name][dataName].set(val);
+            $$CHOP.scopes[name]._data[dataName].set(val);
           }
         }, false);
       }
@@ -294,7 +319,7 @@ $ch.define('scope', function () {
           var pipes = found.split('|').map(function (item) {return item.trim();});
           found = pipes[0].trim();
           found = found.split('.')[0];
-          found = scope[found].get();
+          found = scope._data[found].get();
           // Iterate through `pipes` to apply pipe operations.
           for (var pi = 1, li = pipes.length; pi !== li; ++pi) {
             var pipe = pipes[pi].trim();
@@ -441,7 +466,7 @@ $ch.define('scope', function () {
     });
 
     // Attach an reference to `$ch.scope`.
-    $$CHOP.scopes[scopeName][dataName] = scope._data[dataName];
+    /*! $$CHOP.scopes[scopeName][dataName] = scope._data[dataName]; */
   }
 
   // Private method to replace data placeholders.
