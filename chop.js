@@ -1438,10 +1438,10 @@
       chop._loadInit();
       chop._addInlineTemplate();
 
-      // Load `ch-require` first.
-      var requires = document.querySelector('script[ch-require]');
+      // Load `ch-use` first.
+      var requires = document.querySelector('script[ch-use]');
       if (requires !== null) {
-        requires = requires.getAttribute('ch-require');
+        requires = requires.getAttribute('ch-use');
         requires = requires.split(/;/g);
 
         // Trim all the requires module names.
@@ -1456,7 +1456,7 @@
           }
         });
 
-        this.require(reqs);
+        this.use(reqs);
       }
 
       var element = document.querySelector('script[ch-main]');
@@ -1823,7 +1823,7 @@
       var buffer = [];
       var that = this;
       modules.forEach(function (md) {
-        buffer.push(that.require(md));
+        buffer.push(that.use(md));
       });
 
       var result = callback.apply(this, buffer);
@@ -1944,7 +1944,8 @@
       return result;
     },
 
-    require: function (srcs, useLoader, callback) {
+    // `require` is now replaced by `use`.
+    _require: function (srcs, useLoader, callback) {
       if (!srcs) {
         return false;
       }
@@ -1973,6 +1974,10 @@
       }
 
       return false;
+    },
+
+    use: function () {
+      return this._require.apply(this, arguments);
     },
 
     module: function (mod) {

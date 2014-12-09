@@ -30,10 +30,10 @@ ch-init
 
 Initializes data sources. E.g. ch-init="list = []; msg = {from: 'a', to: 'b'}"
 
-ch-require
+ch-use
 ----------
 
-Loads Chop.js modules. E.g.: `ch-require="event; string; local/module"`
+Loads Chop.js modules. E.g.: `ch-use="event; string; local/module"`
 
 ch-view
 -------
@@ -165,10 +165,10 @@ $ch.module(`module`)
 
 Returns the returned data of `module`.
 
-$ch.require(`module`, `useLoader`[, `callback`])
+$ch.use(`module`, `useLoader`[, `callback`])
 ---------------------------------
 
-Requires/loads a chop.js module, and returns the returned value of `module`.
+Uses/loads a chop.js module, and returns the returned value of `module`.
 
 - `module`: chop.js module name. If multiple modules, then in the form of an array. If a particular version is needed, Use `@` to indicate. e.g. `$ch.require(['ui@0.2', 'layout'])`.
 
