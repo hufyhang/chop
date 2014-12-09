@@ -16,17 +16,17 @@ module.exports = function (grunt) {
 
       chopjs: {
         files: ['chop.js'],
-        tasks: ['uglify:chopjs']
+        tasks: ['newer:uglify:chopjs']
       },
 
       css: {
         files: ['css/*.css'],
-        tasks: ['copy:css', 'cssmin:css_dist']
+        tasks: ['newer:copy:css', 'newer:cssmin:css_dist']
       },
 
       scss: {
         files: ['css/*.scss'],
-        tasks: ['sass:dist', 'cssmin:css_dist']
+        tasks: ['newer:sass:dist', 'newer:cssmin:css_dist']
       }
     },
 
@@ -120,7 +120,7 @@ module.exports = function (grunt) {
 
   grunt.task.run('notify_hooks');
   grunt.registerTask('serve', ['watch']);
-  grunt.registerTask('build', ['uglify', 'sass', 'copy', 'cssmin', 'notify:build_done']);
+  grunt.registerTask('build', ['newer:uglify', 'newer:sass', 'newer:copy', 'newer:cssmin', 'notify:build_done']);
   grunt.registerTask('docs', ['docco']);
 
 };
