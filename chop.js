@@ -1979,11 +1979,19 @@
 
           return result;
         }
-      } else { // asynchorouse require
+      } else { // asynchronous require
         this._useModuleAsync(srcs, useLoader, callback);
       }
 
       return false;
+    },
+
+    // __require(...)__ is now __deprecated__.
+    // Use __use(...)__ instead.
+    require: function () {
+      // Show deprecation message.
+      console.warn('$ch.require is deprecated. Use $ch.use instead.');
+      return this._require.apply(this, arguments);
     },
 
     use: function () {
