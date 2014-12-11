@@ -326,6 +326,11 @@ inline(`data`)
 
 Renders the inline-tempalte element with object `data`.
 
+serialize()
+---------------
+
+Serializes a form element.
+
 show()
 ------
 
