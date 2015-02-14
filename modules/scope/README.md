@@ -11,7 +11,8 @@ None
 Instruction
 ============
 
-+ `ch-scope`: declare an HTML tag as the root of a ChopJS scope.
+`ch-scope`: declare an HTML tag as the root of a ChopJS scope.
+----------------
 
 e.g.:
 
@@ -32,7 +33,8 @@ $ch.scope('appScope', function ($scope, $event) {
 });
 ~~~
 
-+ `ch-name`: give a JavaScript accessible name to an element inside a ChopJS scope. __N.B. an `id` attribute HAS TO BE given to the element.__
+`ch-name`: give a JavaScript accessible name to an element inside a ChopJS scope. __N.B. an `id` attribute HAS TO BE given to the element.__
+-----------------
 
 e.g.:
 
@@ -52,7 +54,8 @@ $ch.scope('appScope', function ($scope, $event) {
 });
 ~~~
 
-+ `ch-event`: assign scope event to an element.
+`ch-event`: assign scope event to an element.
+-------------
 
 e.g.: 
 
@@ -79,7 +82,8 @@ $ch.scope('appScope', function ($scope, $event) {
 });
 ~~~
 
-+ `ch-data`: bind a two-way data.
+`ch-data`: bind a two-way data.
+------------
 
 In HTML:
 
@@ -101,7 +105,8 @@ $ch.scope('appScope', function ($scope) {
 })
 ~~~
 
-+ Use `|` for pipe operations.
+Use `|` for pipe operations.
+---------------
 
 in HTML:
 
