@@ -17,7 +17,7 @@ $ch.store.session(`key`[, `data`])
 
 Same as `$ch.store.local`, but use `sessionStorage` instead.
 
-$ch.store.cookie(`key`[, `value`[, `days`]])
+$ch.store.cookies(`key`[, `value`[, `days`]])
 -----------------------------------
 
 If only `key` provides:

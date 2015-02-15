@@ -58,7 +58,6 @@ $ch.define('store', function () {
       }
     },
 
-
     cookie: function (key, value, expDay) {
       if (document.cookie === undefined) {
         throw new Error('Cookie is not supported by this browser.');
@@ -127,6 +126,7 @@ $ch.define('store', function () {
         }
       }
     },
+    cookies: this.cookie,
 
     cache: function (key, value) {
       if (arguments.length === 0) {
