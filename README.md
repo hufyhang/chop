@@ -199,6 +199,11 @@ Filters and returns the array in `obj` according to `expression`.
 
 `expression` is a function which takes a parameter representing `obj` and returns either true or false.
 
+$ch.deserialize(`formStr`)
+--------------------------
+
+Returns an object deserialized from `formStr`.
+
 APIs - chop.js element
 ===================
 
