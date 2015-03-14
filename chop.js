@@ -58,6 +58,7 @@
     if (arguments.length !== 1) {
       throw new Error ('$ch.find requires one query parameter.');
     }
+
     var el = Sizzle(query);
     if (el.length === 0) {
       el = null;
@@ -2250,6 +2251,10 @@
     //       $ch.deserialize(query); // returns {name: 'chopjs', version: '0.1'}
     //
     deserialize: function (query) {
+      if (typeof query !== 'string') {
+        throw new Error('$ch.deserialize requires a string-type form query parameter.');
+      }
+
       var pairs, i, keyValuePair, key, value, map = {};
       // remove leading question mark if its there
       if (query.slice(0, 1) === '?') {
