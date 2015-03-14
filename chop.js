@@ -2,7 +2,7 @@
 //  ==========
 // ~~~txt
 //  Licensed under the MIT license
-//  Copyright (c) Feifei Hang, 2014
+//  Copyright (c) Feifei Hang, 2014 - 2015
 //  https://github.com/hufyhang/chop
 // ~~~
 
