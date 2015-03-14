@@ -25,7 +25,10 @@ $ch.define('scope', function () {
   // Keep an reference of all the defined ChopJS scopes.
   $$CHOP.scopes = {};
 
-  // __$ch.scope(`name`[, `callback`])__
+  // __$ch.scope(`name`[, `addInline`, `callback`])__
+  //
+  // `addInline` indicates if ChopJS should re-binding inline template
+  // on current scope.
   //
   // If `callback` is presented, define a ChopJS scope named `name`,
   // and put it in `$ch.scope`.
@@ -40,15 +43,20 @@ $ch.define('scope', function () {
   //
   //     return $ch.scope('myScope');
   //     // {name: 'My ChopJS scope', getName: function () {...}}
-  $$CHOP.scope = function scope(name, callback) {
+  $$CHOP.scope = function scope(name, addInline, callback) {
     // If no valid parameters provided, throw an error.
     if (typeof name !== 'string') {
       throw new Error('$ch.scope requires at least a string-type name parameter.');
     }
 
     // If only `name` provided, return the defined `name` scope.
-    if (callback === undefined) {
+    if (addInline === undefined && callback === undefined) {
       return $$CHOP.scopes[name];
+    }
+
+    if (typeof addInline === 'function') {
+      callback = addInline;
+      addInline = true;
     }
 
     // Otherwise, define a new scope.
@@ -73,7 +81,9 @@ $ch.define('scope', function () {
     // Reload view and inline templates.
     var scopes = document.querySelectorAll('[ch-scope=' + name + ']') || [];
     scopes.forEach(function (base) {
-      $$CHOP._addInlineTemplate(base);
+      if (addInline === true) {
+        $$CHOP._addInlineTemplate(base);
+      }
       $$CHOP._loadView(base);
     });
 

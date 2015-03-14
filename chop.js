@@ -40,7 +40,7 @@
     'rdfa'      : '0.1',
     'regex'     : '0.1',
     'router'    : '0.3',
-    'scope'     : '0.2',
+    'scope'     : '0.2.1',
     'state'     : '0.1',
     'store'     : '0.2',
     'string'    : '0.1',

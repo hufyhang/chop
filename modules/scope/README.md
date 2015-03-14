@@ -29,7 +29,7 @@ e.g.:
 Now, to initialize `appScope`, go to JavaScript and:
 
 ~~~javascript
-$ch.scope('appScope', function ($scope, $event) {
+$ch.scope('appScope', false, function ($scope, $event) {
 // $scope refers to the scope that being initialized.
 // $event refers to scope events.
 });
