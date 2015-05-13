@@ -4,6 +4,31 @@ $ch.define('utils', function () {
   $$CHOP.utils = {};
 
   $$CHOP.utils = {
+    changes: function (pre, now) {
+      var changes = {};
+      var prop, temp;
+      for (prop in now) {
+        if (!pre || pre[prop] !== now[prop]) {
+          if (typeof pre[prop] === 'object') {
+            temp = this.changes(pre[prop], now[prop]);
+            if (temp) {
+              changes[prop] = temp;
+            }
+          } else {
+            changes[prop] = now[prop];
+          }
+        }
+      }
+
+      for (prop in changes) {
+       if (changes.hasOwnProperty(prop))  {
+        return changes;
+       }
+      }
+
+      return false;
+    },
+
     sort: function (target, by, desc) {
       if (arguments.length === 0) {
         throw new Error('$ch.utils.sort requires at least one parameter.');

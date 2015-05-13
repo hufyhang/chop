@@ -16,6 +16,11 @@ $ch.utils.bind(`function`, `context`)
 
 Creates and return a new function that will call `function` in `context`.
 
+$ch.utils.changes(`previous`, `now`)
+------------------------------------
+
+Compares object `now` with object `previous`, and returns all the changes in an object. If no changes found, returns `false`.
+
 $ch.utils.sort(`target`[, `by`, `descending`])
 --------------------------------------
 
