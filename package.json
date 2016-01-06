@@ -2,7 +2,7 @@
   "name": "ChopJS",
   "version": "0.1.0",
   "description": "ChopJS Front-End Framework",
-  "main": "chop.js",
+  "main": "dist/chop.min.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/hufyhang/chop.git"
