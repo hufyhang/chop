@@ -1,5 +1,5 @@
 {
-  "name": "ChopJS",
+  "name": "chop-js",
   "version": "0.1.0",
   "description": "ChopJS Front-End Framework",
   "main": "dist/chop.min.js",
