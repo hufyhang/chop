@@ -1,7 +1,9 @@
-chop.js
+Chop.JS
 ====
 
 A Super Light-Weight JavaScript Framework
+
+[Chop.JS Dispenser](http://feifeihang.info/chopjs/)
 
 Browser support
 ===============
